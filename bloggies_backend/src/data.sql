@@ -44,9 +44,9 @@ CREATE TABLE replies (
 );
 
 CREATE TABLE favorites (
-  id SERIAL PRIMARY KEY,
   post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
-  user_id INT NOT NULL REFERENCES users ON DELETE CASCADE
+  user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  UNIQUE(post_id, user_id);
 );
 
 INSERT INTO users (username, display_name, hashed_pwd) 

@@ -5,8 +5,9 @@ describe("Test User class", function () {
   beforeAll(async function () {
     await db.query("DELETE FROM users");
     await db.query("ALTER SEQUENCE users_id_seq RESTART WITH 1");
-    await User.register(
-      "username", "password", "display name");
+    await db.query(
+      `INSERT INTO users (username, display_name, hashed_pwd)
+      VALUES ('Test', 'Laliho', 'password')`);
   });
 
   test("can register", async function () {

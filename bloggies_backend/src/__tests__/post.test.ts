@@ -11,7 +11,7 @@ describe("Test post class", function () {
     await db.query("ALTER SEQUENCE users_id_seq RESTART WITH 1");
     await db.query(
       `INSERT INTO users (username, display_name, hashed_pwd)
-      VALUES ('Test', 'Laliho', 'password');`);
+      VALUES ('Test', 'Laliho', 'password')`);
   });
 
   beforeEach(async function() {
