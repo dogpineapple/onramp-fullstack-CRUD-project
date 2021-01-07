@@ -3,15 +3,15 @@ import Favorite from "../models/favorite";
 
 /** Tests for Favorite model methods*/
 describe("Test favorite class model", function () {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await db.query("DELETE FROM favorites");
-    await db.query("DELETE FROM users");
     await db.query("DELETE FROM posts");
-    await db.query("ALTER SEQUENCE posts_id_seq RESTART WITH 1");
+    await db.query("DELETE FROM users");
     await db.query("ALTER SEQUENCE users_id_seq RESTART WITH 1");
+    await db.query("ALTER SEQUENCE posts_id_seq RESTART WITH 1");
     await db.query(
       `INSERT INTO users (username, display_name, hashed_pwd)
-      VALUES ('Test', 'Laliho', 'password')`);
+      VALUES ('favoritetest', 'Laliho', 'password')`);
     await db.query(
       `INSERT INTO posts(title, description, body, author_id) 
         VALUES
@@ -20,7 +20,6 @@ describe("Test favorite class model", function () {
             'Body text description goes here', 
             1)`);
   });
-
 
   test("can add a favorite", async () => {
     const userId = 1;
@@ -72,14 +71,18 @@ describe("Test favorite class model", function () {
       
     await db.query(
       `INSERT INTO favorites (user_id, post_id)
-        VALUES $1, $2`,
+        VALUES ($1, $2)`,
       [userId, postId]);
     await db.query(
       `INSERT INTO favorites (user_id, post_id)
-        VALUES $1, $2`,
+        VALUES ($1, $2)`,
       [userId, secondPostId]);
 
     const favorites = await Favorite.getAll(userId);
     expect(favorites.length).toBe(2);
+  });
+  
+  afterAll(async () => {
+    await db.end();
   });
 });
