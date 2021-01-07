@@ -7,10 +7,10 @@ export default class Favorite {
   static async getAll(userId: number) {
     try {
       const res = await db.query(
-        `SELECT
-      FROM favorites as f
-      JOIN posts as p ON f.posts_id = p.id 
-      WHERE f.user_id = $1`,
+        `SELECT p.id, p.title, p.description, p.body, p.author_id
+          FROM favorites as f
+          JOIN posts as p ON f.posts_id = p.id 
+          WHERE f.user_id = $1`,
         [userId]);
       const favoritedPosts = res.rows;
       return favoritedPosts;
@@ -37,12 +37,12 @@ export default class Favorite {
     try {
       await db.query(
         `DELETE FROM favorites
-        WHERE user_id = $1 AND post_id = $2`,
+           WHERE user_id = $1 AND post_id = $2`,
         [userId, postId]);
       return { message: "Unfavorited successfully." };
     } catch (err) {
       throw new ExpressError("Invalid user_id/post_id", 400);
     }
   }
-  
+
 }
