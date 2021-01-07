@@ -1,14 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { ensureLoggedIn } from "../auth";
-import { IUserRequest } from "../interfaces";
+import Post from "../models/post";
+import express from "express";
 
-const express = require("express");
-
-const router = new express.Router();
+const router = new (express.Router() as any);
 
 /** POST /posts - creates a new post. 
  * Returns post object */
-router.post("/", ensureLoggedIn, async function (req: IUserRequest, res: Response, next: NextFunction) {
+router.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const user = req.user;
     const { title, description, body } = req.body;
@@ -45,10 +44,10 @@ router.get("/:id", async function (req: Request, res: Response, next: NextFuncti
 /** PATCH /posts/:id - updates a specific post by post id. 
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns a 204 code */
-router.patch("/:id", ensureLoggedIn, async function(req: IUserRequest, res: Response, next: NextFunction) {
+router.patch("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
   try {
     const postId = parseInt(req.params.id);
-    const currentUser = req.user
+    const currentUser = req.user;
 
     if (await Post.isAuthor(postId, currentUser.user_id)) {
       const updateData = req.body;
@@ -65,7 +64,7 @@ router.patch("/:id", ensureLoggedIn, async function(req: IUserRequest, res: Resp
 /** DELETE /posts/:id - updates a specific post by post id. 
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns message */
-router.delete("/:id", ensureLoggedIn, async function(req: IUserRequest, res: Response, next: NextFunction) {
+router.delete("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;

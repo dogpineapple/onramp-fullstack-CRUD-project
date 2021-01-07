@@ -1,7 +1,10 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import db from "../db";
+import ExpressError from "../expressError";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { BCRYPT_WORK_FACTOR, SECRET_KEY } from "../config";
 
-class User {
+export default class User {
 
   /** Registers a user */
   static async register(username: string, password: string, displayName: string) {
@@ -15,7 +18,7 @@ class User {
       const user = res.rows[0];
 
       // Generate a jwt token with payload of `username` and `user_id`.
-      let token = jwt.sign({ username: user.username, user_id: user.id });
+      let token = jwt.sign({ username: user.username, user_id: user.id }, SECRET_KEY);
       return { user: user, token};
     } catch (err) { 
       throw new ExpressError("Username already exists", 400);
@@ -34,7 +37,7 @@ class User {
       const isValid = await bcrypt.compare(password, user.hashed_pwd);
       if (isValid) {
         // Generate a jwt token with payload of `username` and `user_id`.
-        let token = jwt.sign({ username: user.username, user_id: user.id });
+        let token = jwt.sign({ username: user.username, user_id: user.id }, SECRET_KEY);
         return { message: "Login successful", token };
       }
     }
@@ -45,9 +48,9 @@ class User {
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT user_id, username, display_name 
+      `SELECT id, username, display_name, join_date
         FROM users 
-        WHERE user_id = $1`, 
+        WHERE id = $1`, 
       [ userId ]);
     return res.rows[0];
   }

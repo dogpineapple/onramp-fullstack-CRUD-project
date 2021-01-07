@@ -1,16 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { Express, Request, Response, NextFunction } from "express";
+import ExpressError from "./expressError";
+import express from "express";
+import { authenticateJWT } from "./auth";
 
-const express = require("express");
-const authenticateJWT = require("./auth");
-
-const app = express();
+const app: Express = express();
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
 app.use(authenticateJWT);
-
 
 const userRoutes = require("./routes/users");
 app.use("/users", userRoutes);
@@ -33,3 +32,5 @@ app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunct
     error: { message, status }
   });
 });
+
+export default app;

@@ -13,7 +13,7 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR (25) UNIQUE NOT NULL,
   display_name VARCHAR (30) NOT NULL,
-  hashed_pwd VARCHAR (50) NOT NULL,
+  hashed_pwd VARCHAR (100) NOT NULL,
   join_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
@@ -73,4 +73,3 @@ INSERT INTO favorites(post_id, user_id)
 VALUES
     (1, 3),
     (2, 3);
-

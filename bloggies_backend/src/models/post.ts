@@ -1,4 +1,7 @@
-class Post {
+import db from "../db";
+import ExpressError from "../expressError";
+
+export default class Post {
 
   /** Create a new post */
   static async create(title: string, description: string, body: string, userId: number) {
@@ -52,12 +55,12 @@ class Post {
       let query = "";
       
       for (let key in updateData ) {
-        query = query + ` ${key} = ${updateData[key]}, `;
+        query = query + ` ${key} = '${updateData[key]}', `;
       }
-
+      
       await db.query(
         `UPDATE posts
-        SET` + query + `last_updated_at = CURRENT_TIMESTAMP 
+        SET ${query} last_updated_at = CURRENT_TIMESTAMP 
         WHERE id = $1`,
         [ id ]);
       

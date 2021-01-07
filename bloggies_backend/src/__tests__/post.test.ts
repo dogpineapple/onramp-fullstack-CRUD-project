@@ -1,3 +1,6 @@
+import db from "../db";
+import Post from "../models/post";
+
 
 describe("Test post class", function () {
   beforeAll(async function() {

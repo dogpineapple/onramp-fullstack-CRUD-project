@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ensureLoggedIn } from "../auth";
+import User from "../models/user";
 
 const express = require("express");
 
@@ -29,7 +30,7 @@ router.post("/login", async function (req: Request, res: Response, next: NextFun
   }
 });
 
-/** GET /users/:id - gets a specific user by user id.
+/** GET /users/:id - gets a specific user by user id. Requires logged in. 
  * Return a user object */
 router.get("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const user = await User.getUser(parseInt(req.params.id));
