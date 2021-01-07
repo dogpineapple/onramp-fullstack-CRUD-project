@@ -1,4 +1,3 @@
-
 class Post {
 
   /** Create a new post */
@@ -6,7 +5,8 @@ class Post {
     try { 
       const res = await db.query(
         `INSERT INTO posts ( title, description, body, author_id )
-          VALUES ($1, $2, $3, $4)`, 
+          VALUES ($1, $2, $3, $4) 
+          RETURNING id, title, description, body, author_id, created_at, last_updated_at`, 
         [ title, description, body, userId ]);
       return res.rows[0];
     } catch (err) {

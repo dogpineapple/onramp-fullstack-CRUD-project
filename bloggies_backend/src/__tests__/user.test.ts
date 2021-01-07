@@ -31,5 +31,8 @@ describe("Test User class", function () {
     });
   });
 
-
+  test("can handle duplicate username", async function() {
+    expect(await User.register(
+      "username", "password", "hello there")).toThrow(ExpressError);
+  });
 });
