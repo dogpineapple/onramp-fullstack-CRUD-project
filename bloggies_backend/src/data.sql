@@ -1,0 +1,76 @@
+DROP DATABASE IF EXISTS "bloggies_test";
+DROP TABLE IF EXISTS "users";
+DROP TABLE IF EXISTS "posts";
+DROP TABLE IF EXISTS "comments";
+DROP TABLE IF EXISTS "replies";
+DROP TABLE IF EXISTS "favorites";
+
+CREATE DATABASE "bloggies_test";
+
+\c "bloggies_test"
+
+CREATE TABLE users ( 
+  id SERIAL PRIMARY KEY,
+  username VARCHAR (25) UNIQUE NOT NULL,
+  display_name VARCHAR (30) NOT NULL,
+  hashed_pwd VARCHAR (50) NOT NULL,
+  join_date DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY, 
+  title VARCHAR (255) NOT NULL, 
+  description VARCHAR (255) NOT NULL,
+  body VARCHAR (10000),
+  author_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+                    
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY, 
+  body VARCHAR(5000) NOT NULL, 
+  post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
+  author_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE replies (
+  id SERIAL PRIMARY KEY, 
+  body VARCHAR(5000) NOT NULL, 
+  comment_id INT NOT NULL REFERENCES comments ON DELETE CASCADE,
+  author_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE favorites (
+  post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
+  user_id INT NOT NULL REFERENCES users ON DELETE CASCADE
+);
+
+INSERT INTO users (username, display_name, hashed_pwd) 
+VALUES 
+    ('GrahaTia',  'Crystal Exarch', 'password'),
+    ('Ronitt', 'La-laliho', 'password'),
+    ('namazu', 'UwU Namazu', 'password');
+
+INSERT INTO posts(title, description, body, author_id) 
+VALUES
+    ('Strawberry Basil Soda', 'My first post! Try it out~', 'I just made some Strawberry Basil soda and it was really good! I used Strawberries, Sugar, Basil, and Sparkling Water. Please try it sometime!', 1),
+    ('How to Laliho', 'Master the Laliho greeting!', 'Hello! Welcome to my first post about the dwarf greeting, Laliho! Just say laliHOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!', 2);
+
+INSERT INTO comments(body, post_id, author_id) 
+VALUES
+    ('This is a really great post about strawberry soda', 1, 2),
+    ('I learned so much reading this.', 1, 3);
+
+INSERT INTO replies(body, comment_id, author_id) 
+VALUES
+    ('It''s been my recent favorite! Thanks for reading.', 5, 1),
+    ('Thank you! Glad you enjoyed it.', 6, 1);
+
+INSERT INTO favorites(post_id, user_id) 
+VALUES
+    (1, 3),
+    (2, 3);
+
