@@ -16,6 +16,9 @@ function Homepage() {
 
   return (
     <div className="Homepage">
+      <header>
+        
+      </header>
       <h1 className="mt-2">recent bloggies</h1>
       <BlogList posts={posts} />
     </div>

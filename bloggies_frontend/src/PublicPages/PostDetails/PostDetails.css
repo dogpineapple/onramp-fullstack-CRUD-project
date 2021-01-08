@@ -1,0 +1,16 @@
+.PostDetails-post {
+  background-color: rgb(243, 243, 243);
+  padding: 2rem 1.5rem;
+}
+
+.PostDetails-title {
+  margin: 0;
+}
+
+.PostDetails-author {
+  font-weight: 600;
+}
+
+.PostDetails-body {
+  margin: 1rem 0;
+}
