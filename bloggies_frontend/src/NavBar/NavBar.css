@@ -1,7 +1,8 @@
 .NavBar {
-  background-color: gray;
+  background-color: rgb(93, 152, 187);
   display: flex;
   align-items: center;
+  font-size: 1.2rem;
 }
 
 .NavBar-list {
@@ -12,7 +13,11 @@
   width: 100%;
 }
 
+.NavBar-title {
+  font-size: 1.7rem;
+}
+
 .NavBar-list > a,
 .NavBar-title {
-  margin: 0 1rem;
+  margin: 0 2rem;
 }

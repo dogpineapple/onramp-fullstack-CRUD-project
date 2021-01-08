@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(235, 250, 253);
 }
 
 code {
@@ -14,6 +15,15 @@ code {
 
 a {
   color: white;
+}
+
+div {
+  color: white;
+}
+
+img {
+  width: auto;
+  height: 100%;
 }
 
 .test {
