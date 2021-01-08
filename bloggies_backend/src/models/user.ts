@@ -21,6 +21,7 @@ export default class User {
       let token = jwt.sign({ username: user.username, user_id: user.id }, SECRET_KEY);
       return { user: user, token};
     } catch (err) { 
+      console.log("err occurred at registration:", err);
       throw new ExpressError("Username already exists", 400);
     }
   }

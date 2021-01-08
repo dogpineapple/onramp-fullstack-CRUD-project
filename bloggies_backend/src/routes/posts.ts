@@ -3,11 +3,11 @@ import { ensureLoggedIn } from "../auth";
 import Post from "../models/post";
 import express from "express";
 
-const router = new (express.Router() as any);
+export const postsRouter = express.Router();
 
 /** POST /posts - creates a new post. 
  * Returns post object */
-router.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const user = req.user;
     const { title, description, body } = req.body;
@@ -20,7 +20,7 @@ router.post("/", ensureLoggedIn, async function (req: Request, res: Response, ne
 
 /** GET /posts - get all posts. 
  * Returns posts */
-router.get("/", async function (req: Request, res: Response, next: NextFunction) {
+postsRouter.get("/", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const posts = await Post.getAll();
     return res.json({ posts });
@@ -31,7 +31,7 @@ router.get("/", async function (req: Request, res: Response, next: NextFunction)
 
 /** GET /posts/:id - get a specific post by post id. 
  * Returns posts */
-router.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
+postsRouter.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const postId = req.params.id;
     const post = await Post.getPost(parseInt(postId));
@@ -44,7 +44,7 @@ router.get("/:id", async function (req: Request, res: Response, next: NextFuncti
 /** PATCH /posts/:id - updates a specific post by post id. 
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns a 204 code */
-router.patch("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
+postsRouter.patch("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
@@ -64,7 +64,7 @@ router.patch("/:id", ensureLoggedIn, async function(req: Request, res: Response,
 /** DELETE /posts/:id - updates a specific post by post id. 
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns message */
-router.delete("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
+postsRouter.delete("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
@@ -82,7 +82,7 @@ router.delete("/:id", ensureLoggedIn, async function(req: Request, res: Response
 
 /** SEARCH /posts/search?term=[term] - get all posts. 
  * Returns posts */
-router.get("/search", async function (req: Request, res: Response, next: NextFunction) {
+postsRouter.get("/search", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const term = req.query.term;
     // TODO: search method

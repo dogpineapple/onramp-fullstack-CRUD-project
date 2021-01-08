@@ -1,14 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { ensureLoggedIn } from "../auth";
 import User from "../models/user";
+import express from "express";
 
-const express = require("express");
-
-const router = new express.Router();
+export const usersRouter = express.Router();
 
 /** POST /users/register - creates a new user. 
  * Returns user object & jwt */
-router.post("/register", async function (req: Request, res: Response, next: NextFunction) {
+usersRouter.post("/register", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { username, password, display_name } = req.body;
     const result = await User.register(username, password, display_name);
@@ -20,7 +19,7 @@ router.post("/register", async function (req: Request, res: Response, next: Next
 
 /** POST /users/login - authenticate credentials and login a user. 
  * Returns user object & jwt*/
-router.post("/login", async function (req: Request, res: Response, next: NextFunction) {
+usersRouter.post("/login", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { username, password } = req.body;
     const result = await User.authenticate(username, password);
@@ -32,7 +31,7 @@ router.post("/login", async function (req: Request, res: Response, next: NextFun
 
 /** GET /users/:id - gets a specific user by user id. Requires logged in. 
  * Return a user object */
-router.get("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+usersRouter.get("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const user = await User.getUser(parseInt(req.params.id));
   return res.json({ user })
 });

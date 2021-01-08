@@ -1,7 +1,11 @@
 import { Express, Request, Response, NextFunction } from "express";
 import ExpressError from "./expressError";
 import express from "express";
+import cors from "cors";
+import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./auth";
+import { postsRouter } from "./routes/posts";
+import { favoritesRouter } from "./routes/favorites";
 
 const app: Express = express();
 
@@ -9,19 +13,17 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
+
 app.use(authenticateJWT);
 
-const userRoutes = require("./routes/users");
-app.use("/users", userRoutes);
+app.use("/users", usersRouter);
 
-const postRoutes = require("./routes/posts");
-app.use("/posts", postRoutes);
+app.use("/posts", postsRouter);
 
-const favoriteRoutes = require("./routes/favorites");
-app.use("/favorites", favoriteRoutes);
+app.use("/favorites", favoritesRouter);
 
-const commentRoutes = require("./routes/comments");
-app.use("/comments", commentRoutes)
+// app.use("/comments", commentRoutes)
 
 // Global Error Handler
 app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunction) {

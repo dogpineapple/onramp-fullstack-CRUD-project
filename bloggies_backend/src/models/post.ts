@@ -21,8 +21,10 @@ export default class Post {
   static async getAll() {
     try { 
       const res = await db.query(
-        `SELECT id, title, description, body, author_id, created_at, last_updated_at
-        FROM posts`);
+        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at
+        FROM posts AS p
+        JOIN users AS u 
+        ON p.author_id = u.id`);
       return res.rows;
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);

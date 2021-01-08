@@ -3,11 +3,11 @@ import { ensureLoggedIn } from "../auth";
 import express from "express";
 import Favorite from "../models/favorite";
 
-const router = new (express.Router() as any);
+export const favoritesRouter = express.Router();
 
 /** GET /favorites/:uid - retrieve favorited posts for a user.
  * Returns a list of posts */
-router.get("/:uid", async function (req: Request, res: Response, next: NextFunction) {
+favoritesRouter.get("/:uid", async function (req: Request, res: Response, next: NextFunction) {
   const userId = parseInt(req.params.uid);
   try {
     const posts = await Favorite.getAll(userId);
@@ -19,7 +19,7 @@ router.get("/:uid", async function (req: Request, res: Response, next: NextFunct
 
 /** POST /favorites - add a favorite post to a user.
  **/
-router.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+favoritesRouter.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const currentUser = req.user;
   const { postId } = req.body;
   try {
@@ -32,7 +32,7 @@ router.post("/", ensureLoggedIn, async function (req: Request, res: Response, ne
 
 /** POST /favorites - add a favorite post to a user.
  **/
-router.delete("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+favoritesRouter.delete("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const currentUser = req.user;
   const { postId } = req.body;
   try {
@@ -42,4 +42,3 @@ router.delete("/", ensureLoggedIn, async function (req: Request, res: Response, 
     return next(err);
   }
 });
-
