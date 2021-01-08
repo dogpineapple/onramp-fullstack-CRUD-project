@@ -17,7 +17,7 @@ router.get("/:uid", async function (req: Request, res: Response, next: NextFunct
   }
 });
 
-/** GET /favorites - add a favorite post to a user.
+/** POST /favorites - add a favorite post to a user.
  **/
 router.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const currentUser = req.user;
@@ -29,3 +29,17 @@ router.post("/", ensureLoggedIn, async function (req: Request, res: Response, ne
     return next(err);
   }
 });
+
+/** POST /favorites - add a favorite post to a user.
+ **/
+router.delete("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+  const currentUser = req.user;
+  const { postId } = req.body;
+  try {
+    const result = await Favorite.delete(currentUser.user_id, postId);
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+});
+
