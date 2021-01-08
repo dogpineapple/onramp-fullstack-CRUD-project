@@ -1,17 +1,17 @@
 import React from "react";
 import { Route, Switch } from "react-router";
 import NavBar from "../NavBar";
-import Homepage from "../PublicPages/Homepage";
 import Login from "../PublicPages/Login";
+import Homepage from "../PublicPages/Homepage";
 import Register from "../PublicPages/Register";
 
 function PublicRoutes() {
   return (
     <div className="PublicRoutes">
-      <NavBar/>
+      <NavBar />
       <Switch>
         <Route exact path="/users/login">
-          <Login/>
+          <Login />
         </Route>
         <Route exact path="/users/register">
           <Register />

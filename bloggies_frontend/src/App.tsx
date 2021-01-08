@@ -3,6 +3,7 @@ import './App.css';
 import './animations.css';
 import { BrowserRouter } from 'react-router-dom';
 import PublicRoutes from './PublicRoutes';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

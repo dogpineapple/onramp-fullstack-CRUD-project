@@ -1,0 +1,13 @@
+.Login {
+  background-color: rgb(46, 45, 49);
+  height: 100vh;
+}
+
+.Login-not-user {
+  color: white;
+}
+
+.Login-title {
+  padding-top: 4rem;
+  color: white;
+} 

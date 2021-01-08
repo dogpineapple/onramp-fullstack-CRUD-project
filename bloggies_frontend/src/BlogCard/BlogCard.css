@@ -1,0 +1,11 @@
+.BlogCard {
+  height: fit-content;
+  max-height: 20rem;
+}
+
+.BlogCard-body {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+

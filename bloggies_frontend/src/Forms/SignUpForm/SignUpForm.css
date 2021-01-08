@@ -1,0 +1,21 @@
+.SignUp-form {
+  text-align: left;
+  width: 60%;
+  margin: auto;
+  padding: 2rem 0;
+}
+
+.SignUp-wrapper {
+  margin: auto;
+}
+
+.SignUp-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.SignUp {
+  background-color: rgb(255, 255, 255);
+  color: rgb(46, 50, 53);
+  border-radius: 10px;
+}

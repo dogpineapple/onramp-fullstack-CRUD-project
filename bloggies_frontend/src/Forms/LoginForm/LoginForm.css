@@ -1,0 +1,22 @@
+.LoginForm-form > input {
+  margin-bottom: 1rem;
+}
+
+.LoginForm-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.LoginForm-wrapper {
+  width: 20rem;
+  margin: auto;
+}
+
+.LoginForm {
+  margin: 1rem auto;
+  padding: 2rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  width: fit-content;
+  box-shadow: rgb(36, 34, 34) 0px 0px 15px 2px;
+}

@@ -4,15 +4,16 @@ import "./NavBar.css";
 
 function NavBar() {
   return (
-    <nav className="NavBar">
-      <span className="NavBar-title">
-        <NavLink to="/">bloggies.</NavLink>
-      </span>
+    <div className="NavBar">
+      <NavLink to="/">
+        <span className="NavBar-title">bloggies.</span>
+      </NavLink>
       <ul className="NavBar-list">
+        <NavLink to="/">blogs</NavLink>
         <NavLink to="/users/login">login</NavLink>
         <NavLink to="/users/register">sign up</NavLink>
       </ul>
-    </nav>
+    </div>
   );
 };
 
