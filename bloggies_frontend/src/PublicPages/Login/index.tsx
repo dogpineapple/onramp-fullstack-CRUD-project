@@ -1,10 +1,43 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Alert, Col, Container, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
+import { BASE_URL } from "../../config";
 import LoginForm from "../../Forms/LoginForm";
+import { getUserFavoritesFromAPI, gotUserInfo } from "../../redux/actionCreators";
 import "./Login.css";
 
+interface LoginFormData {
+  username: string,
+  password: string
+}
+
 function Login() {
+  const [ serverErr, setServerErr ] = useState("");
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const loginUser = async (loginData: LoginFormData) => {
+    const res = await fetch(`${BASE_URL}/users/login`, {
+      method: "POST",
+      body: JSON.stringify(loginData),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const loginRes = await res.json();
+    // set the user's token into the localStorage.
+    localStorage.setItem("token", loginRes.token);
+    
+    if (res.status === 200) {
+      dispatch(gotUserInfo(loginRes.user));
+      dispatch(getUserFavoritesFromAPI(loginRes.user.id));
+      history.push("/");
+    } else if (res.status === 400) {
+      setServerErr(loginRes.error.message);
+    }
+  }
+
   return (
     <Container fluid className="Login">
       <div className="fade-in">
@@ -14,7 +47,8 @@ function Login() {
           </Col>
         </Row>
         <Row className="Login-form-row">
-          <LoginForm />
+          { serverErr && <Alert variant="danger" className="m-auto">{serverErr}</Alert> }
+          <LoginForm loginUser={loginUser}/>
         </Row>
         <Row className="mt-3">
           <Col>

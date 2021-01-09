@@ -1,4 +1,4 @@
-import { LOAD_POSTS, LOAD_USER } from "./actionTypes";
+import { LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT } from "./actionTypes";
 
 const INITIAL_STATE = { user: {}, posts: [], favorites: [] };
 
@@ -13,6 +13,10 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       return { ...state, user: action.payload.user };
     case LOAD_POSTS:
       return { ...state, posts: action.payload.posts };
+    case LOAD_FAVORITES:
+      return { ...state, favorites: action.payload.favorites }; 
+    case LOGOUT:
+      return { ...state, user: {}, favorites: []};
     default:
       return state;
   }

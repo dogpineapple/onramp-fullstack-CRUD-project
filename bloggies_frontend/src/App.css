@@ -7,6 +7,10 @@
   top: 2rem;
 }
 
+.App-author {
+  font-weight: 600;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

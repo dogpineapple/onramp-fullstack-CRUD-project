@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import "./LoginForm.css";
 
-function LoginForm() {
+interface IProp {
+  loginUser: Function
+}
+
+function LoginForm({ loginUser }: IProp) {
 
   const INITIAL_FORM_VALUES = { username: "", password: "" };
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
@@ -14,6 +18,7 @@ function LoginForm() {
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    loginUser(formData);
   }
 
   return (

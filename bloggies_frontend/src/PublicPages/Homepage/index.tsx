@@ -18,7 +18,7 @@ function Homepage() {
 
   return (
     <div className="Homepage">
-      <h1 className="mt-2">recent bloggies</h1>
+      <h1 className="mt-2 text-center">recent bloggies</h1>
       <BlogList posts={posts} />
     </div>
   );

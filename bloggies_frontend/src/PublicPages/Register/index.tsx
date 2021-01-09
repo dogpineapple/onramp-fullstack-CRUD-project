@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../config';
 import SignUpForm from '../../Forms/SignUpForm';
 import { gotUserInfo } from '../../redux/actionCreators';
@@ -17,6 +17,7 @@ interface SignUpFormData {
 function Register() {
   const dispatch = useDispatch();
   const [serverErr, setServerErr] = useState("");
+  const history = useHistory();
 
   const signUp = async (data: SignUpFormData) => {
     setServerErr("");
@@ -33,6 +34,7 @@ function Register() {
     
     if (res.status === 201) {
       dispatch(gotUserInfo(userRes.user));
+      history.push("/");
     } else if (res.status === 400) {
       setServerErr(userRes.error.message);
     }; 

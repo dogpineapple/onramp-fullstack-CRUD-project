@@ -7,10 +7,10 @@
   margin: 0;
 }
 
-.PostDetails-author {
-  font-weight: 600;
-}
-
 .PostDetails-body {
   margin: 1rem 0;
+}
+
+.PostDetails {
+  padding-bottom: 5rem;
 }
