@@ -14,9 +14,9 @@
 
 .LoginForm {
   margin: 1rem auto;
-  padding: 2rem;
-  background-color: rgb(255, 255, 255);
+  padding: 1rem;
   border-radius: 10px;
+  background-color:white;
   width: fit-content;
   box-shadow: rgb(36, 34, 34) 0px 0px 15px 2px;
 }

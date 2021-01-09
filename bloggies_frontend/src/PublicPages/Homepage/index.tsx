@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BlogList from "../../BlogList";
-import { BASE_URL } from "../../config";
+import { getPostsFromAPI } from "../../redux/actionCreators";
 
 function Homepage() {
+  const postsList = useSelector((st: any) => st.posts);
+  const dispatch = useDispatch();
+
   const [ posts , setPosts ] = useState([]); 
 
-  useEffect(function handleGetPosts() {
-    async function getPosts() {
-      const res = await fetch(`${BASE_URL}/posts`);
-      const postsRes = await res.json();
-      setPosts(postsRes.posts);
+  useEffect(function handleLoadPosts() {
+    if (postsList.length === 0) {
+      dispatch(getPostsFromAPI());
     }
-    getPosts();
-  }, []);
+    setPosts(postsList);
+  }, [postsList]);
 
   return (
     <div className="Homepage">
-      <header>
-        
-      </header>
       <h1 className="mt-2">recent bloggies</h1>
       <BlogList posts={posts} />
     </div>

@@ -1,10 +1,43 @@
-import React from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { BASE_URL } from '../../config';
 import SignUpForm from '../../Forms/SignUpForm';
+import { gotUserInfo } from '../../redux/actionCreators';
 import './Register.css';
 
+interface SignUpFormData {
+  username: string,
+  password: string, 
+  repeatPassword: string,
+  display_name: string 
+}
+
 function Register() {
+  const dispatch = useDispatch();
+  const [serverErr, setServerErr] = useState("");
+
+  const signUp = async (data: SignUpFormData) => {
+    setServerErr("");
+    const res = await fetch(`${BASE_URL}/users/register`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const userRes = await res.json();
+    // set the user's token into the localStorage.
+    localStorage.setItem("token", userRes.token);
+    
+    if (res.status === 201) {
+      dispatch(gotUserInfo(userRes.user));
+    } else if (res.status === 400) {
+      setServerErr(userRes.error.message);
+    }; 
+  }
+
   return (
     <div className="Register">
       <Container fluid className="Register-hero-container">
@@ -24,7 +57,7 @@ function Register() {
           </Col>
           <Col sm={12} md={5} className="fade-in">
             <h1>Ready to join Bloggies?</h1>
-            <SignUpForm />
+            <SignUpForm signUp={signUp} serverErr={serverErr}/>
           </Col>
         </Row>
       </Container>

@@ -1,6 +1,7 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import FavoriteButton from "../FavoriteButton";
 import "./BlogCard.css";
 
 interface IProp {
@@ -13,13 +14,18 @@ function BlogCard({ post }: IProp) {
     <Card className="BlogCard text-left">
       <Card.Body>
         <NavLink to={`/blog/${post.id}/${postTitleForURL}`}>
-      <Card.Title>{post.title}</Card.Title>
-      <Card.Subtitle>{post.description}</Card.Subtitle>
-      <Card.Text className="BlogCard-body">
-        {post.body}
-      </Card.Text>
-      </NavLink>
-      <Card.Subtitle>Posted by {post.author_name} <span className="text-muted">- on {post.created_at}</span></Card.Subtitle>
+          <Card.Title>{post.title}</Card.Title>
+          <Card.Subtitle>{post.description}</Card.Subtitle>
+          <Card.Text className="BlogCard-body">
+            {post.body}
+          </Card.Text>
+        </NavLink>
+        <Container fluid>
+          <Row className="d-flex align-items-baseline justify-content-between">
+            <Card.Subtitle className="BlogCard-author-date">Posted by {post.author_name} <span className="text-muted">- on {post.created_at}</span></Card.Subtitle>
+            <FavoriteButton favorited={true}></FavoriteButton>
+          </Row>
+        </Container>
       </Card.Body>
     </Card>
   );

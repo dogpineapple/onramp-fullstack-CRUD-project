@@ -11,22 +11,24 @@ function PublicRoutes() {
   return (
     <div className="PublicRoutes">
       <NavBar />
-      <div className="PublicRoutes-container">
-        <Switch>
+      <Switch>
         <Route exact path="/blog/:postId/:postTitle">
+          <div className="PublicRoutes-thin-container">
             <PostDetails />
-          </Route>
-          <Route exact path="/users/login">
-            <Login />
-          </Route>
-          <Route exact path="/users/register">
-            <Register />
-          </Route>
-          <Route exact path="/">
+          </div>
+        </Route>
+        <Route exact path="/users/login">
+          <Login />
+        </Route>
+        <Route exact path="/users/register">
+          <Register />
+        </Route>
+        <Route exact path="/">
+          <div className="PublicRoutes-thin-container">
             <Homepage />
-          </Route>
-        </Switch>
-      </div>
+          </div>
+        </Route>
+      </Switch>
     </div>
   )
 }

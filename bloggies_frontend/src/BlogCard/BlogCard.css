@@ -1,11 +1,16 @@
 .BlogCard {
   height: fit-content;
   max-height: 20rem;
+  margin: 0.5rem 0;
 }
 
 .BlogCard-body {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.BlogCard-author-date {
+  padding-top: 1rem;
 }
 
