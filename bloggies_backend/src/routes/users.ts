@@ -11,7 +11,7 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
   try {
     const { username, password, display_name } = req.body;
     const result = await User.register(username, password, display_name);
-    return res.json(result);
+    return res.status(201).json(result);
   } catch (err) {
     return next(err);
   }
@@ -22,6 +22,7 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
 usersRouter.post("/login", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { username, password } = req.body;
+    console.log("req.body", req.body);
     const result = await User.authenticate(username, password);
     return res.json(result);
   } catch (err) {
@@ -29,9 +30,10 @@ usersRouter.post("/login", async function (req: Request, res: Response, next: Ne
   }
 });
 
-/** GET /users/:id - gets a specific user by user id. Requires logged in. 
+/** GET /users - get the currently logged in user. Requires logged in. 
  * Return a user object */
-usersRouter.get("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
-  const user = await User.getUser(parseInt(req.params.id));
+usersRouter.get("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+  const userId = req.user.user_id;
+  const user = await User.getUser(parseInt(userId));
   return res.json({ user })
 });

@@ -21,10 +21,13 @@ export default class Post {
   static async getAll() {
     try { 
       const res = await db.query(
-        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at
+        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u 
-        ON p.author_id = u.id`);
+        ON p.author_id = u.id
+        LEFT OUTER JOIN favorites AS f
+        ON p.id = f.post_id
+        GROUP BY f.post_id, p.id, u.display_name`);
       return res.rows;
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
@@ -35,9 +38,11 @@ export default class Post {
   static async getPost(id: number) {
     try { 
       const res = await db.query(
-        `SELECT id, title, description, body, author_id, created_at, last_updated_at
-        FROM posts
-        WHERE id = $1`,
+        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at
+        FROM posts AS p
+        JOIN users AS u 
+        ON p.author_id = u.id
+        WHERE p.id = $1`,
         [ id ]);
       return res.rows[0];
     } catch (err) {

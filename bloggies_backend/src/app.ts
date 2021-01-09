@@ -6,6 +6,7 @@ import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./auth";
 import { postsRouter } from "./routes/posts";
 import { favoritesRouter } from "./routes/favorites";
+import { commentsRouter } from "./routes/comments";
 
 const app: Express = express();
 
@@ -23,7 +24,7 @@ app.use("/posts", postsRouter);
 
 app.use("/favorites", favoritesRouter);
 
-// app.use("/comments", commentRoutes)
+app.use("/comments", commentsRouter)
 
 // Global Error Handler
 app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunction) {

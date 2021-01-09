@@ -3,7 +3,7 @@ import ExpressError from "../expressError";
 
 export default class Favorite {
 
-  /** Retrieve all tasks for a user by user_id */
+  /** Retrieve all favorites for a user by user_id */
   static async getAll(userId: number) {
     try {
       const res = await db.query(
