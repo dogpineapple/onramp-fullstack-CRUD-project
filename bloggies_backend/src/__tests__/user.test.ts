@@ -26,7 +26,8 @@ describe("Test User class", function () {
 
   test("can authenticate", async function () {
     const res = await User.authenticate("username", "password");
-    expect(res.message).toBe("Login successful");
+    expect(res.user.username).toBe("username");
+    expect(res.user.display_name).toBe("Laliho");
   });
 
   test("can retrieve user", async function () {
