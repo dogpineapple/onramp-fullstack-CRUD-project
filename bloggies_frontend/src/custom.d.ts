@@ -5,7 +5,8 @@ export interface Comment {
   author_name: string,
   created_at: Date,
   is_reply: Boolean,
-  reply_count: number
+  reply_count: number,
+  post_id: number
 }
 
 export interface Post {

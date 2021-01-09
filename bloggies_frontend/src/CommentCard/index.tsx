@@ -1,23 +1,30 @@
-import React from "react";
-import { Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Card } from "react-bootstrap";
+import moment from "moment";
 import CommentReplyCard from "../CommentReplyCard";
 import { Comment } from "../custom";
 import "./CommentCard.css";
+import CommentForm from "../Forms/CommentForm";
 
 interface IProp {
   comment: Comment
 }
 
-function CommentCard({ comment }:IProp) {
+function CommentCard({ comment }: IProp) {
+  const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
   return (
     <div className="CommentCard text-left">
       <Card>
         <Card.Body>
           <Card.Text>{comment.body}</Card.Text>
-          <Card.Text className="text-muted">
-            <span className="App-author">{comment.author_name}</span> commented {new Date(comment.created_at).toString()}
+          <Card.Text className="text-muted d-flex justify-content-between">
+            <p>
+              <span className="App-author">{comment.author_name}</span> commented {moment(comment.created_at).fromNow()}
+            </p>
+            <Button onClick={() => setShowCommentForm(!showCommentForm)}>{showCommentForm ? "Cancel" : "Reply"}</Button>
           </Card.Text>
-          { comment.reply_count > 0 && <CommentReplyCard replyCount={comment.reply_count} commentId={comment.id}/>}
+            {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} />}
+          {comment.reply_count > 0 && <CommentReplyCard replyCount={comment.reply_count} commentId={comment.id} />}
         </Card.Body>
       </Card>
     </div>

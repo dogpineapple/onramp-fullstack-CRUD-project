@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { Card, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
@@ -10,6 +11,7 @@ interface IProp {
 
 function BlogCard({ post }: IProp) {
   const postTitleForURL = post.title.replaceAll(" ", "-").toLowerCase();
+
   return (
     <Card className="BlogCard text-left">
       <Card.Body>
@@ -22,8 +24,8 @@ function BlogCard({ post }: IProp) {
         </NavLink>
         <Container fluid>
           <Row className="d-flex align-items-baseline justify-content-between">
-            <Card.Subtitle className="BlogCard-author-date">Posted by {post.author_name} <span className="text-muted">- on {post.created_at}</span></Card.Subtitle>
-            <FavoriteButton favorited={true}></FavoriteButton>
+            <Card.Subtitle className="BlogCard-author-date">Posted by {post.author_name} <span className="text-muted"> {moment(post.created_at).fromNow()}</span></Card.Subtitle>
+            <FavoriteButton post={post}></FavoriteButton>
           </Row>
         </Container>
       </Card.Body>

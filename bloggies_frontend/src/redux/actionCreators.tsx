@@ -1,7 +1,8 @@
 import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
-import { LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT } from "./actionTypes";
+import { Post } from "../custom";
+import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT } from "./actionTypes";
 
 export function getPostsFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
@@ -22,13 +23,53 @@ export function getUserInfoFromAPI(token: string) {
   }
 }
 
+export function addFavoriteToAPI(post: Post) {
+  return async function (dispatch: Dispatch<Action>) {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${BASE_URL}/favorites`, {
+      method: "POST",
+      body: JSON.stringify({ postId: post.id, _token: token}),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    if (res.status === 200) {
+      dispatch(addFavorite(post));
+    }
+  }
+}
+
+function addFavorite(post: Post) {
+  return { type: ADD_FAVORITE, payload: { post }}
+}
+
+export function deleteFavoriteFromAPI(postId: number) {
+  return async function (dispatch: Dispatch<Action>) {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`${BASE_URL}/favorites`, {
+      method: "DELETE",
+      body: JSON.stringify({ postId, _token: token}),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    if (res.status === 200) {
+      dispatch(deleteFavorite(postId));
+    }
+  }
+}
+
+function deleteFavorite(postId: number) {
+  return { type: DELETE_FAVORITE, payload: { postId }}
+}
+
 export function getUserFavoritesFromAPI(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/favorites/${userId}`, {
       method: "GET"
     });
     const favoritesRes = await res.json();
-    dispatch(gotFavorites(favoritesRes.favorites));
+    dispatch(gotFavorites(favoritesRes.posts));
   }
 }
 

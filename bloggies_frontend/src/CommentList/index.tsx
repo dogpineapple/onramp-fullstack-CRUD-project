@@ -1,7 +1,7 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import CommentCard from "../CommentCard";
 import { Comment } from "../custom";
+import CommentForm from "../Forms/CommentForm";
 import "./CommentList.css";
 
 interface IProp {
@@ -10,24 +10,18 @@ interface IProp {
 
 function CommentList({ comments }: IProp) {
   return (
-    <Container className="CommentList">
-      <Row>
-        <Col className="text-left">
-          <h3>Comments</h3>
-        </Col>
-      </Row>
-      <Row>
-        {comments.length > 0 ?
-          comments.map(c => {
-            return (
-              <Col key={c.id} md={12}>
-                <CommentCard comment={c} />
-              </Col>
-            );
-          })
-          : <Col md={12}>No comments yet. Be the first!</Col>}
-      </Row>
-    </Container>
+    <div className="CommentList text-left">
+      <h3>Comments</h3>
+      {comments.length > 0 ?
+        comments.map(c => {
+          return (
+            <CommentCard comment={c} />
+          );
+        })
+        : <div>No comments yet. Be the first!</div>}
+      { comments.length > 0 &&
+             <CommentForm postId={comments[0].post_id} commentId={undefined} isReply={false}/>}
+    </div>
   );
 };
 
