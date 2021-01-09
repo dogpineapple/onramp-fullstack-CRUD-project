@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import SearchBar from "../SearchBar";
 import "./NavBar.css";
 
 function NavBar() {
@@ -8,6 +9,7 @@ function NavBar() {
       <NavLink to="/">
         <span className="NavBar-title">bloggies.</span>
       </NavLink>
+      <SearchBar />
       <ul className="NavBar-list">
         <NavLink to="/">blogs</NavLink>
         <NavLink to="/users/login">login</NavLink>

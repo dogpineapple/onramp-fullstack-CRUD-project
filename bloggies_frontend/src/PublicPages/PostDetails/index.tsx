@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useParams } from "react-router";
 import { BASE_URL } from "../../config";
+import FavoriteButton from "../../FavoriteButton";
+import SearchBar from "../../SearchBar";
 import "./PostDetails.css";
-
+// if post id is in user's favorite list...
 interface Post {
   id: number,
   title: string,
@@ -36,6 +38,7 @@ function PostDetails() {
           <div className="text-muted">{post.description}</div>
           <div className="text-muted">Posted by <span className="PostDetails-author">{post.author_name}</span> {new Date(post.created_at).toString()}</div>
           <div className="PostDetails-body">{post.body}</div>
+          <FavoriteButton favorited={true}/>
         </Container>
         : <div>loading this page...</div>
       }
