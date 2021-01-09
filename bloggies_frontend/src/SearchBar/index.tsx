@@ -5,6 +5,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./SearchBar.css";
 
 function SearchBar() {
+  // TODO: implement search logic 
+  // need to be able to search blog posts based on title, author.. 
   return (
     <div className="SearchBar">
       <Form className="d-flex">

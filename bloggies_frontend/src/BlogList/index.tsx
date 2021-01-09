@@ -12,8 +12,7 @@ function BlogList({ posts }: IProps) {
     <Container className="BlogList mt-3">
       <Row>
         {posts.length > 0
-            ?
-          posts.map(p => {
+          ? posts.map(p => {
             return (
               <Col key={p.id} md={12}>
                 <BlogCard post={p}/>

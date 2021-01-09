@@ -2,15 +2,17 @@ import moment from "moment";
 import React from "react";
 import { Card, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { Post } from "../custom";
+import { changeToURLFriendly } from "../helpers";
 import FavoriteButton from "../FavoriteButton";
 import "./BlogCard.css";
 
 interface IProp {
-  post: any
+  post: Post
 }
 
 function BlogCard({ post }: IProp) {
-  const postTitleForURL = post.title.replaceAll(" ", "-").toLowerCase();
+  const postTitleForURL = changeToURLFriendly(post.title);
 
   return (
     <Card className="BlogCard text-left">

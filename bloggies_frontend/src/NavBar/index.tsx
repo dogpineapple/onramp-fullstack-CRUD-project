@@ -1,13 +1,17 @@
+import { faBlog } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Fragment } from "react";
+import { Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { changeToURLFriendly } from "../helpers";
 import { logoutUser } from "../redux/actionCreators";
 import SearchBar from "../SearchBar";
 import "./NavBar.css";
 
 function NavBar() {
   const dispatch = useDispatch();
-  const userId = useSelector((st: any) => st.user.id);
+  const user = useSelector((st: any) => st.user);
+  const urlDisplayName = changeToURLFriendly(user.display_name);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -15,25 +19,28 @@ function NavBar() {
   }
 
   return (
-    <div className="NavBar">
-      <NavLink to="/">
-        <span className="NavBar-title">bloggies.</span>
-      </NavLink>
+    <Navbar className="NavBar" variant="dark" expand="lg">
+      <Nav.Link href="/">
+        <span className="NavBar-title"><FontAwesomeIcon icon={faBlog}/> bloggies.</span>
+      </Nav.Link>
       <SearchBar />
-      <ul className="NavBar-list">
-        <NavLink to="/">blogs</NavLink>
-        { userId ?
-          <Fragment>
-            <NavLink to="/users/account-settings">settings</NavLink>
-            <button className="NavBar-logout-btn" onClick={handleLogout}>logout</button>
-          </Fragment>
-          : <Fragment>
-            <NavLink to="/users/login">login</NavLink>
-            <NavLink to="/users/register">sign up</NavLink>
-          </Fragment>
-        }
-      </ul>
-    </div>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto NavBar-list">
+          <Nav.Link href="/">newsfeed</Nav.Link>
+          {user.id ?
+            <Fragment>
+              <Nav.Link href={`/blogs/create`}>compose blog</Nav.Link>
+              <Nav.Link href={`/users/${user.id}/${urlDisplayName}/favorites`}>my favorites</Nav.Link>
+              <button className="NavBar-logout-btn" onClick={handleLogout}>logout</button>
+            </Fragment>
+            : <Fragment>
+              <Nav.Link href="/users/login">login</Nav.Link>
+              <Nav.Link href="/users/register">sign up</Nav.Link>
+            </Fragment>}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

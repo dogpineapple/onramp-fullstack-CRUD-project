@@ -1,18 +1,6 @@
 .NavBar {
   background-color: rgb(22, 24, 26);
-  display: flex;
-  align-items: center;
-  font-size: 1.2rem;
-}
-
-.NavBar-list {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  height: 4rem;
-  margin-bottom: 0;
+  font-size: 1rem;
 }
 
 .NavBar-logout-btn {
@@ -22,21 +10,37 @@
   color: white;
 }
 
+
+.NavBar-list {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .NavBar-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  margin-right: 1rem;
   color: white;
 }
 
-.NavBar-list > a:hover,
+.NavBar-title > svg {
+  transform: scale(0.7);
+}
+
+.NavBar-list a:hover,
 .NavBar-logout-btn:hover,
 .NavBar-title:hover {
-  color: rgb(117, 117, 121);
+  color: rgb(219, 219, 219);
   text-decoration: none;
 }
 
-.NavBar-list > a,
-.NavBar-logout-btn,
-.NavBar-title {
-  margin: 0 2rem;
-  color: white;
+.NavBar-list a,
+.NavBar-logout-btn {
+  margin: 0 1.5rem;
+  color: rgb(255, 255, 255);
+}
+
+.NavBar-logout-btn {
+  color: rgb(245, 77, 77);
 }

@@ -5,10 +5,11 @@ import CommentForm from "../Forms/CommentForm";
 import "./CommentList.css";
 
 interface IProp {
-  comments: Array<Comment>
+  comments: Array<Comment>,
+  postId: number
 }
 
-function CommentList({ comments }: IProp) {
+function CommentList({ comments, postId }: IProp) {
   return (
     <div className="CommentList text-left">
       <h3>Comments</h3>
@@ -18,9 +19,8 @@ function CommentList({ comments }: IProp) {
             <CommentCard comment={c} />
           );
         })
-        : <div>No comments yet. Be the first!</div>}
-      { comments.length > 0 &&
-             <CommentForm postId={comments[0].post_id} commentId={undefined} isReply={false}/>}
+        : <div className="CommentsList-no-comments">No comments yet. Be the first!</div>}
+      <CommentForm postId={postId} commentId={undefined} isReply={false} />
     </div>
   );
 };

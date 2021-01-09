@@ -6,25 +6,27 @@ import PublicRoutes from './PublicRoutes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { getUserFavoritesFromAPI, getUserInfoFromAPI } from './redux/actionCreators';
+import NavBar from './NavBar';
 
 function App() {
   const userId = ((st: any) => st.user.id);
   const dispatch = useDispatch();
 
-    useEffect(function handleGetUser() {
-      const token = localStorage.getItem("token");
-      if (token && !userId) {
-        dispatch(getUserInfoFromAPI(token));
-        dispatch(getUserFavoritesFromAPI(userId));
-      }
-    }, []);
+  useEffect(function handleGetUser() {
+    const token = localStorage.getItem("token");
+    if (token && !userId) {
+      dispatch(getUserInfoFromAPI(token));
+      dispatch(getUserFavoritesFromAPI(userId));
+    }
+  }, []);
 
   return (
     <div className="App">
       <BrowserRouter>
+        <NavBar />
         <PublicRoutes />
       </BrowserRouter>
-    </div>
+    </div >
   );
 }
 

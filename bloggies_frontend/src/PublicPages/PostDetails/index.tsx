@@ -39,7 +39,7 @@ function PostDetails() {
               <div className="text-muted">Posted by <span className="App-author">{post.author_name}</span> {moment(post.created_at).fromNow()}</div>
               <div className="PostDetails-body">{post.body}</div>
             </div>
-            <CommentList comments={comments} />
+            <CommentList comments={comments} postId={post.id}/>
           </Container>
         : <div>loading this page...</div>
       }
