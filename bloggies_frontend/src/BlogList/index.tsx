@@ -7,7 +7,7 @@ interface IProps {
 }
 
 function BlogList({ posts }: IProps) {
-
+  console.log("posts in list..", posts);
   return (
     <Container className="BlogList mt-3">
       <Row>

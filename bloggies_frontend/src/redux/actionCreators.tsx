@@ -28,7 +28,7 @@ export function addFavoriteToAPI(post: Post) {
     const token = localStorage.getItem("token");
     const res = await fetch(`${BASE_URL}/favorites`, {
       method: "POST",
-      body: JSON.stringify({ postId: post.id, _token: token}),
+      body: JSON.stringify({ postId: post.id, _token: token }),
       headers: {
         "Content-type": "application/json"
       }
@@ -40,7 +40,7 @@ export function addFavoriteToAPI(post: Post) {
 }
 
 function addFavorite(post: Post) {
-  return { type: ADD_FAVORITE, payload: { post }}
+  return { type: ADD_FAVORITE, payload: { post } };
 }
 
 export function deleteFavoriteFromAPI(postId: number) {
@@ -48,7 +48,7 @@ export function deleteFavoriteFromAPI(postId: number) {
     const token = localStorage.getItem("token")
     const res = await fetch(`${BASE_URL}/favorites`, {
       method: "DELETE",
-      body: JSON.stringify({ postId, _token: token}),
+      body: JSON.stringify({ postId, _token: token }),
       headers: {
         "Content-type": "application/json"
       }
@@ -60,7 +60,7 @@ export function deleteFavoriteFromAPI(postId: number) {
 }
 
 function deleteFavorite(postId: number) {
-  return { type: DELETE_FAVORITE, payload: { postId }}
+  return { type: DELETE_FAVORITE, payload: { postId } }
 }
 
 export function getUserFavoritesFromAPI(userId: number) {
@@ -74,7 +74,7 @@ export function getUserFavoritesFromAPI(userId: number) {
 }
 
 function gotFavorites(favorites: Array<any>) {
-  return { type: LOAD_FAVORITES, payload: { favorites }};
+  return { type: LOAD_FAVORITES, payload: { favorites } };
 }
 
 function gotPosts(posts: Array<any>) {
@@ -86,5 +86,5 @@ export function logoutUser() {
 }
 
 export function gotUserInfo(user: any) {
-  return { type: LOAD_USER, payload: { user }};
+  return { type: LOAD_USER, payload: { user } };
 }
