@@ -36,11 +36,7 @@ function SignUpForm({ signUp, serverErr }: IProp) {
     }
     setValidated(true);
   }
-
-  if (serverErr) {
-
-  }
-
+  
   return (
     <Container className="SignUp">
       <div className="SignUp-wrapper d-flex flex-column">

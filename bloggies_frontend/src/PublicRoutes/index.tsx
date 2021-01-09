@@ -6,12 +6,15 @@ import Register from "../PublicPages/Register";
 import "./PublicRoutes.css";
 import PostDetails from "../PublicPages/PostDetails";
 import UserProfile from "../PublicPages/UserProfile";
+import ComposePage from "../PrivatePages/ComposePage";
 
 function PublicRoutes() {
   return (
     <Switch>
       <Route exact path="/blogs/create">
-        <h1 className="test">TODO: Create the new post form</h1>
+        <div className="PublicRoutes-thin-container">
+          <ComposePage />
+        </div>
       </Route>
       <Route exact path="/blogs/:postId/:postTitle">
         <div className="PublicRoutes-thin-container">

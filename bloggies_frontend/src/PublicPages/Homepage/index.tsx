@@ -21,6 +21,7 @@ function Homepage() {
     <div className="Homepage">
       <Container>
         <h1 className="mt-4 text-left">recent bloggies</h1>
+        {/* <FilterSelection /> */}
         <BlogList posts={posts} />
       </Container>
     </div>

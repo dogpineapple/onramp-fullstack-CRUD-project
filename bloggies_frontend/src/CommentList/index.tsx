@@ -20,7 +20,7 @@ function CommentList({ comments, postId }: IProp) {
           );
         })
         : <div className="CommentsList-no-comments">No comments yet. Be the first!</div>}
-      <CommentForm postId={postId} commentId={undefined} isReply={false} />
+      <CommentForm postId={postId} commentId={undefined} isReply={false} handlePostComment={(postId: number, commentId: undefined, isReply: false) => console.log("handling post comment in commentlist")}/>
     </div>
   );
 };

@@ -23,7 +23,7 @@ function CommentCard({ comment }: IProp) {
             </p>
             <Button onClick={() => setShowCommentForm(!showCommentForm)}>{showCommentForm ? "Cancel" : "Reply"}</Button>
           </Card.Text>
-            {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} />}
+            {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} handlePostComment={(postId: number, commentId: undefined, isReply: false) => console.log("posting the comment")}/>}
           {comment.reply_count > 0 && <CommentReplyCard replyCount={comment.reply_count} commentId={comment.id} />}
         </Card.Body>
       </Card>

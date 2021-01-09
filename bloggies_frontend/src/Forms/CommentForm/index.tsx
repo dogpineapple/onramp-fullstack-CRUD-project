@@ -4,10 +4,11 @@ import { Button, Form } from "react-bootstrap";
 interface IProp {
   postId: number,
   commentId: number | undefined,
-  isReply: boolean
+  isReply: boolean,
+  handlePostComment: Function
 }
 
-function CommentForm({ postId, commentId , isReply}: IProp) {
+function CommentForm({ postId, commentId , isReply, handlePostComment}: IProp) {
   const INITIAL_FORM_VALUES = { comment: "" } 
   const [ formData, setFormData ] = useState(INITIAL_FORM_VALUES);
 
@@ -21,8 +22,10 @@ function CommentForm({ postId, commentId , isReply}: IProp) {
     console.log("submitting comment to post ", postId);
     if (isReply) {
       //submit commit as a reply comment to a comment of a post
+      handlePostComment(postId, commentId, isReply, formData);
     } else {
       //submit commit as a regular comment to a post
+      handlePostComment(postId, isReply, formData);
     }
   }
 

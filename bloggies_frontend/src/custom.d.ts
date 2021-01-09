@@ -17,5 +17,12 @@ export interface Post {
   author_id: number,
   author_name: string,
   created_at: Date,
-  last_updated_at: Date
+  last_updated_at: Date,
+  favorite_count: number
+}
+
+export interface PostFormData {
+  title: string,
+  description: string,
+  body: string
 }

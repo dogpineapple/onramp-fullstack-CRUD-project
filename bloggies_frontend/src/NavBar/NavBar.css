@@ -1,15 +1,17 @@
 .NavBar {
   background-color: rgb(22, 24, 26);
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .NavBar-logout-btn {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  color: white;
+  font-weight: 500;
 }
-
+.NavBar-right-side {
+  display: flex;
+  align-items: center;
+}
 
 .NavBar-list {
   width: 100%;
@@ -39,8 +41,4 @@
 .NavBar-logout-btn {
   margin: 0 1.5rem;
   color: rgb(255, 255, 255);
-}
-
-.NavBar-logout-btn {
-  color: rgb(245, 77, 77);
 }

@@ -15,7 +15,7 @@ interface IProp {
 function FavoriteButton({ post }: IProp) {
   const dispatch = useDispatch();
   const favorites = useSelector((st: any) => st.favorites);
-  const [ favorited, setFavorited ] = useState<boolean>(false);
+  const [favorited, setFavorited] = useState<boolean>(false);
 
   useEffect(function handleFavoriteStatus() {
     if (isFavorited(post.id, favorites)) {
@@ -24,17 +24,21 @@ function FavoriteButton({ post }: IProp) {
   }, []);
 
   const handleFavorites = async (type: string) => {
-    switch (type) {
-      case "ADD":
-        setFavorited(true);
-        dispatch(addFavoriteToAPI(post));
-        break;
-      case "DELETE":
-        setFavorited(false);
-        dispatch(deleteFavoriteFromAPI(post.id));
-        break;
-      default:
-        break;
+    if (!localStorage.getItem("token")) {
+      alert("Must be signed in to favorite.");
+    } else {
+      switch (type) {
+        case "ADD":
+          setFavorited(true);
+          dispatch(addFavoriteToAPI(post));
+          break;
+        case "DELETE":
+          setFavorited(false);
+          dispatch(deleteFavoriteFromAPI(post.id));
+          break;
+        default:
+          break;
+      }
     }
   }
   return (
@@ -44,6 +48,7 @@ function FavoriteButton({ post }: IProp) {
         :
         <FontAwesomeIcon className="FavoriteButton-btn" icon={farHeart} size="1x" onClick={() => handleFavorites("ADD")} />
       }
+      <span>{post.favorite_count}</span>
     </div>
   );
 };

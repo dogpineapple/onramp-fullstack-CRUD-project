@@ -1,7 +1,7 @@
 import { faBlog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Fragment } from "react";
-import { Nav, Navbar } from "react-bootstrap";
+import { Button, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeToURLFriendly } from "../helpers";
 import { logoutUser } from "../redux/actionCreators";
@@ -32,7 +32,7 @@ function NavBar() {
             <Fragment>
               <Nav.Link href={`/blogs/create`}>compose blog</Nav.Link>
               <Nav.Link href={`/users/${user.id}/${urlDisplayName}/favorites`}>my favorites</Nav.Link>
-              <button className="NavBar-logout-btn" onClick={handleLogout}>logout</button>
+              <Button variant="danger" className="NavBar-logout-btn" onClick={handleLogout}>logout</Button>
             </Fragment>
             : <Fragment>
               <Nav.Link href="/users/login">login</Nav.Link>
