@@ -19,7 +19,7 @@ function BlogList({ posts }: IProps) {
             );
           })
           : <Col md={12}> 
-           <p className="mt-5">No posts made yet but you can make the first one!</p>
+           <p className="mt-5">No posts made yet.</p>
           </Col>
         }
           </Row>

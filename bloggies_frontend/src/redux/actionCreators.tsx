@@ -1,8 +1,8 @@
 import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
-import { Post } from "../custom";
-import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT } from "./actionTypes";
+import { Post, User } from "../custom";
+import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT } from "./actionTypes";
 
 export function getPostsFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
@@ -21,6 +21,24 @@ export function getUserInfoFromAPI(token: string) {
     const userRes = await res.json();
     dispatch(gotUserInfo(userRes.user));
   }
+}
+
+export function getSearchResultsFromAPI(term: string) {
+  return async function (dispatch: Dispatch<Action>) {
+    const postsRes = await fetch(`${BASE_URL}/posts/search?term=${term}`);
+    const postsData = await postsRes.json();
+
+    const usersRes = await fetch(`${BASE_URL}/users/search?term=${term}`);
+    const usersData = await usersRes.json();
+
+    if (postsRes.status === 200 && usersRes.status === 200) {
+      dispatch(gotSearchResults(postsData.posts, usersData.users));
+    }
+  }
+}
+
+function gotSearchResults(posts: Array<Post>, users: Array<User>) {
+  return { type: LOAD_SEARCH_RESULTS, payload: { posts, users } };
 }
 
 export function addFavoriteToAPI(post: Post) {

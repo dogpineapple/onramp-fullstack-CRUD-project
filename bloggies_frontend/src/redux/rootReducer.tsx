@@ -1,7 +1,7 @@
 import { Post, CustomReduxState } from "../custom";
-import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT } from "./actionTypes";
+import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS } from "./actionTypes";
 
-const INITIAL_STATE: CustomReduxState = { user: {}, posts: [], favorites: [] };
+const INITIAL_STATE: CustomReduxState = { user: {}, posts: [], favorites: [], searchResults: { posts: [], users: []} };
 
 interface Action {
   type: string,
@@ -16,6 +16,8 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       return { ...state, posts: action.payload.posts };
     case LOAD_FAVORITES:
       return { ...state, favorites: action.payload.favorites };
+    case LOAD_SEARCH_RESULTS:
+      return { ...state, searchResults: action.payload }
     case ADD_FAVORITE:
       // Increment the favorite count of the posts
       const updateAddFavPosts = state.posts.map((p: Post) => {

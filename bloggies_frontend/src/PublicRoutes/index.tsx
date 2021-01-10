@@ -7,6 +7,7 @@ import "./PublicRoutes.css";
 import PostDetails from "../PublicPages/PostDetails";
 import UserProfile from "../PublicPages/UserProfile";
 import ComposePage from "../PrivatePages/ComposePage";
+import SearchResults from "../PublicPages/SearchResults";
 
 function PublicRoutes() {
   return (
@@ -20,6 +21,9 @@ function PublicRoutes() {
         <div className="PublicRoutes-thin-container">
           <PostDetails />
         </div>
+      </Route>
+      <Route exact path="/search">
+        <SearchResults />
       </Route>
       <Route exact path="/blogs/create">
         <div className="PublicRoutes-thin-container">

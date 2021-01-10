@@ -30,5 +30,18 @@ export interface PostFormData {
 export interface CustomReduxState {
   user: any,
   posts: Array<Post>,
-  favorites: Array<Post>
+  favorites: Array<Post>,
+  searchResults: SearchResults
+}
+
+interface SearchResults {
+  posts: Array<Post>,
+  users: Array<User>
+}
+
+export interface User {
+  id: number,
+  username: string,
+  join_date: Date,
+  display_name: string
 }

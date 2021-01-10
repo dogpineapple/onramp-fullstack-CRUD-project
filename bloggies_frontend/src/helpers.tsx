@@ -15,5 +15,8 @@ export function isFavorited(postId: number, favorites: Array<Post>) {
 // replaces all spaces for "-" and lowercases entire string.
 // returns a new string
 export function changeToURLFriendly(str: string) {
-  return str.replaceAll(" ", "-").toLowerCase();
+  if (str) {
+    return str.replaceAll(" ", "-").toLowerCase();
+  } 
+  return 'no-displayname';
 }
