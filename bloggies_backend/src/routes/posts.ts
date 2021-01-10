@@ -30,12 +30,24 @@ postsRouter.get("/", async function (req: Request, res: Response, next: NextFunc
 });
 
 /** GET /posts/:id - get a specific post by post id. 
- * Returns posts */
+ * Returns post */
 postsRouter.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const postId = req.params.id;
     const post = await Post.getPost(parseInt(postId));
     return res.json({ post });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** GET /posts/user/:id - get a user's posts by user id. 
+ * Returns posts */
+postsRouter.get("/user/:id", async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.params.id
+    const posts = await Post.getPostByUserId(parseInt(userId));
+    return res.json({ posts });
   } catch (err) {
     return next(err);
   }
@@ -48,11 +60,11 @@ postsRouter.patch("/:id", ensureLoggedIn, async function(req: Request, res: Resp
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
-
     if (await Post.isAuthor(postId, currentUser.user_id)) {
       const updateData = req.body;
-      await Post.update(postId, updateData);
-      return res.status(204);
+      delete updateData._token;
+      const lastUpdatedDate = await Post.update(postId, updateData);
+      return res.json(lastUpdatedDate);
     }
 
     return res.status(401);

@@ -34,7 +34,7 @@ export default class Post {
     }
   }
 
-  /** Get all existing posts */
+  /** Get a specific post by id */
   static async getPost(id: number) {
     try { 
       const res = await db.query(
@@ -45,6 +45,19 @@ export default class Post {
         WHERE p.id = $1`,
         [ id ]);
       return res.rows[0];
+    } catch (err) {
+      throw new ExpressError(`Err: ${err}`, 400);
+    }
+  }
+
+  static async getPostByUserId(id: number) {
+    try {
+      const res = await db.query(
+        `SELECT p.id, title, description, body, author_id, created_at, last_updated_at
+        FROM posts AS p
+        WHERE p.author_id = $1`,
+        [ id ]);
+      return res.rows;
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
     }
@@ -65,13 +78,14 @@ export default class Post {
         query = query + ` ${key} = '${updateData[key]}', `;
       }
       
-      await db.query(
+      const res = await db.query(
         `UPDATE posts
         SET ${query} last_updated_at = CURRENT_TIMESTAMP 
-        WHERE id = $1`,
+        WHERE id = $1
+        RETURNING last_updated_at`,
         [ id ]);
-      
-      return { message: "Successfully updated." };
+      const updatedPost = res.rows[0];
+      return { last_updated_at: updatedPost.last_updated_at };
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
     }
