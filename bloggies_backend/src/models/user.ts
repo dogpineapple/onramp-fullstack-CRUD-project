@@ -55,4 +55,13 @@ export default class User {
       [ userId ]);
     return res.rows[0];
   }
+
+  static async searchUsers(term: string) {
+    const res = await db.query(
+      `SELECT id, username, display_name, join_date
+        FROM users 
+        WHERE LOWER(display_name) LIKE LOWER('%' || $1 || '%')`, 
+      [ term ]);
+    return res.rows;
+  }
 }

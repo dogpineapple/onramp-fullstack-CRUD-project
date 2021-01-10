@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ensureLoggedIn } from "../auth";
 import Post from "../models/post";
 import express from "express";
+import ExpressError from "../expressError";
 
 export const postsRouter = express.Router();
 
@@ -24,6 +25,21 @@ postsRouter.get("/", async function (req: Request, res: Response, next: NextFunc
   try {
     const posts = await Post.getAll();
     return res.json({ posts });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** SEARCH /posts/search?term=[term] - get all posts. 
+ * Returns posts */
+postsRouter.get("/search", async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const term = req.query.term;
+    if (term) {
+      const posts = await Post.searchPosts(term.toString());
+      return res.json({ posts });
+    } 
+    throw new ExpressError("Invalid search term", 400);
   } catch (err) {
     return next(err);
   }
@@ -56,7 +72,7 @@ postsRouter.get("/user/:id", async function (req: Request, res: Response, next: 
 /** PATCH /posts/:id - updates a specific post by post id. 
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns a 204 code */
-postsRouter.patch("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
+postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
@@ -76,7 +92,7 @@ postsRouter.patch("/:id", ensureLoggedIn, async function(req: Request, res: Resp
 /** DELETE /posts/:id - updates a specific post by post id. 
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns message */
-postsRouter.delete("/:id", ensureLoggedIn, async function(req: Request, res: Response, next: NextFunction) {
+postsRouter.delete("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
@@ -89,18 +105,5 @@ postsRouter.delete("/:id", ensureLoggedIn, async function(req: Request, res: Res
     return res.status(401);
   } catch (err) {
     return next(err)
-  }
-});
-
-/** SEARCH /posts/search?term=[term] - get all posts. 
- * Returns posts */
-postsRouter.get("/search", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const term = req.query.term;
-    // TODO: search method
-    const posts = await Post.search(term);
-    return res.json({ posts });
-  } catch (err) {
-    return next(err);
   }
 });
