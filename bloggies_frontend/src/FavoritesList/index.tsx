@@ -2,14 +2,12 @@ import React from "react";
 import { Container, Row } from "react-bootstrap";
 import BlogCard from "../BlogCard";
 import { Post } from "../custom";
-import "./FavoritesList.css";
 
 interface IProp {
-  favorites: Array<Post>,
-  displayName: string
+  favorites: Array<Post>
 }
 
-function FavoritesList({ favorites, displayName }: IProp) {
+function FavoritesList({ favorites }: IProp) {
   return (
     <Container className="FavoritesList">
       <Row>
@@ -19,7 +17,7 @@ function FavoritesList({ favorites, displayName }: IProp) {
         {favorites.length > 0 ? favorites.map((favPost: Post) => {
           return (
             <BlogCard key={favPost.id} post={favPost} />
-          )
+          );
         })
         : <div>Empty... for now!</div> }
         </Row>

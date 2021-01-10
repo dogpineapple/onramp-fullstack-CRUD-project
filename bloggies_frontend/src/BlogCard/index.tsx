@@ -17,7 +17,7 @@ function BlogCard({ post }: IProp) {
   return (
     <Card className="BlogCard text-left">
       <Card.Body>
-        <NavLink to={`/blog/${post.id}/${postTitleForURL}`}>
+        <NavLink to={`/blogs/${post.id}/${postTitleForURL}`}>
           <Card.Title>{post.title}</Card.Title>
           <Card.Subtitle>{post.description}</Card.Subtitle>
           <Card.Text className="BlogCard-body">
@@ -26,7 +26,7 @@ function BlogCard({ post }: IProp) {
         </NavLink>
         <Container fluid>
           <Row className="d-flex align-items-baseline justify-content-between">
-            <Card.Subtitle className="BlogCard-author-date">Posted by {post.author_name} <span className="text-muted"> {moment(post.created_at).fromNow()}</span></Card.Subtitle>
+            <Card.Subtitle className="BlogCard-author-date">Posted by {post.author_name} <span className="text-muted"> {moment(post.created_at).fromNow()}</span> {post.last_updated_at !== post.created_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</Card.Subtitle>
             <FavoriteButton post={post}></FavoriteButton>
           </Row>
         </Container>

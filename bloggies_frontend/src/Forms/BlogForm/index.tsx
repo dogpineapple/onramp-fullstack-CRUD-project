@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Post } from "../../custom";
 
 interface IProp {
-  postBlog: Function
+  addPost: Function,
+  post: Post | undefined,
+  closeModal: Function | undefined
 }
 
-function NewBlogForm({postBlog}: IProp) {
-  const INITIAL_FORM_VALUES = { title: "", description: "", body: "" }
+function BlogForm({addPost, post, closeModal }: IProp) {
+  const INITIAL_FORM_VALUES = { title: post?.title || "", description: post?.description || "", body: post?.body || "" }
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
 
@@ -22,13 +25,16 @@ function NewBlogForm({postBlog}: IProp) {
     if (!valid) {
       evt.stopPropagation();
     } else {
-      postBlog(formData);
+      addPost(formData);
+      if (closeModal) {
+        closeModal();
+      }
     }
     setValidated(true);
   }
 
   return (
-    <div className="NewBlogForm">
+    <div className="BlogForm text-right">
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Control onChange={handleChange} name="title" value={formData.title} placeholder="Title" required />
@@ -46,4 +52,4 @@ function NewBlogForm({postBlog}: IProp) {
   );
 };
 
-export default NewBlogForm;
+export default BlogForm;

@@ -18,11 +18,17 @@ export interface Post {
   author_name: string,
   created_at: Date,
   last_updated_at: Date,
-  favorite_count: number
+  favorite_count: string
 }
 
 export interface PostFormData {
   title: string,
   description: string,
   body: string
+}
+
+export interface CustomReduxState {
+  user: any,
+  posts: Array<Post>,
+  favorites: Array<Post>
 }

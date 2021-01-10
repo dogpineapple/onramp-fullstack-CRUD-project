@@ -45,10 +45,10 @@ function Register() {
       <Container fluid className="Register-hero-container">
         <Row className="d-flex justify-content-around align-items-center">
           <Col sm={12} md={5} className="Register-hero-text">
-            <p className="Register-hero-title fade-in-left">
+            <div className="Register-hero-title fade-in-left">
               <p>hosting blog posts since 2021</p>
               <p className="Register-title-text">bloggies</p>
-            </p>
+            </div>
             <p className="Register-hero-desc fade-in-left-late">Come join the (not-yet-but-soon) coolest blog site!</p>
             <p className="Register-hero-desc fade-in-left-late">
               See what others are posting!

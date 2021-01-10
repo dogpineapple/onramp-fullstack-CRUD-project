@@ -12,31 +12,34 @@ function SortSelection({ posts, handlePostSort }: IProp) {
   const [ sortType, setSortType ] = useState<string>(DEFAULT_SORT_SELECT);
 
   const handleSelection = (eventKey: string | null) => {
-    let sortedPosts = posts;
+    let sortedPosts;
     switch (eventKey) {
       case "mostFavorite":
         setSortType("most favorited");
-        sortedPosts = posts.sort((a, b) => b.favorite_count - a.favorite_count);
+        sortedPosts = posts.slice().sort((a, b) => parseInt(b.favorite_count) - parseInt(a.favorite_count));
+        handlePostSort(sortedPosts, eventKey);
         break;
       case "leastFavorite":
         setSortType("least favorited");
-        sortedPosts = posts.sort((a, b) => a.favorite_count - b.favorite_count);
-
+        sortedPosts = posts.slice().sort((a, b) => parseInt(a.favorite_count) - parseInt(b.favorite_count));
+        handlePostSort(sortedPosts, eventKey);
         break;
       case "mostRecent":
         setSortType(DEFAULT_SORT_SELECT);
-        sortedPosts = posts.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        sortedPosts = posts.slice().sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        handlePostSort(sortedPosts, eventKey);
         break;
       default:
         setSortType(DEFAULT_SORT_SELECT);
+        handlePostSort(posts, eventKey);
         break;
     }
-    handlePostSort(sortedPosts, sortType);
   }
 
   return (
-    <div className="SortSelection">
-      <Dropdown>
+    <div className="SortSelection d-flex align-items-center">
+      View by:
+      <Dropdown className="ml-2">
         <Dropdown.Toggle variant="primary" id="filter-dropdown">
           {sortType}
         </Dropdown.Toggle>

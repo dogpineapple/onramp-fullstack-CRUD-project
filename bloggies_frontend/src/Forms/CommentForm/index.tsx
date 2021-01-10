@@ -30,10 +30,10 @@ function CommentForm({ postId, commentId , isReply, handlePostComment}: IProp) {
   }
 
   return (
-    <div className="CommentForm">
+    <div className="CommentForm text-right">
       <Form onSubmit={handleSubmit}>
         <Form.Control as="textarea" rows={3} name="comment" value={formData.comment} placeholder="Enter comment" onChange={handleChange} required />
-        <Button type="submit">Comment</Button>
+        <Button type="submit" className="mt-1" variant="success">Comment</Button>
       </Form>
     </div>
   );

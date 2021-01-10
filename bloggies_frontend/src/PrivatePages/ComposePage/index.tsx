@@ -1,10 +1,17 @@
 import React from "react";
+import { Container } from "react-bootstrap";
+import { Redirect, useHistory } from "react-router";
 import { BASE_URL } from "../../config";
 import { PostFormData } from "../../custom";
-import NewBlogForm from "../../Forms/NewBlogForm";
+import BlogForm from "../../Forms/BlogForm";
 
 
 function ComposePage() {
+  const history = useHistory();
+
+  if (!localStorage.getItem("token")) {
+    return <Redirect to="/"/>
+  }
 
   const postBlog = async (data: PostFormData) => {
     const _token = localStorage.getItem("token");
@@ -17,17 +24,17 @@ function ComposePage() {
     });
     const resData = await res.json();
     if (res.status === 201) {
-      console.log("successfully posted");
+      history.push("/");
     } else {
       console.log("error in posting", resData.error.message);
     }
   }
 
   return (
-    <div className="ComposePage">
+    <Container className="ComposePage mt-4">
       <h1>Create a new post!</h1>
-      <NewBlogForm postBlog={postBlog}/>
-    </div>
+      <BlogForm addPost={postBlog} post={undefined} closeModal={undefined}/>
+    </Container>
   );
 };
 

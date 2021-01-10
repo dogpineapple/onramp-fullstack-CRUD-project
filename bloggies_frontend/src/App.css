@@ -11,6 +11,10 @@
   font-weight: 600;
 }
 
+.App-update {
+  color: rgb(103, 165, 103);
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

@@ -11,7 +11,7 @@ import "./NavBar.css";
 function NavBar() {
   const dispatch = useDispatch();
   const user = useSelector((st: any) => st.user);
-  const urlDisplayName = changeToURLFriendly(user.display_name);
+  const urlDisplayName = changeToURLFriendly(user.display_name || "");
 
   const handleLogout = () => {
     localStorage.clear();

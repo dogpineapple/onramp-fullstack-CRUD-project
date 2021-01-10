@@ -11,9 +11,9 @@ import ComposePage from "../PrivatePages/ComposePage";
 function PublicRoutes() {
   return (
     <Switch>
-      <Route exact path="/blogs/create">
+      <Route exact path="/users/:userId/:displayName/favorites">
         <div className="PublicRoutes-thin-container">
-          <ComposePage />
+          <UserProfile />
         </div>
       </Route>
       <Route exact path="/blogs/:postId/:postTitle">
@@ -21,9 +21,9 @@ function PublicRoutes() {
           <PostDetails />
         </div>
       </Route>
-      <Route exact path="/users/:userId/:displayName/favorites">
+      <Route exact path="/blogs/create">
         <div className="PublicRoutes-thin-container">
-          <UserProfile />
+          <ComposePage />
         </div>
       </Route>
       <Route exact path="/users/login">

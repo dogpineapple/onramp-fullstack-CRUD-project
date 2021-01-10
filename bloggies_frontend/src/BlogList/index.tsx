@@ -7,7 +7,6 @@ interface IProps {
 }
 
 function BlogList({ posts }: IProps) {
-  console.log("posts in list..", posts);
   return (
     <Container className="BlogList mt-3">
       <Row>
@@ -20,7 +19,7 @@ function BlogList({ posts }: IProps) {
             );
           })
           : <Col md={12}> 
-           <p>Be the first to make a blog post!</p>
+           <p className="mt-5">No posts made yet but you can make the first one!</p>
           </Col>
         }
           </Row>
