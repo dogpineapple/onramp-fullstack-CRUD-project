@@ -38,11 +38,14 @@ export default class Post {
   static async getPost(id: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at
+        `SELECT p.id, p.title, p.description, p.body, u.display_name AS author_name, p.author_id, p.created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u 
-        ON p.author_id = u.id
-        WHERE p.id = $1`,
+          ON p.author_id = u.id
+        LEFT OUTER JOIN favorites AS f
+          ON p.id = f.post_id
+        GROUP BY f.post_id, p.id, u.display_name, p.title, p.description, p.body, p.author_id, p.created_at, p.last_updated_at
+          HAVING p.id = $1`,
         [id]);
       return res.rows[0];
     } catch (err) {
@@ -53,11 +56,14 @@ export default class Post {
   static async getPostByUserId(id: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, title, description, u.display_name AS author_name, body, author_id, created_at, last_updated_at
+        `SELECT p.id, p.title, p.description, u.display_name AS author_name, p.body, p.author_id, p.created_at, p.last_updated_at,  COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u
-        ON p.author_id = u.id
-        WHERE p.author_id = $1`,
+          ON p.author_id = u.id
+        JOIN favorites AS f
+          ON f.post_id = p.id
+        GROUP BY f.post_id, p.id, p.title, p.description, u.display_name, p.body, p.author_id, p.created_at, p.last_updated_at
+          HAVING p.author_id = $1`,
         [id]);
       return res.rows;
     } catch (err) {

@@ -61,7 +61,7 @@ postsRouter.get("/:id", async function (req: Request, res: Response, next: NextF
  * Returns posts */
 postsRouter.get("/user/:id", async function (req: Request, res: Response, next: NextFunction) {
   try {
-    const userId = req.params.id
+    const userId = req.params.id;
     const posts = await Post.getPostByUserId(parseInt(userId));
     return res.json({ posts });
   } catch (err) {

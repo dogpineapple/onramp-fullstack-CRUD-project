@@ -31,7 +31,8 @@ export interface CustomReduxState {
   user: any,
   posts: Array<Post>,
   favorites: Array<Post>,
-  searchResults: SearchResults
+  searchResults: SearchResults,
+  serverErr: string
 }
 
 interface SearchResults {

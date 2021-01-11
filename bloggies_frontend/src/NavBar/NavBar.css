@@ -7,6 +7,7 @@
 
 .NavBar-logout-btn {
   font-weight: 500;
+  margin: 0 1.5rem;
 }
 
 .NavBar-right-side {
@@ -32,14 +33,14 @@
 }
 
 .NavBar-list a:hover,
+.NavBar-list a.active,
 .NavBar-logout-btn:hover,
 .NavBar-title:hover {
   color: rgb(219, 219, 219);
   text-decoration: none;
 }
 
-.NavBar-list a,
-.NavBar-logout-btn {
+.NavBar-list a {
   margin: 0 1.5rem;
-  color: rgb(255, 255, 255);
+  color: gray;
 }

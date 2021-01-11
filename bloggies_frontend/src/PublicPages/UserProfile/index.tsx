@@ -23,6 +23,13 @@ function UserProfile() {
         const favRes = await fetch(`${BASE_URL}/favorites/${userId}`);
         const favData = await favRes.json();
         setUserFavs(favData.posts);
+      } catch (err) {
+        setServerErr("This user does not exist.");
+      }
+    }
+
+    async function getUserPosts() {
+      try {
         const userPostsRes = await fetch(`${BASE_URL}/posts/user/${userId}`);
         const userPostsData = await userPostsRes.json();
         setUserPosts(userPostsData.posts);
@@ -34,11 +41,13 @@ function UserProfile() {
     // if profile belongs to the current user, use redux data.
     if (parseInt(userId) === currUserId) {
       setIsCurrUserProfile(true);
+      getUserPosts();
     } else {
       // if not current user's profile, fetch the data from backend.
       getAltUserFavorites();
+      getUserPosts();
     }
-  }, []);
+  }, [userId]);
 
   return (
     <Container className="UserProfile">

@@ -8,7 +8,7 @@ interface IProps {
 
 function BlogList({ posts }: IProps) {
   return (
-    <Container className="BlogList mt-3">
+    <Container className="BlogList">
       <Row>
         {posts.length > 0
           ? posts.map(p => {

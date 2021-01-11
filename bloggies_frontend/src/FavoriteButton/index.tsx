@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import "./FavoriteButton.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavoriteToAPI, deleteFavoriteFromAPI } from "../redux/actionCreators";
-import { Post } from "../custom";
+import { CustomReduxState, Post } from "../custom";
 import { isFavorited } from "../helpers";
 
 interface IProp {
@@ -14,8 +14,9 @@ interface IProp {
 
 function FavoriteButton({ post }: IProp) {
   const dispatch = useDispatch();
-  const favorites = useSelector((st: any) => st.favorites);
+  const favorites = useSelector((st: CustomReduxState) => st.favorites);
   const [favorited, setFavorited] = useState<boolean>(false);
+  const posts = useSelector((st: CustomReduxState) => st.posts);
 
   useEffect(function handleFavoriteStatus() {
     if (isFavorited(post.id, favorites)) {
@@ -27,22 +28,30 @@ function FavoriteButton({ post }: IProp) {
     if (!localStorage.getItem("token")) {
       alert("Must be signed in to favorite.");
     } else {
+      let currFavCount = parseInt(post.favorite_count);
       switch (type) {
         case "ADD":
           setFavorited(true);
           dispatch(addFavoriteToAPI(post));
+          if (posts.length === 0) {
+            post.favorite_count = (currFavCount + 1).toString();
+          }
           break;
         case "DELETE":
           setFavorited(false);
           dispatch(deleteFavoriteFromAPI(post.id));
+          if (posts.length === 0) {
+            post.favorite_count = (currFavCount - 1).toString();
+          }
           break;
         default:
           break;
       }
     }
   }
+
   return (
-    <div className="FavoriteButton">
+    <div className="FavoriteButton d-flex align-items-center">
       { favorited ?
         <FontAwesomeIcon className="FavoriteButton-btn" icon={faHeart} size="1x" onClick={() => handleFavorites("DELETE")} />
         :

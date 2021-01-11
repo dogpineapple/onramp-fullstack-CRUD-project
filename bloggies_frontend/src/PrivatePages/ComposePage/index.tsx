@@ -1,33 +1,24 @@
 import React from "react";
 import { Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Redirect, useHistory } from "react-router";
-import { BASE_URL } from "../../config";
 import { PostFormData } from "../../custom";
 import BlogForm from "../../Forms/BlogForm";
+import { addPostToAPI } from "../../redux/actionCreators";
+import "./ComposePage.css";
 
 
 function ComposePage() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   if (!localStorage.getItem("token")) {
     return <Redirect to="/"/>
   }
 
   const postBlog = async (data: PostFormData) => {
-    const _token = localStorage.getItem("token");
-    const res = await fetch(`${BASE_URL}/posts`, {
-      method: "POST",
-      body: JSON.stringify({ ...data, _token }),
-      headers: {
-        "Content-type": "application/json"
-      }
-    });
-    const resData = await res.json();
-    if (res.status === 201) {
-      history.push("/");
-    } else {
-      console.log("error in posting", resData.error.message);
-    }
+    dispatch(addPostToAPI(data));
+    history.push("/");
   }
 
   return (

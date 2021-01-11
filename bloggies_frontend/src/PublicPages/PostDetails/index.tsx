@@ -1,21 +1,25 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { Redirect, useParams } from "react-router";
+import { Redirect, useHistory, useParams } from "react-router";
 import moment from "moment";
 import CommentList from "../../CommentList";
 import { BASE_URL } from "../../config";
 import FavoriteButton from "../../FavoriteButton";
 import "./PostDetails.css";
-import { Post, Comment } from "../../custom";
+import { Post, Comment, CustomReduxState } from "../../custom";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditFormModal from "../../EditFormModal";
 import DeleteModal from "../../DeleteModal";
+import { deletePostFromAPI, updateCurrentPost } from "../../redux/actionCreators";
+import { changeToURLFriendly } from "../../helpers";
+
 
 function PostDetails() {
   const { postId } = useParams<{ postId: string, postTitle: string }>();
-  const currUserId = useSelector((st: any) => st.user.id);
+  const currUserId = useSelector((st: CustomReduxState) => st.user.id);
+  const posts = useSelector((st: CustomReduxState) => st.posts);
   const [post, setPost] = useState<Post>();
   const [comments, setComments] = useState<Array<Comment>>([]);
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
@@ -23,6 +27,8 @@ function PostDetails() {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [showDelConf, setShowDelConf] = useState<boolean>(false);
   const _token = localStorage.getItem("token");
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(function handleGetPost() {
     async function getPost() {
@@ -38,7 +44,18 @@ function PostDetails() {
         setServerErr("This post either has been deleted or does not exist.");
       }
     }
-    getPost();
+
+    let foundPost = posts.filter((p: Post) => {
+      return p.id === parseInt(postId);
+    })[0];
+
+    if (!foundPost) {
+      getPost();
+    } else {
+      setIsAuthor(foundPost.author_id === currUserId);
+      setPost(foundPost);
+    }
+
   }, []);
 
   const handleShowEdit = () => setShowEditForm(true);
@@ -57,8 +74,10 @@ function PostDetails() {
         }
       });
       const resData = await res.json();
-      if (res.status === 204) {
-        setPost((currPost) => ({ ...currPost, ...resData }));
+      if (res.status === 200) {
+        let updatedPost = { ...post, ...data, ...resData }
+        setPost(updatedPost);
+        dispatch(updateCurrentPost(updatedPost));
       } else {
         setServerErr(resData.message);
       }
@@ -68,19 +87,8 @@ function PostDetails() {
   const deletePost = async () => {
     setServerErr("");
     if (post && _token) {
-      const res = await fetch(`${BASE_URL}/posts/${post.id}`, {
-        method: "DELETE",
-        body: JSON.stringify({ _token }),
-        headers: {
-          "Content-type": "application/json"
-        }
-      });
-      const resData = await res.json();
-      if (res.status === 200) {
-        return <Redirect to="/" />
-      } else {
-        setServerErr(resData.message);
-      }
+      dispatch(deletePostFromAPI(post.id, _token));
+      history.push("/");
     }
   }
 
@@ -106,7 +114,7 @@ function PostDetails() {
               </Row>
               <div className="text-muted">{post.description}</div>
               <div className="text-muted">
-                Posted by <span className="App-author">{post.author_name}</span> {moment(post.created_at).fromNow()}
+                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}/favorites`}><span className="App-author">{post.author_name}</span></a> {moment(post.created_at).fromNow()}
                 {post.last_updated_at !== post.created_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</div>
               <div className="PostDetails-body">{post.body}</div>
             </div>

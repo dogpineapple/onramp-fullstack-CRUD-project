@@ -1,8 +1,58 @@
 import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
-import { Post, User } from "../custom";
-import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT } from "./actionTypes";
+import { Post, PostFormData, User } from "../custom";
+import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, UPDATE_POST } from "./actionTypes";
+
+
+export function addPostToAPI(postData: PostFormData) {
+  return async function (dispatch: Dispatch<Action>) {
+    const _token = localStorage.getItem("token");
+    const res = await fetch(`${BASE_URL}/posts`, {
+      method: "POST",
+      body: JSON.stringify({ ...postData, _token }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const resData = await res.json();
+    if (res.status === 201) {
+      dispatch(addPost(resData.post));
+    } else {
+      console.log("error in posting", resData.error.message);
+    }
+  }
+}
+
+function addPost(post: Post) {
+  return { type: ADD_POST, payload: { post } };
+}
+
+export function deletePostFromAPI(postId: number, _token: string) {
+  return async function (dispatch: Dispatch<Action>) {
+    const res = await fetch(`${BASE_URL}/posts/${postId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ _token }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const resData = await res.json();
+    if (res.status === 200) {
+      dispatch(deletePost(postId))
+    } else {
+      dispatch(displayServerErr(resData.error.message));
+    }
+  }
+}
+
+function deletePost(postId: number) {
+  return { type: DELETE_POST, payload: { postId } };
+}
+
+function displayServerErr(message: string) {
+  return { type: DISPLAY_SERVER_ERR, payload: { message }};
+}
 
 export function getPostsFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
@@ -21,6 +71,10 @@ export function getUserInfoFromAPI(token: string) {
     const userRes = await res.json();
     dispatch(gotUserInfo(userRes.user));
   }
+}
+
+export function updateCurrentPost(post: Post) {
+  return { type: UPDATE_POST, payload: { post }};
 }
 
 export function getSearchResultsFromAPI(term: string) {

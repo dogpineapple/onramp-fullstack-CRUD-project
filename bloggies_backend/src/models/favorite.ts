@@ -7,10 +7,11 @@ export default class Favorite {
   static async getAll(userId: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, p.title, p.description, p.body, p.author_id, COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, p.title, p.description, p.body, p.author_id, p.created_at, u.display_name AS author_name, COUNT(f.post_id) AS favorite_count
           FROM favorites AS f
           JOIN posts AS p ON f.post_id = p.id
-          GROUP BY f.post_id, p.id, p.title, p.description, p.body, p.author_id, f.user_id
+          JOIN users AS u ON p.author_id = u.id
+          GROUP BY f.post_id, p.id, p.title, p.description, p.body, p.author_id, f.user_id, u.display_name, p.created_at
           HAVING f.user_id = $1`,
         [userId]);
       const favoritedPosts = res.rows;

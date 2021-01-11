@@ -18,9 +18,9 @@ function CommentCard({ comment }: IProp) {
         <Card.Body>
           <Card.Text>{comment.body}</Card.Text>
           <Card.Text className="text-muted d-flex justify-content-between">
-            <p>
+            <div>
               <span className="App-author">{comment.author_name}</span> commented {moment(comment.created_at).fromNow()}
-            </p>
+            </div>
             <Button onClick={() => setShowCommentForm(!showCommentForm)}>{showCommentForm ? "Cancel" : "Reply"}</Button>
           </Card.Text>
             {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} handlePostComment={(postId: number, commentId: undefined, isReply: false) => console.log("posting the comment")}/>}
