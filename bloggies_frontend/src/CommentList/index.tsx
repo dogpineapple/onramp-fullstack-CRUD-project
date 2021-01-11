@@ -6,21 +6,31 @@ import "./CommentList.css";
 
 interface IProp {
   comments: Array<Comment>,
-  postId: number
+  postId: number,
+  postComment: Function
 }
 
-function CommentList({ comments, postId }: IProp) {
+function CommentList({ comments, postId, postComment }: IProp) {
+
+  const handlePostComment = (postId: number, commentId: number | undefined, isReply: boolean, comment: string) => {
+    postComment(postId, commentId, isReply, comment);
+  }
+
+  const nonReplyComments = comments.filter(c => {
+    return !c.is_reply;
+  })
+
   return (
     <div className="CommentList text-left">
       <h3>Comments</h3>
-      {comments.length > 0 ?
-        comments.map(c => {
+      {nonReplyComments.length > 0 ?
+        nonReplyComments.map(c => {
           return (
-            <CommentCard comment={c} />
+            <CommentCard key={c.id} comment={c} handlePostReply={handlePostComment}/>
           );
         })
         : <div className="CommentsList-no-comments">No comments yet. Be the first!</div>}
-      <CommentForm postId={postId} commentId={undefined} isReply={false} handlePostComment={(postId: number, commentId: undefined, isReply: false) => console.log("handling post comment in commentlist")}/>
+      <CommentForm postId={postId} commentId={undefined} isReply={false} handlePostComment={handlePostComment}/>
     </div>
   );
 };

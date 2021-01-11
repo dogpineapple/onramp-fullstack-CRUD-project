@@ -18,7 +18,7 @@ import { changeToURLFriendly } from "../../helpers";
 
 function PostDetails() {
   const { postId } = useParams<{ postId: string, postTitle: string }>();
-  const currUserId = useSelector((st: CustomReduxState) => st.user.id);
+  const currUser = useSelector((st: CustomReduxState) => st.user);
   const posts = useSelector((st: CustomReduxState) => st.posts);
   const [post, setPost] = useState<Post>();
   const [comments, setComments] = useState<Array<Comment>>([]);
@@ -38,8 +38,9 @@ function PostDetails() {
         setPost(postData.post);
         const commentsRes = await fetch(`${BASE_URL}/comments/${postId}`);
         const commentsData = await commentsRes.json();
-        setComments(commentsData.comments);
-        setIsAuthor(postData.post.author_id === currUserId);
+        const commentsSortedByCreateDate = commentsData.comments.sort((a: Comment, b: Comment) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        setComments(commentsSortedByCreateDate);
+        setIsAuthor(postData.post.author_id === currUser.id);
       } catch (err) {
         setServerErr("This post either has been deleted or does not exist.");
       }
@@ -52,7 +53,7 @@ function PostDetails() {
     if (!foundPost) {
       getPost();
     } else {
-      setIsAuthor(foundPost.author_id === currUserId);
+      setIsAuthor(foundPost.author_id === currUser.id);
       setPost(foundPost);
     }
 
@@ -92,6 +93,47 @@ function PostDetails() {
     }
   }
 
+  const postComment = async (postId: number, commentId: number | undefined, isReply: boolean, comment: string) => {
+    if (post && _token) {
+      const newComment = {
+        body: comment,
+        post_id: postId,
+        reply_to_comment_id: commentId,
+        author_id: currUser.id,
+        is_reply: isReply
+      };
+
+      setServerErr("");
+
+      try {
+        const res = await fetch(`${BASE_URL}/comments`, {
+          method: "POST",
+          body: JSON.stringify(newComment),
+          headers: {
+            "Content-type": "application/json"
+          }
+        });
+        const commentData = await res.json();
+        if (res.status === 201) {
+          if (!isReply) {
+            setComments((currComments) => [...currComments,
+            {
+              ...newComment,
+              created_at: commentData.created_at,
+              id: commentData.id,
+              author_name: currUser.display_name,
+              reply_count: "0"
+            }]);
+          }
+        } else {
+          setServerErr(commentData.error.message);
+        }
+      } catch (err) {
+        setServerErr("Something went wrong with posting a comment");
+      }
+    }
+  }
+
   return (
     <div className="PostDetails mt-5">
       { showEditForm && <EditFormModal show={showEditForm} handleClose={handleCloseEdit} item={post} editItem={updatePost} />}
@@ -118,7 +160,7 @@ function PostDetails() {
                 {post.last_updated_at !== post.created_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</div>
               <div className="PostDetails-body">{post.body}</div>
             </div>
-            <CommentList comments={comments} postId={post.id} />
+            <CommentList comments={comments} postId={post.id} postComment={postComment} />
           </Fragment>
         }
       </Container>

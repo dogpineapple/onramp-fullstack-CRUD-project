@@ -10,6 +10,7 @@ commentsRouter.get("/:postId", async function (req: Request, res: Response, next
   const postId = parseInt(req.params.postId);
   try {
     const comments = await Comment.getCommentsByPostId(postId);
+    console.log("Getting the comment by id", comments);
     return res.json(comments);
   } catch (err) {
     return next(err);
@@ -23,6 +24,21 @@ commentsRouter.get("/:commentId/replies", async function (req: Request, res: Res
   try {
     const replies = await Comment.getRepliesByCommentId(commentId);
     return res.json(replies);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** POST /comments - add a new comment.
+ * Returns a comment */
+commentsRouter.post("/", async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const { body, post_id, author_id, is_reply, reply_to_comment_id } = req.body;
+    const comment = await Comment.createComment(body, post_id, author_id, is_reply);
+    if (is_reply) {
+      await Comment.createReply(comment.id, reply_to_comment_id)
+    }
+    return res.status(201).json(comment);
   } catch (err) {
     return next(err);
   }
