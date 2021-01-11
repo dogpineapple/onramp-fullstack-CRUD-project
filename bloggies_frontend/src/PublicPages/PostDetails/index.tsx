@@ -36,14 +36,17 @@ function PostDetails() {
         const postRes = await fetch(`${BASE_URL}/posts/${postId}`);
         const postData = await postRes.json();
         setPost(postData.post);
-        const commentsRes = await fetch(`${BASE_URL}/comments/${postId}`);
-        const commentsData = await commentsRes.json();
-        const commentsSortedByCreateDate = commentsData.comments.sort((a: Comment, b: Comment) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        setComments(commentsSortedByCreateDate);
         setIsAuthor(postData.post.author_id === currUser.id);
       } catch (err) {
         setServerErr("This post either has been deleted or does not exist.");
       }
+    }
+
+    async function getComments() {
+      const commentsRes = await fetch(`${BASE_URL}/comments/${postId}`);
+      const commentsData = await commentsRes.json();
+      const commentsSortedByCreateDate = commentsData.comments.sort((a: Comment, b: Comment) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      setComments(commentsSortedByCreateDate);
     }
 
     let foundPost = posts.filter((p: Post) => {
@@ -57,7 +60,9 @@ function PostDetails() {
       setPost(foundPost);
     }
 
-  }, []);
+    getComments();
+
+  }, [postId]);
 
   const handleShowEdit = () => setShowEditForm(true);
   const handleCloseEdit = () => setShowEditForm(false);
