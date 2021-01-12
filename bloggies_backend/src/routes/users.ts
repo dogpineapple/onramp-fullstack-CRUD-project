@@ -26,7 +26,6 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
 usersRouter.post("/login", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { username, password } = req.body;
-    console.log("req.body", req.body);
     const result = await User.authenticate(username, password);
     return res.json(result);
   } catch (err) {

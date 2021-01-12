@@ -3,7 +3,6 @@ import Comment from "../models/comment";
 
 let validUserId: number;
 let validPostId: number;
-let validCommentId: number;
 
 /** Tests for Comment model */
 describe("Test comment class", function () {
@@ -19,7 +18,7 @@ describe("Test comment class", function () {
       `INSERT INTO users (username, display_name, hashed_pwd)
         VALUES ('posttest', 'post', 'password')
         RETURNING id`);
-    validUserId = userRes.rows[0];
+    validUserId = userRes.rows[0].id;
 
     const postRes = await db.query(
       `INSERT INTO posts (title, description, body, author_id) 
@@ -27,24 +26,21 @@ describe("Test comment class", function () {
             ('Strawberry Basil Soda', 
             'Made with Strawberry, Basil, Sparkling Water', 
             'Body text description goes here', 
-            1)
+            ${validUserId})
         RETURNING id`);
-    validPostId = postRes.rows[0];
+    validPostId = postRes.rows[0].id;
 
-    const commentRes = await db.query(
+    await db.query(
       `INSERT INTO comments (body, post_id, author_id, is_reply) 
-        VALUES ('This is a really great post about strawberry soda', 1, 1, false)
-        RETURNING id`);
-    validCommentId = commentRes.rows[0];
+        VALUES ('This is a really great post about strawberry soda', ${validPostId}, ${validUserId}, false)`);
   });
 
   test("can create a new comment", async function () {
     const post = await Comment.createComment("Test comment", validPostId, validUserId, false);
 
-    const foundPostRes = await db.query(`SELECT body, author_id FROM comments WHERE post_id = 1`);
+    const foundPostRes = await db.query(`SELECT body, author_id FROM comments WHERE post_id = ${validPostId}`);
     const foundPost = foundPostRes.rows[1];
 
-    expect(post.body).toBe("Test comment");
     expect(post.created_at).toBeDefined();
     expect(foundPost.body).toBe("Test comment");
     expect(foundPost.author_id).toBe(validUserId);

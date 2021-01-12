@@ -10,7 +10,6 @@ commentsRouter.get("/:postId", async function (req: Request, res: Response, next
   const postId = parseInt(req.params.postId);
   try {
     const comments = await Comment.getCommentsByPostId(postId);
-    console.log("Getting the comment by id", comments);
     return res.json(comments);
   } catch (err) {
     return next(err);

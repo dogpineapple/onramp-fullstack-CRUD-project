@@ -26,7 +26,6 @@ export default class Favorite {
         [userId, postId]);
       return { message: "Favorited successfully." };
     } catch (err) {
-      console.log(`err: ${err}`)
       throw new ExpressError("Invalid user_id/post_id", 400);
     }
   }

@@ -21,7 +21,6 @@ export default class Comment {
       const comments = res.rows;
       return { comments };
     } catch (err) {
-      console.log(`error in getcommentsbypostid: ${err}`);
       throw new ExpressError("Invalid post id", 400);
     }
   }
@@ -38,7 +37,6 @@ export default class Comment {
       const replies = res.rows;
       return { replies };
     } catch (err) {
-      console.log(`error in getrepliesbycommentid: ${err}`);
       throw new ExpressError("Invalid comment id", 400);
     }
   }
@@ -52,7 +50,6 @@ export default class Comment {
         [body, postId, authorId, isReply]);
       return res.rows[0];
     } catch (err) {
-      console.log(`error in create comment: ${err}`);
       throw new ExpressError("Invalid author_id/post_id", 400);
     }
   }
@@ -64,7 +61,6 @@ export default class Comment {
           VALUES ($1, $2)`,
         [commentId, replyToCommentId]);
     } catch (err) {
-      console.log(`error in create comment: ${err}`);
       throw new ExpressError("Invalid comment_id(s)", 400);
     }
   }
