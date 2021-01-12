@@ -47,7 +47,7 @@ describe("Test post class", function () {
 
     const post = results.rows[0];
 
-    expect(res.message).toBe("Successfully updated.");
+    expect(res.last_updated_at).toBeDefined();
     expect(post.title).toBe(updateData.title);
     expect(post.description).toBe(updateData.description);
   });

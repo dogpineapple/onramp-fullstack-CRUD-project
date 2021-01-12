@@ -24,7 +24,7 @@ favoritesRouter.post("/", ensureLoggedIn, async function (req: Request, res: Res
   const { postId } = req.body;
   try {
     const result = await Favorite.add(currentUser.user_id, postId);
-    return res.json(result);
+    return res.status(201).json(result);
   } catch (err) {
     return next(err);
   }

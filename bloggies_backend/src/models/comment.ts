@@ -19,7 +19,6 @@ export default class Comment {
             HAVING c.post_id = $1`,
         [postId]);
       const comments = res.rows;
-      console.log("in the model for the ids...", res.rows);
       return { comments };
     } catch (err) {
       console.log(`error in getcommentsbypostid: ${err}`);

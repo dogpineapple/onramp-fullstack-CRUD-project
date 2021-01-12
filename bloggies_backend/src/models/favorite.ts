@@ -38,15 +38,11 @@ export default class Favorite {
 
   /** Adds a favorited post for a user */
   static async delete(userId: number, postId: number) {
-    try {
-      await db.query(
-        `DELETE FROM favorites
+    await db.query(
+      `DELETE FROM favorites
            WHERE user_id = $1 AND post_id = $2`,
-        [userId, postId]);
-      return { message: "Unfavorited successfully." };
-    } catch (err) {
-      throw new ExpressError("Invalid user_id/post_id", 400);
-    }
+      [userId, postId]);
+    return { message: "Unfavorited successfully." };
   }
 
 }

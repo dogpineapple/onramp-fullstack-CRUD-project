@@ -8,7 +8,7 @@ export default class ExpressError extends Error {
     super();
     this.message = message;
     this.status = status;
-    console.error(this.stack);
+    // console.error(this.stack);
   }
 }
 
