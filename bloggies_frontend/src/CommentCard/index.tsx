@@ -12,9 +12,10 @@ interface IProp {
 }
 
 /** 
- * CommentCard component renders a Comment object as a Card UI item.
- * Displays an option to toggle CommentForm if the Comment is not a reply comment.
- * Displays CommentReplyCard if a Comment has at least 1 reply comment.
+ * `CommentCard` renders a Comment object as a Card UI item.
+ * - invokes handlePostReply once a submit occurs in `CommentForm` (allowing for commenting replies)
+ * - displays an option to toggle `CommentForm` if the Comment is not a reply comment.
+ * - displays `CommentReplyCard` if a Comment has at least 1 reply comment.
  */
 function CommentCard({ comment, handlePostReply }: IProp) {
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
@@ -22,14 +23,17 @@ function CommentCard({ comment, handlePostReply }: IProp) {
 
   useEffect(() => {
     setReplyCount(parseInt(comment.reply_count));
-  }, [])
+  }, []);
 
-  /** Passes the data needed for a new comment to the parent compoment's function. */
+  /** Passes the data needed for a new comment to the parent component's function. */
   const postReply = (postId: number, commentId: undefined, isReply: boolean, body: string) => {
     if (handlePostReply) {
       handlePostReply(postId, commentId, isReply, body);
       setShowCommentForm(false);
     }
+    
+    // if the comment is a reply to another comment, increment the `replyCount` state.
+    // this will cause the `CommentReplyCard` to re-render due to the replyCount passed as a `key` property.
     if (isReply) {
       setReplyCount(replyCount + 1);
     }
@@ -45,6 +49,7 @@ function CommentCard({ comment, handlePostReply }: IProp) {
             {/* Only show 'Reply' button if the comment is not a reply comment. */}
             {!comment.is_reply && <Button onClick={() => setShowCommentForm(!showCommentForm)}>{showCommentForm ? "Cancel" : "Reply"}</Button>}
           </Card.Text>
+          {/* Show `CommentForm` if showCommentForm is true */}
           {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} handlePostComment={postReply}/>}
           {/* If a comment has replies, show a collapsible of the comment's replies */}
           {replyCount > 0 && <CommentReplyCard key={replyCount} replyCount={replyCount.toString()} commentId={comment.id} />}

@@ -7,6 +7,11 @@ interface IProp {
   users: Array<User>
 }
 
+/**
+ * `UserList` renders `UserCard`s components for each users
+ * passed to this component. 
+ * If no users, then this component renders "No users found."
+ */
 function UserList({ users }: IProp) {
   return (
     <Container className="UserList mt-3">

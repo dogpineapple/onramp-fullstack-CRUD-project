@@ -10,8 +10,13 @@ interface IProp {
   postComment: Function
 }
 
+/**
+ * `CommentList` renders `CommentCard` and a `CommentForm`.
+ * It displays all comments that are NOT replies (ex: comment.is_reply === false )
+ */
 function CommentList({ comments, postId, postComment }: IProp) {
 
+  /** handler fxn for posting a comment (to be invoked in CommentForm (for non-replies) and CommentCard (for replies))*/
   const handlePostComment = (postId: number, commentId: number | undefined, isReply: boolean, comment: string) => {
     postComment(postId, commentId, isReply, comment);
   }

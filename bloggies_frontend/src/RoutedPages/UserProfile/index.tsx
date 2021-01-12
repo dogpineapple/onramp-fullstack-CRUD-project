@@ -4,21 +4,26 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import BlogList from "../../BlogList";
 import { BASE_URL } from "../../config";
-import { Post } from "../../custom";
+import { CustomReduxState, Post } from "../../custom";
 import FavoritesList from "../../FavoritesList";
 import "./UserProfile.css";
 
+/**
+ * `UserProfile` renders the page for displaying a user's `FavoritesList` and 
+ * Publications (`BlogList`).
+ */
 function UserProfile() {
-  const currUserId = useSelector((st: any) => st.user.id);
+  const currUserId = useSelector((st: CustomReduxState) => st.user.id);
   const { userId, displayName } = useParams<{ userId: string, displayName: string }>();
   const [isCurrUserProfile, setIsCurrUserProfile] = useState<boolean>(false);
-  const currUserFavs = useSelector((st: any) => st.favorites);
+  const currUserFavs = useSelector((st: CustomReduxState) => st.favorites);
   const [userFavs, setUserFavs] = useState<Array<Post>>([]);
   const [userPosts, setUserPosts] = useState<Array<Post>>([]);
   const [serverErr, setServerErr] = useState("");
 
   useEffect(function checkProfileOwner() {
-    async function getAltUserFavorites() {
+    // retrieve user favorites by a GET request with user id from params.
+    async function getUserFavorites() {
       try {
         const favRes = await fetch(`${BASE_URL}/favorites/${userId}`);
         const favData = await favRes.json();
@@ -28,6 +33,7 @@ function UserProfile() {
       }
     }
 
+    // retrieve user publications by a GET request with user id from params.
     async function getUserPosts() {
       try {
         const userPostsRes = await fetch(`${BASE_URL}/posts/user/${userId}`);
@@ -44,7 +50,7 @@ function UserProfile() {
       getUserPosts();
     } else {
       // if not current user's profile, fetch the data from backend.
-      getAltUserFavorites();
+      getUserFavorites();
       getUserPosts();
     }
   }, [userId]);

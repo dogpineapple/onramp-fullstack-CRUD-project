@@ -8,6 +8,10 @@ interface IProp {
   closeModal: Function | undefined
 }
 
+/**
+ * `BlogForm` renders a form for creating/editting a blog.
+ * (IF EDITING: post and closeModal parameters required)
+ */
 function BlogForm({addPost, post, closeModal }: IProp) {
   const INITIAL_FORM_VALUES = { title: post?.title || "", description: post?.description || "", body: post?.body || "" }
   const [validated, setValidated] = useState(false);
@@ -25,7 +29,9 @@ function BlogForm({addPost, post, closeModal }: IProp) {
     if (!valid) {
       evt.stopPropagation();
     } else {
+      // if form is valid, invoke addPost function.
       addPost(formData);
+
       if (closeModal) {
         closeModal();
       }

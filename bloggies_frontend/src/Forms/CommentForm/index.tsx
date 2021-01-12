@@ -8,6 +8,10 @@ interface IProp {
   handlePostComment: Function
 }
 
+/**
+ * CommentForm component renders a controlled Form for creating a comment.
+ * Can be used to post a `reply` comment or a `non-reply` comment.
+ */
 function CommentForm({ postId, commentId, isReply, handlePostComment }: IProp) {
   const INITIAL_FORM_VALUES = { comment: "" }
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
@@ -19,7 +23,6 @@ function CommentForm({ postId, commentId, isReply, handlePostComment }: IProp) {
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    //submit commit as a reply comment to a comment of a post
     handlePostComment(postId, commentId, isReply, formData.comment);
     setFormData(INITIAL_FORM_VALUES);
   }

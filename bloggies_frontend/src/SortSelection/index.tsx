@@ -7,6 +7,10 @@ interface IProp {
   handlePostSort: Function
 }
 
+/**
+ * `SortSelection` renders a dropdown that enables a user to sort
+ * posts by "most recent", "most favorited", and "least favorited".
+ */
 function SortSelection({ posts, handlePostSort }: IProp) {
   const DEFAULT_SORT_SELECT = "most recent";
   const [ sortType, setSortType ] = useState<string>(DEFAULT_SORT_SELECT);

@@ -19,8 +19,8 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
     case LOAD_SEARCH_RESULTS:
       return { ...state, searchResults: action.payload }
     case ADD_FAVORITE:
-      // Increment the favorite count of the posts
       const updateAddFavPosts = state.posts.map((p: Post) => {
+        // Increment the favorite count of the post
         if (p.id === action.payload.post.id) {
           const newFavCount = parseInt(p.favorite_count) + 1;
           p.favorite_count = newFavCount.toString();
@@ -49,9 +49,11 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       return { ...state, posts: filteredPosts };
     case ADD_POST:
       const newPost = action.payload.post;
+      // add in the current user's information 
       newPost.author_name = state.user.display_name;
       newPost.author_id = state.user.id;
       newPost.favorite_count = 0;
+
       return { ...state, posts: [action.payload.post, ...state.posts] };
     case UPDATE_POST:
       const updatedPost = action.payload.post;
@@ -63,6 +65,7 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       })
       return { ...state, posts: updatedPostList }
     case LOGOUT:
+      // reset all states related to a current user.
       return { ...state, user: {}, favorites: [] };
     default:
       return state;

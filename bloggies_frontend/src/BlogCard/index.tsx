@@ -11,9 +11,17 @@ interface IProp {
   post: Post
 }
 
+/**
+ * `BlogCard` renders a card that renders:
+ *  -  `post`'s data
+ *  - `FavoriteButton` component
+ *  - a link to the author's profile page (`UserProfile` component)
+ *  - a link to the post's detail page (`PostDetails` component)
+ */
 function BlogCard({ post }: IProp) {
   const postTitleForURL = changeToURLFriendly(post.title);
   const authorNameForURL = changeToURLFriendly(post.author_name);
+
   return (
     <Card className="BlogCard text-left">
       <Card.Body>

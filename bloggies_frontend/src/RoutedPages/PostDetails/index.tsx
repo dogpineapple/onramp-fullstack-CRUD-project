@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { Redirect, useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import moment from "moment";
 import CommentList from "../../CommentList";
 import { BASE_URL } from "../../config";
@@ -15,7 +15,15 @@ import DeleteModal from "../../DeleteModal";
 import { deletePostFromAPI, updateCurrentPost } from "../../redux/actionCreators";
 import { changeToURLFriendly } from "../../helpers";
 
-
+/**
+ * `PostDetails` renders a post's data in full and a `FavoriteButton` and a
+ * `CommentList` components.
+ *  Holds logic for creating API calls to...
+ * - GET post by post id
+ * - GET comment by post id
+ * - PATCH post by post id (requires login and user is author)
+ * - DELETE post by post id (requires login and user is author)
+ */
 function PostDetails() {
   const { postId } = useParams<{ postId: string, postTitle: string }>();
   const currUser = useSelector((st: CustomReduxState) => st.user);
@@ -31,6 +39,7 @@ function PostDetails() {
   const dispatch = useDispatch();
 
   useEffect(function handleGetPost() {
+    // retrieve the post from the API.
     async function getPost() {
       try {
         const postRes = await fetch(`${BASE_URL}/posts/${postId}`);
@@ -42,6 +51,7 @@ function PostDetails() {
       }
     }
 
+    // retrieve the comments to the current post from API.
     async function getComments() {
       const commentsRes = await fetch(`${BASE_URL}/comments/${postId}`);
       const commentsData = await commentsRes.json();
@@ -49,28 +59,25 @@ function PostDetails() {
       setComments(commentsSortedByCreateDate);
     }
 
+    // search for the post in the current redux store's `posts` state
     let foundPost = posts.filter((p: Post) => {
       return p.id === parseInt(postId);
     })[0];
 
     if (!foundPost) {
+      // if the post is not in the current redux store's `posts` state, call getPost()
       getPost();
     } else {
       setIsAuthor(foundPost.author_id === currUser.id);
       setPost(foundPost);
     }
-
+    // retrieve comments for the post.
     getComments();
-
   }, [postId]);
-
-  const handleShowEdit = () => setShowEditForm(true);
-  const handleCloseEdit = () => setShowEditForm(false);
-  const handleCloseDel = () => setShowDelConf(false);
-  const handleShowDel = () => setShowDelConf(true);
 
   const updatePost = async (data: Post) => {
     setServerErr("");
+    // requires user login to update a post
     if (post && _token) {
       const res = await fetch(`${BASE_URL}/posts/${post.id}`, {
         method: "PATCH",
@@ -81,15 +88,17 @@ function PostDetails() {
       });
       const resData = await res.json();
       if (res.status === 200) {
+        // set the updatedPost to the `post` state.
         let updatedPost = { ...post, ...data, ...resData }
         setPost(updatedPost);
+        // send dispatch to update the current post in the redux store `posts` state.
         dispatch(updateCurrentPost(updatedPost));
       } else {
         setServerErr(resData.message);
       }
     }
   }
-
+  
   const deletePost = async () => {
     setServerErr("");
     if (post && _token) {
@@ -97,8 +106,9 @@ function PostDetails() {
       history.push("/");
     }
   }
-
+  
   const postComment = async (postId: number, commentId: number | undefined, isReply: boolean, comment: string) => {
+    // requires user login to create a post.
     if (post && _token) {
       const newComment = {
         body: comment,
@@ -107,9 +117,9 @@ function PostDetails() {
         author_id: currUser.id,
         is_reply: isReply
       };
-
+      
       setServerErr("");
-
+      
       try {
         const res = await fetch(`${BASE_URL}/comments`, {
           method: "POST",
@@ -120,27 +130,34 @@ function PostDetails() {
         });
         const commentData = await res.json();
         if (res.status === 201) {
+          // if the comment made is not a reply,
+          //   add comment to the current `comment` state
           if (!isReply) {
             setComments((currComments) => [...currComments,
-            {
-              ...newComment,
-              created_at: commentData.created_at,
-              id: commentData.id,
-              author_name: currUser.display_name,
-              reply_count: "0"
-            }]);
+              {
+                ...newComment,
+                created_at: commentData.created_at,
+                id: commentData.id,
+                author_name: currUser.display_name,
+                reply_count: "0"
+              }]);
+            }
+          } else {
+            setServerErr(commentData.error.message);
           }
-        } else {
-          setServerErr(commentData.error.message);
+        } catch (err) {
+          setServerErr("Something went wrong with posting a comment");
         }
-      } catch (err) {
-        setServerErr("Something went wrong with posting a comment");
       }
     }
-  }
+    
+    const handleShowEdit = () => setShowEditForm(true);
+    const handleCloseEdit = () => setShowEditForm(false);
+    const handleCloseDel = () => setShowDelConf(false);
+    const handleShowDel = () => setShowDelConf(true);
 
-  return (
-    <div className="PostDetails mt-5">
+    return (
+      <div className="PostDetails mt-5">
       { showEditForm && <EditFormModal show={showEditForm} handleClose={handleCloseEdit} item={post} editItem={updatePost} />}
       { showDelConf && <DeleteModal show={showDelConf} handleClose={handleCloseDel} deletePost={deletePost} />}
       <Container >

@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import BlogList from "../../BlogList";
-import { Post } from "../../custom";
+import { CustomReduxState, Post } from "../../custom";
 import { getPostsFromAPI } from "../../redux/actionCreators";
 import SortSelection from "../../SortSelection";
 
+/**
+ * `Homepage` renders `BlogList` and `SortSelection` components.
+ * If posts do not exist in current redux store, it dispatches an action to
+ * `getPostsFromAPI`.
+ */
 function Homepage() {
-  const postsList = useSelector((st: any) => st.posts.sort((a: Post, b: Post) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
+  const postsList = useSelector((st: CustomReduxState) => st.posts.sort((a: Post, b: Post) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
   const dispatch = useDispatch();
   const [posts, setPosts] = useState<Array<Post>>([]);
   const [sortType, setSortType] = useState("mostRecent")
@@ -20,6 +25,7 @@ function Homepage() {
     }
   }, [postsList]);
 
+  // invoked in `SortSelection` component when a user chooses a sort type in the dropdown.
   const handlePostSort = (sortedPosts: Array<Post>, newSortType: string) => {
     setPosts(sortedPosts);
     setSortType(newSortType);

@@ -14,6 +14,11 @@ interface SignUpFormData {
   display_name: string 
 }
 
+/**
+ * `Register` renders the page for user registration, the `SignUpForm`.
+ * This component holds the function to create an API call to sign up a
+ * user by a POST request with the sign up form data. 
+ */
 function Register() {
   const dispatch = useDispatch();
   const [serverErr, setServerErr] = useState("");
@@ -33,9 +38,10 @@ function Register() {
     localStorage.setItem("token", userRes.token);
     
     if (res.status === 201) {
+      // update the redux store state with user information.
       dispatch(gotUserInfo(userRes.user));
       history.push("/");
-    } else if (res.status === 400) {
+    } else {
       setServerErr(userRes.error.message);
     }; 
   }

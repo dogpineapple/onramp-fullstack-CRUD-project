@@ -1,13 +1,13 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
-import Login from "../PublicPages/Login";
-import Homepage from "../PublicPages/Homepage";
-import Register from "../PublicPages/Register";
+import Login from "../RoutedPages/Login";
+import Homepage from "../RoutedPages/Homepage";
+import Register from "../RoutedPages/Register";
 import "./PublicRoutes.css";
-import PostDetails from "../PublicPages/PostDetails";
-import UserProfile from "../PublicPages/UserProfile";
-import ComposePage from "../PrivatePages/ComposePage";
-import SearchResults from "../PublicPages/SearchResults";
+import PostDetails from "../RoutedPages/PostDetails";
+import UserProfile from "../RoutedPages/UserProfile";
+import ComposePage from "../RoutedPages/ComposePage";
+import SearchResults from "../RoutedPages/SearchResults";
 
 function PublicRoutes() {
   return (

@@ -1,9 +1,11 @@
+/** File for defining interfaces */
+
 export interface Comment {
   id: number,
   body: string,
   author_id: number,
   author_name: string,
-  created_at: Date,
+  created_at: string,
   is_reply: Boolean,
   reply_count: string,
   post_id: number
@@ -16,8 +18,8 @@ export interface Post {
   body: string,
   author_id: number,
   author_name: string,
-  created_at: Date,
-  last_updated_at: Date,
+  created_at: string,
+  last_updated_at: string,
   favorite_count: string
 }
 
@@ -43,6 +45,6 @@ interface SearchResults {
 export interface User {
   id: number,
   username: string,
-  join_date: Date,
+  join_date: string,
   display_name: string
 }

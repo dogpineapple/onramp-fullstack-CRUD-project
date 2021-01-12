@@ -7,6 +7,11 @@ import "./SearchBar.css";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 
+/**
+ * `SearchBar` renders a form for entering a search term
+ * to search for posts and users matching the term.
+ * Dispatches an action for `getSearchResultsFromAPI` upon submission. 
+ */
 function SearchBar() {
   const [ formData, setFormData ] = useState({ searchTerm: "" });
   const history = useHistory();

@@ -6,6 +6,11 @@ import { CustomReduxState } from "../../custom";
 import { getSearchResultsFromAPI } from "../../redux/actionCreators";
 import UserList from "../../UserList";
 
+/**
+ * `SearchResults` renders the page for the search results from a searched term.
+ * Displays the `BlogList` and `UserList` and passes the postsResults and userResults to 
+ * the child components to show the Post and User objects.
+ */
 function SearchResults() {
   const postsResults = useSelector((st: CustomReduxState) => st.searchResults.posts);
   const usersResults = useSelector((st: CustomReduxState) => st.searchResults.users);
@@ -19,6 +24,9 @@ function SearchResults() {
   const searchTerm = params.get("term");
   
   useEffect(function handleSearch() {
+    // if the user alters the URL, the component will dispatch
+    // `getSearchResultsFromAPI` with the searchTerm retrieved
+    // from the URL query params.
     if (!isSearched) {
       if (searchTerm) {
         dispatch(getSearchResultsFromAPI(searchTerm));

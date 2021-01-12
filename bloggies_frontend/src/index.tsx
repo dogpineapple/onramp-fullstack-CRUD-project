@@ -12,10 +12,11 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
+
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ['user', 'favorites'] // user will be persisted, rest will not.
+  whitelist: ['user', 'favorites'] // user and favorites will be persisted, rest will not.
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

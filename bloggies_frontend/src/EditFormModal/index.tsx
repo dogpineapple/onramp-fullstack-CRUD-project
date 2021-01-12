@@ -9,6 +9,12 @@ interface IProp {
   editItem: Function
 }
 
+/**
+ * `EditFormModal` renders a `BlogForm` component for making an
+ * edit for a post.
+ * - passes a handler function to blogForm that invokes the `editItem` function
+ *    in the parent component. (which will do a PATCH request)
+ */
 function EditFormModal({ show, handleClose, item, editItem }: IProp) {
 
   const handleUpdate = (data: any) => {

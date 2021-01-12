@@ -6,6 +6,9 @@ interface IProp {
   loginUser: Function
 }
 
+/**
+ * `LoginForm` renders a form for logging in a user.
+ */
 function LoginForm({ loginUser }: IProp) {
 
   const INITIAL_FORM_VALUES = { username: "", password: "" };

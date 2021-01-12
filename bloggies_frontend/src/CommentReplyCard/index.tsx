@@ -8,9 +8,15 @@ interface IProp {
   commentId: number
 }
 
+/**
+ * `CommentReplyCard` renders an Accordion to display a list of replies
+ * to a comment.
+ * - A GET request is invoked when user clicks to toggle open the Accordian.
+ */
 function CommentReplyCard({ replyCount, commentId }: IProp) {
   const [replies, setReplies] = useState<Array<Comment>>([]);
 
+  // GET request for a comment's replies. 
   const getReplies = async () => {
     const res = await fetch(`${BASE_URL}/comments/${commentId}/replies`);
     const repliesData = await res.json();

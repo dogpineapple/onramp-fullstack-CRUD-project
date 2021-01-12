@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button, Container, Form } from "react-bootstrap";
+import { checkSignUpDataValid } from "../../helpers";
 import "./SignUpForm.css";
 
 interface IProp {
@@ -7,6 +8,9 @@ interface IProp {
   serverErr: string
 }
 
+/**
+ * `SignUpForm` renders a form for registering a new user.
+ */
 function SignUpForm({ signUp, serverErr }: IProp) {
   const INITIAL_FORM_VALUES = { username: "", password: "", repeatPassword: "", display_name: "" };
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
@@ -29,14 +33,21 @@ function SignUpForm({ signUp, serverErr }: IProp) {
     evt.preventDefault();
     const form = evt.currentTarget;
     const valid = form.checkValidity();
-    if (!valid || formData.password !== formData.repeatPassword) {
+    
+    // check length requirements are met.
+    const formDataValid = checkSignUpDataValid(formData.username,
+      formData.password,
+      formData.repeatPassword,
+      formData.display_name);
+
+    if (!valid || formDataValid) {
       evt.stopPropagation();
     } else {
       signUp(formData);
     }
     setValidated(true);
   }
-  
+
   return (
     <Container className="SignUp">
       <div className="SignUp-wrapper d-flex flex-column">

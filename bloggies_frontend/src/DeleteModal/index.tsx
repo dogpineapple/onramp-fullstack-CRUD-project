@@ -7,10 +7,13 @@ interface IProp {
   deletePost: Function
 }
 
+/**
+ * `DeleteModal` renders a confirmation modal that
+ * confirms whether a user means to make a deletion (for a post).
+ */
 function DeleteModal({ show, handleClose, deletePost }: IProp) {
 
   const handleDelete = (data: any) => {
-    console.log("deleting post");
     deletePost();
     handleClose();
   }

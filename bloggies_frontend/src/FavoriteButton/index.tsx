@@ -12,18 +12,29 @@ interface IProp {
   post: Post
 }
 
+/**
+ * `FavoriteButton` renders a Heart icon and displays the number of favorites for a post.
+ *  *Only logged in users may use the button*
+ * `FavoriteButton` handles the logic for dispatching `addFavoriteToAPI` and `deleteFavoriteFromAPI`
+ */
 function FavoriteButton({ post }: IProp) {
   const dispatch = useDispatch();
   const favorites = useSelector((st: CustomReduxState) => st.favorites);
   const [favorited, setFavorited] = useState<boolean>(false);
   const posts = useSelector((st: CustomReduxState) => st.posts);
 
+  // If the post is found in the redux store's `favorites` state, 
+  // set favorited to true.
   useEffect(function handleFavoriteStatus() {
     if (isFavorited(post.id, favorites)) {
       setFavorited(true);
     }
   }, []);
 
+  /**
+   * Dispatches action creators depending on `type` input.
+   * (Only allows logged in users to invoke dispatch)
+   */
   const handleFavorites = async (type: string) => {
     if (!localStorage.getItem("token")) {
       alert("Must be signed in to favorite.");
@@ -33,6 +44,9 @@ function FavoriteButton({ post }: IProp) {
         case "ADD":
           setFavorited(true);
           dispatch(addFavoriteToAPI(post));
+
+          // if the redux store's `posts` state is empty, 
+          //    the component need to manually update the favCount to display.
           if (posts.length === 0) {
             post.favorite_count = (currFavCount + 1).toString();
           }

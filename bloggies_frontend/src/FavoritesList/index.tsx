@@ -7,6 +7,10 @@ interface IProp {
   favorites: Array<Post>
 }
 
+/**
+ * `FavoritesList` renders `BlogCard`s for each favorited post.
+ * - If no favorited posts, it will render "Empty... for now!"
+ */
 function FavoritesList({ favorites }: IProp) {
   return (
     <Container className="FavoritesList">

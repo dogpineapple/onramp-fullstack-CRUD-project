@@ -10,6 +10,10 @@ interface IProp {
   user: User
 }
 
+/**
+ * `UserCard` renders a user object as a card.
+ * Can redirect to a user's profile through a NavLink.
+ */
 function UserCard({ user }: IProp) {
   return (
     <Card className="UserCard text-left">

@@ -12,6 +12,12 @@ interface LoginFormData {
   password: string
 }
 
+/**
+ * `Login` renders a page for the `LoginForm` and creates a 
+ * POST request to login a user on `LoginForm` submit. 
+ *  - Dispatches `gotUserInfo` and `getUserFavoritesFromAPI` to update redux store.
+ *  - Displays serverErr if any errors from logging in.
+ */
 function Login() {
   const [ serverErr, setServerErr ] = useState("");
   const dispatch = useDispatch();
@@ -33,7 +39,7 @@ function Login() {
       dispatch(gotUserInfo(loginRes.user));
       dispatch(getUserFavoritesFromAPI(loginRes.user.id));
       history.push("/");
-    } else if (res.status === 400) {
+    } else {
       setServerErr(loginRes.error.message);
     }
   }

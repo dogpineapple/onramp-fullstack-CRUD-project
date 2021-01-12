@@ -7,7 +7,11 @@ import BlogForm from "../../Forms/BlogForm";
 import { addPostToAPI } from "../../redux/actionCreators";
 import "./ComposePage.css";
 
-
+/**
+ * `ComposePage` renders a `BlogForm` and handles
+ * dispatch for the `addPostToAPI` action.
+ * Redirects user to `Homepage` after submitting a post.
+ */
 function ComposePage() {
   const history = useHistory();
   const dispatch = useDispatch();
