@@ -45,7 +45,7 @@ postsRouter.get("/search", async function (req: Request, res: Response, next: Ne
   }
 });
 
-/** GET /posts/:id - get a specific post by post id. 
+/** GET /posts/:postId - get a specific post by post id. 
  * Returns post */
 postsRouter.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -57,7 +57,7 @@ postsRouter.get("/:id", async function (req: Request, res: Response, next: NextF
   }
 });
 
-/** GET /posts/user/:id - get a user's posts by user id. 
+/** GET /posts/user/:userId - get a user's posts by user id. 
  * Returns posts */
 postsRouter.get("/user/:id", async function (req: Request, res: Response, next: NextFunction) {
   try {

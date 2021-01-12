@@ -11,8 +11,11 @@ export const usersRouter = express.Router();
 usersRouter.post("/register", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { username, password, display_name } = req.body;
-    const result = await User.register(username, password, display_name);
-    return res.status(201).json(result);
+    if (username && password && display_name) {
+      const result = await User.register(username, password, display_name);
+      return res.status(201).json(result);
+    }
+    throw new ExpressError("Invalid registration values. Check all fields.", 400);
   } catch (err) {
     return next(err);
   }
@@ -39,7 +42,7 @@ usersRouter.get("/search", async function (req: Request, res: Response, next: Ne
     if (term) {
       const users = await User.searchUsers(term.toString());
       return res.json({ users });
-    } 
+    }
     throw new ExpressError("Invalid search term", 400);
   } catch (err) {
     return next(err);

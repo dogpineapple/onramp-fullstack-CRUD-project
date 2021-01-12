@@ -10,17 +10,16 @@ export default class User {
   static async register(username: string, password: string, displayName: string) {
     const hashedPwd = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
     try {
-    const res = await db.query(
-      `INSERT INTO users (username, display_name, hashed_pwd) 
+      const res = await db.query(
+        `INSERT INTO users (username, display_name, hashed_pwd) 
           VALUES ($1, $2, $3)
           RETURNING id, username, display_name, join_date`,
-      [username, displayName, hashedPwd]);
+        [username, displayName, hashedPwd]);
       const user = res.rows[0];
       // Generate a jwt token with payload of `username` and `user_id`.
       let token = jwt.sign({ username: user.username, user_id: user.id }, SECRET_KEY);
-      return { user: user, token};
-    } catch (err) { 
-      console.log("err occurred at registration:", err);
+      return { user: user, token };
+    } catch (err) {
       throw new ExpressError("Username already exists", 400);
     }
   }
@@ -51,8 +50,8 @@ export default class User {
     const res = await db.query(
       `SELECT id, username, display_name, join_date
         FROM users 
-        WHERE id = $1`, 
-      [ userId ]);
+        WHERE id = $1`,
+      [userId]);
     return res.rows[0];
   }
 
@@ -60,8 +59,8 @@ export default class User {
     const res = await db.query(
       `SELECT id, username, display_name, join_date
         FROM users 
-        WHERE LOWER(display_name) LIKE LOWER('%' || $1 || '%')`, 
-      [ term ]);
+        WHERE LOWER(display_name) LIKE LOWER('%' || $1 || '%')`,
+      [term]);
     return res.rows;
   }
 }
