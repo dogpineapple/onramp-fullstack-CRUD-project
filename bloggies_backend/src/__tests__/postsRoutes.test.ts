@@ -6,6 +6,7 @@ import User from "../models/user";
 let token: string;
 let validUserId: number;
 let validPostId: number;
+let secondToken: string;
 
 describe("Test Post routes", function () {
   beforeAll(async function () {
@@ -13,6 +14,9 @@ describe("Test Post routes", function () {
     const userData = await User.register('GrahaTia', 'password', 'Crystal Exarch');
     token = userData.token;
     validUserId = userData.user.id;
+
+    const anotherUserData = await User.register('Gaia', 'password', 'ff14');
+    secondToken = anotherUserData.token;
   })
 
   beforeEach(async function () {
@@ -59,10 +63,6 @@ describe("Test Post routes", function () {
     expect(resp.body.posts[0].title).toBe("Strawberry Basil Soda");
   });
 
-  afterAll(async () => {
-    await db.end();
-  });
-
   /** GET /posts/:postId  => status 200, { post } */
   test("GET /posts/:postId - retrieve a specific post by post id", async function () {
     const resp = await request(app)
@@ -82,9 +82,31 @@ describe("Test Post routes", function () {
     expect(resp.status).toBe(200);
     expect(resp.body.last_updated_at).toBeDefined();
   });
-  
+
+  /** PATCH /posts/:postId  => status 401, { err } */
+  test("PATCH /posts/:postId - handle updates a post with no token", async function () {
+    const resp = await request(app)
+      .patch(`/posts/${validPostId}`)
+      .send({
+        title: "Blueberry Basil Soda"
+      });
+    expect(resp.status).toBe(401);
+  });
+
+  /** PATCH /posts/:postId  => status 401, { err } */
+  test("PATCH /posts/:postId - handle updates a post as not the post's author", async function () {
+    const resp = await request(app)
+      .patch(`/posts/${validPostId}`)
+      .send({
+        title: "Blueberry Basil Soda",
+        _token: secondToken
+      });
+    expect(resp.status).toBe(401);
+    expect(resp.body.error.message).toBe("Update failed: token does not belong to the post author.");
+  });
+
   /** DELETE /posts/:postId  => status 200, { message } */
-  test("DELETE /posts/:postId - updates an existing post by post id", async function () {
+  test("DELETE /posts/:postId - deletes an existing post by post id with valid token", async function () {
     const resp = await request(app)
       .delete(`/posts/${validPostId}`)
       .send({

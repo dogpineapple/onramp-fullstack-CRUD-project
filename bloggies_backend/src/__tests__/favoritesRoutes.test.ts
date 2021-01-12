@@ -37,7 +37,7 @@ describe("Test Post routes", function () {
                             RETURNING id`);
     validNotFavPostId = extraPostData.rows[0].id;
 
-    await db.query(`INSERT INTO favorites(post_id, user_id) VALUES (${validPostId}, ${validUserId})`)
+    await db.query(`INSERT INTO favorites(post_id, user_id) VALUES (${validPostId}, ${validUserId})`);
   });
 
   /** GET /favorites/:uid => status 200, { posts }.**/
@@ -49,14 +49,20 @@ describe("Test Post routes", function () {
 
   /** POST /favorites => status 201, { message }.**/
   test("POST /favorites - add a favorite post to a user", async function () {
-    const resp = await request(app).post(`/favorites`).send({ postId: validNotFavPostId, _token: token});
+    const resp = await request(app).post(`/favorites`).send({ postId: validNotFavPostId, _token: token });
     expect(resp.status).toBe(201);
     expect(resp.body.message).toBe("Favorited successfully.");
   });
 
+  /** POST /favorites => status 401, { message }.**/
+  test("POST /favorites - add a favorite post to a user", async function () {
+    const resp = await request(app).post(`/favorites`).send({ postId: validNotFavPostId });
+    expect(resp.status).toBe(401);
+  });
+
   /** DELETE /favorites => status 200, { posts }.**/
   test("DELETE /favorites - remove a favorite post from a user", async function () {
-    const resp = await request(app).delete(`/favorites`).send({ postId: validPostId, _token: token});
+    const resp = await request(app).delete(`/favorites`).send({ postId: validPostId, _token: token });
     expect(resp.status).toBe(200);
     expect(resp.body.message).toBe("Unfavorited successfully.");
   });

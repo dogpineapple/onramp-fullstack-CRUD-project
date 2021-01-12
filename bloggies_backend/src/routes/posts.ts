@@ -83,7 +83,7 @@ postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Res
       return res.json(lastUpdatedDate);
     }
 
-    return res.status(401);
+    throw new ExpressError("Update failed: token does not belong to the post author." , 401);
   } catch (err) {
     return next(err)
   }
