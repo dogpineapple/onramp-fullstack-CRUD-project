@@ -3,22 +3,22 @@ import { Redirect, Route, Switch } from "react-router";
 import Login from "../RoutedPages/Login";
 import Homepage from "../RoutedPages/Homepage";
 import Register from "../RoutedPages/Register";
-import "./PublicRoutes.css";
+import "./Routes.css";
 import PostDetails from "../RoutedPages/PostDetails";
 import UserProfile from "../RoutedPages/UserProfile";
 import ComposePage from "../RoutedPages/ComposePage";
 import SearchResults from "../RoutedPages/SearchResults";
 
-function PublicRoutes() {
+function Routes() {
   return (
     <Switch>
       <Route exact path="/users/:userId/:displayName/favorites">
-        <div className="PublicRoutes-thin-container">
+        <div className="Routes-thin-container">
           <UserProfile />
         </div>
       </Route>
       <Route exact path="/blogs/:postId/:postTitle">
-        <div className="PublicRoutes-thin-container">
+        <div className="Routes-thin-container">
           <PostDetails />
         </div>
       </Route>
@@ -26,7 +26,7 @@ function PublicRoutes() {
         <SearchResults />
       </Route>
       <Route exact path="/blogs/create">
-        <div className="PublicRoutes-thin-container">
+        <div className="Routes-thin-container">
           <ComposePage />
         </div>
       </Route>
@@ -37,7 +37,7 @@ function PublicRoutes() {
         <Register />
       </Route>
       <Route exact path="/">
-        <div className="PublicRoutes-thin-container">
+        <div className="Routes-thin-container">
           <Homepage />
         </div>
       </Route>
@@ -46,4 +46,4 @@ function PublicRoutes() {
   )
 }
 
-export default PublicRoutes;
+export default Routes;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 import './animations.css';
 import { BrowserRouter } from 'react-router-dom';
-import PublicRoutes from './Routes';
+import Routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { getUserFavoritesFromAPI, getUserInfoFromAPI } from './redux/actionCreators';
@@ -28,7 +28,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <NavBar />
-        <PublicRoutes />
+        <Routes />
       </BrowserRouter>
     </div >
   );

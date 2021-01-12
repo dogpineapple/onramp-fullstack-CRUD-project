@@ -9,11 +9,11 @@ interface IProp {
 }
 
 /**
- * `CommentReplyCard` renders an Accordion to display a list of replies
+ * `CommentReplyAccord` renders an Accordion to display a list of replies
  * to a comment.
  * - A GET request is invoked when user clicks to toggle open the Accordian.
  */
-function CommentReplyCard({ replyCount, commentId }: IProp) {
+function CommentReplyAccord({ replyCount, commentId }: IProp) {
   const [replies, setReplies] = useState<Array<Comment>>([]);
 
   // GET request for a comment's replies. 
@@ -24,7 +24,7 @@ function CommentReplyCard({ replyCount, commentId }: IProp) {
   }
 
   return (
-    <div className="CommentReplyCard mt-3">
+    <div className="CommentReplyAccord mt-3">
       <Accordion defaultActiveKey="0">
         <Card>
           <Card.Header>
@@ -49,4 +49,4 @@ function CommentReplyCard({ replyCount, commentId }: IProp) {
   );
 };
 
-export default CommentReplyCard;
+export default CommentReplyAccord;
