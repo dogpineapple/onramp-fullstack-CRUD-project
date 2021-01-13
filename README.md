@@ -99,10 +99,10 @@ Bloggies' database is composed of five tables:
 						- For authentication, a user must have a `username` and password (that is saved as a `hashed_pwd`) to login.
 						- The `display_name` is used as the user's display name when using Bloggies' functionalities.
 						- The `join_date` is used in when searching for a specific user in the search function and is displayed when a user appears as a search result.
->**users relationships to other tables:**
-`users` *one-to-many* && *many-to-many* `posts`
-`users` *one-to-many* `favorites`
-`users` *one-to-many* `comments`
+	>**users relationships to other tables:**
+	`users` *one-to-many* && *many-to-many* `posts`,
+	`users` *one-to-many* `favorites`,
+	`users` *one-to-many* `comments`
 				
 2. **posts** - The `posts` table keeps a blog post's data.
 					- `title` is a required column in order to create a post. 
@@ -111,8 +111,8 @@ Bloggies' database is composed of five tables:
 					- An `author_id` is required to create a post because only registered users may 	create posts.
 					- `created_at` and `last_updated_at` are timestamps to show users how old a post is and when the post was last updated. This will also allow users to sort the posts by most recents.
 	>**posts relationships to other tables:**
-	`posts` *one-to-many* `favorites`
-	`posts` *one-to-many* `comments`
+	`posts` *one-to-many* `favorites`,
+	`posts` *one-to-many* `comments`,
 	`posts` *many-to-one* && *many-to-many* `users`
 				
 3. **favorites** - The `favorites` table is a **join** table between the `users` and `posts` for a user favoriting a post. (ex. *a user may have many favorited posts and a post may have many favorites by users.*) 
@@ -124,10 +124,10 @@ Bloggies' database is composed of five tables:
 							- `body` is a required column and is the comment's text/main content.
 							- `created_at` is a timestamp that shows users when a comment was made.
 							- `is_reply` is a boolean that denotes whether a comment was made as a comment to a post or a comment to another comment (a **reply**)
->**comments relationships to other tables:**
-`comments` *many-to-one* `users`
-`comments` *many-to-one* `posts`
- `comments` *one-to-many* `replies`
+	>**comments relationships to other tables:**
+	`comments` *many-to-one* `users`,
+	`comments` *many-to-one* `posts`,
+	`comments` *one-to-many* `replies`
 5. **replies**- The `replies` table stores two foreign keys related to the `comments`'s `id` column. 
 					- `comment_id` is the `id` of the **reply comment**
 					- `reply_to_comment_id` is the `id` of the comment the `replies.comment_id` is meant to be a reply for. `reply_to_comment_id` is an `id` from the `comments` table.
