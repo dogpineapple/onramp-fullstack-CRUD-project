@@ -30,7 +30,7 @@ function LoginForm({ loginUser }: IProp) {
         <p className="LoginForm-title text-left">Welcome back!</p>
         <Form className="LoginForm-form" onSubmit={handleSubmit}>
           <Form.Control className="form-input" name="username" value={formData.username} placeholder="Username" onChange={handleChange} required></Form.Control >
-          <Form.Control className="form-input" name="password" value={formData.password} placeholder="Password" onChange={handleChange} required></Form.Control >
+          <Form.Control type="password" className="form-input" name="password" value={formData.password} placeholder="Password" onChange={handleChange} required></Form.Control >
           <Button className="form-button" type="submit">Login</Button>
         </Form>
       </div>

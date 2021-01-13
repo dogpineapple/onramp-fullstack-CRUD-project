@@ -1,11 +1,12 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
+import { Post, PostFormData } from "../custom";
 import BlogForm from "../Forms/BlogForm";
 
 interface IProp {
   show: boolean,
   handleClose: Function,
-  item: any,
+  item: Post | undefined,
   editItem: Function
 }
 
@@ -17,7 +18,7 @@ interface IProp {
  */
 function EditFormModal({ show, handleClose, item, editItem }: IProp) {
 
-  const handleUpdate = (data: any) => {
+  const handleUpdate = (data: PostFormData) => {
     editItem(data);
   }
 

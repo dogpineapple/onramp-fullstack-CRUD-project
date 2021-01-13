@@ -39,8 +39,8 @@ function SignUpForm({ signUp, serverErr }: IProp) {
       formData.password,
       formData.repeatPassword,
       formData.display_name);
-
-    if (!valid || formDataValid) {
+      
+    if (!valid || !formDataValid) {
       evt.stopPropagation();
     } else {
       signUp(formData);
@@ -62,12 +62,12 @@ function SignUpForm({ signUp, serverErr }: IProp) {
           </Form.Group>
           <Form.Group controlId="validationCustom02">
             <Form.Label>Password</Form.Label>
-            <Form.Control name="password" value={formData.password} placeholder="Password" onChange={handleChange} required></Form.Control >
+            <Form.Control type="password" name="password" value={formData.password} placeholder="Password" onChange={handleChange} required></Form.Control >
             <Form.Text className="text-muted">Must contain at least 6 characters.</Form.Text>
           </Form.Group>
           <Form.Group controlId="validationCustom03">
             <Form.Label>Re-type password</Form.Label>
-            <Form.Control name="repeatPassword" value={formData.repeatPassword} placeholder="Re-type password" onChange={handleChange} isInvalid={!isPwdMatch} required></Form.Control >
+            <Form.Control type="password" name="repeatPassword" value={formData.repeatPassword} placeholder="Re-type password" onChange={handleChange} isInvalid={!isPwdMatch} required></Form.Control >
             <Form.Text className="text-muted">It should match the password above.</Form.Text>
           </Form.Group>
           <Form.Group controlId="validationCustom04">

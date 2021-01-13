@@ -44,7 +44,6 @@ function FavoriteButton({ post }: IProp) {
         case "ADD":
           setFavorited(true);
           dispatch(addFavoriteToAPI(post));
-
           // if the redux store's `posts` state is empty, 
           //    the component need to manually update the favCount to display.
           if (posts.length === 0) {

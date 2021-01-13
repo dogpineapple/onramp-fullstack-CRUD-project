@@ -6,7 +6,7 @@ import { Post } from "./custom";
 */
 export function isFavorited(postId: number, favorites: Array<Post>) {
   let favorited = false;
-  favorites.forEach((fav: any) => {
+  favorites.forEach((fav: Post) => {
     if (fav.id === postId) {
       favorited = true;
     }

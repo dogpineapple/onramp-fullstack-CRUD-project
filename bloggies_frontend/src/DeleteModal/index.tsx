@@ -13,7 +13,7 @@ interface IProp {
  */
 function DeleteModal({ show, handleClose, deletePost }: IProp) {
 
-  const handleDelete = (data: any) => {
+  const handleDelete = () => {
     deletePost();
     handleClose();
   }

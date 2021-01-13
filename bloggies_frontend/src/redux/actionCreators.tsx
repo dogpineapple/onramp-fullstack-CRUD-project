@@ -131,7 +131,7 @@ export function addFavoriteToAPI(post: Post) {
         "Content-type": "application/json"
       }
     });
-    if (res.status === 200) {
+    if (res.status === 201) {
       dispatch(addFavorite(post));
     }
   }
@@ -193,6 +193,6 @@ export function logoutUser() {
 }
 
 /**Returns an action object for type LOAD_USER*/
-export function gotUserInfo(user: any) {
+export function gotUserInfo(user: User) {
   return { type: LOAD_USER, payload: { user } };
 }
