@@ -46,7 +46,10 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       let filteredPosts = state.posts.filter((p: Post) => {
         return p.id !== action.payload.postId;
       });
-      return { ...state, posts: filteredPosts };
+      let newFavorites = state.favorites.filter((f: Post) => {
+        return f.id !== action.payload.postId;
+      });
+      return { ...state, posts: filteredPosts, favorites: newFavorites };
     case ADD_POST:
       const newPost = action.payload.post;
       // add in the current user's information 

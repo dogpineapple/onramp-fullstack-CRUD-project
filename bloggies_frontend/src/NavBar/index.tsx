@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Fragment } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { CustomReduxState } from "../custom";
 import { changeToURLFriendly } from "../helpers";
 import { logoutUser } from "../redux/actionCreators";
@@ -23,11 +23,13 @@ function NavBar() {
   const dispatch = useDispatch();
   const user = useSelector((st: CustomReduxState) => st.user);
   const urlDisplayName = changeToURLFriendly(user.display_name || "");
+  const history = useHistory();
 
   // To logout a user, call the logoutUser() action and clear localStorage to remove token.
   const handleLogout = () => {
     localStorage.clear();
     dispatch(logoutUser());
+    history.push("/");
   }
 
   return (
