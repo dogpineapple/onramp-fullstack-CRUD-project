@@ -60,7 +60,7 @@ export default class Post {
         FROM posts AS p
         JOIN users AS u
           ON p.author_id = u.id
-        JOIN favorites AS f
+        LEFT OUTER JOIN favorites AS f
           ON f.post_id = p.id
         GROUP BY f.post_id, p.id, p.title, p.description, u.display_name, p.body, p.author_id, p.created_at, p.last_updated_at
           HAVING p.author_id = $1`,
