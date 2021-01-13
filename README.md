@@ -4,13 +4,13 @@ Bloggies is a blog post web application developed primarily in TypeScript; Expre
 
 # Functionalities
 As a users, they can 
-	-  read posts
-	- search for blog posts and users based on the post **author name** and the **post's title and description**.
-	- sort the Homepage's blog lists by **most recent (default)**, **most favorited**, and **least favorited**.
-	-  view user profiles
-	- create an account
-	- login an account
-	- logout an account. 
+-  read posts
+- search for blog posts and users based on the post **author name** and the **post's title and description**.
+- sort the Homepage's blog lists by **most recent (default)**, **most favorited**, and **least favorited**.
+-  view user profiles
+- create an account
+- login an account
+- logout an account. 
 	
 As a **registered** user, they can
 - create a post
