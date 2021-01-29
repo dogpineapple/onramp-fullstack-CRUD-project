@@ -23,13 +23,22 @@ function FavoriteButton({ post }: IProp) {
   const [favorited, setFavorited] = useState<boolean>(false);
   const posts = useSelector((st: CustomReduxState) => st.posts);
 
+  //**FIXED**: Fix issue where the setFavorited doesn't change when a user clicks "unfavorite"
+  // on the same post, but different card. 
+  // ex. User clicks the FavoriteButton to unfavorite their published post: `post id 1` from the `Favorites List`.
+  // The `post id 1` card in their published post list is still solid.
+
   // If the post is found in the redux store's `favorites` state, 
   // set favorited to true.
   useEffect(function handleFavoriteStatus() {
     if (isFavorited(post.id, favorites)) {
       setFavorited(true);
+    } else {
+      // POST-SUBMISSION UPDATE: Add an else statement to setFavorited to false.
+      setFavorited(false);
     }
-  }, []);
+    // POST-SUBMISSION UPDATE: Add `favorites` to the dependency array to rerender when favorites changes.
+  }, [favorites]);
 
   /**
    * Dispatches action creators depending on `type` input.

@@ -2,6 +2,9 @@
 
 Bloggies is a blog post web application developed primarily in TypeScript; Express.js and React.js.
 
+>This project is hosted live on https://bloggies.diana-liang.com/
+>(with Netlify and Heroku)
+
 # Functionalities
 As a users, they can 
 -  read posts

@@ -16,8 +16,7 @@ function SearchBar() {
   const [ formData, setFormData ] = useState({ searchTerm: "" });
   const history = useHistory();
   const dispatch = useDispatch();
-  // TODO: implement search logic 
-  // need to be able to search blog posts based on title, author..
+
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(getSearchResultsFromAPI(formData.searchTerm));
