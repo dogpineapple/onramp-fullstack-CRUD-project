@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../config';
@@ -46,10 +46,11 @@ function Register() {
     }; 
   }
 
+  // POST-SUBMIT CSS FIX: Replace the `row` under Container to be a regular div. (Caused 15px spacing on side)
   return (
     <div className="Register">
       <Container fluid className="Register-hero-container">
-        <Row className="d-flex justify-content-around align-items-center">
+        <div className="d-flex justify-content-around align-items-center">
           <Col sm={12} md={5} className="Register-hero-text">
             <div className="Register-hero-title fade-in-left">
               <p>hosting blog posts since 2021</p>
@@ -67,7 +68,7 @@ function Register() {
             <h1>Ready to join Bloggies?</h1>
             <SignUpForm signUp={signUp} serverErr={serverErr}/>
           </Col>
-        </Row>
+        </div>
       </Container>
 
     </div>

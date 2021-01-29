@@ -23,7 +23,11 @@ function Homepage() {
     } else {
       setPosts(postsList);
     }
-  }, [postsList]);
+    /*POST-SUBMIT BUG FIXED: Changing the favorites count on a post will reset the order to "most recent" 
+        WHY: because the dependency array had postsList, which causes `setPosts(postsList)` to run, resetting the order
+              to "most recent". 
+        FIX: Pass the current sort `sortType` to the sortSelection, which will re-sort when posts changes. */
+  }, []);
 
   // invoked in `SortSelection` component when a user chooses a sort type in the dropdown.
   const handlePostSort = (sortedPosts: Array<Post>, newSortType: string) => {
@@ -37,10 +41,10 @@ function Homepage() {
         <Row className="mt-4">
           <Col md={12} className="d-flex align-items-center justify-content-between">
             <h1 className="text-left">Bloggies newsfeed</h1>
-            <SortSelection handlePostSort={handlePostSort} posts={postsList} />
+            <SortSelection handlePostSort={handlePostSort} posts={postsList} currentSort={sortType}/>
           </Col>
         </Row>
-        <BlogList key={sortType} posts={posts} />
+        <BlogList key={sortType} posts={posts}/>
       </Container>
     </div>
   );
