@@ -20,7 +20,8 @@ export function isFavorited(postId: number, favorites: Array<Post>) {
  */
 export function changeToURLFriendly(str: string) {
   if (str) {
-    return str.replaceAll(" ", "-").toLowerCase();
+    // POST-SUBMISSION UPDATE: replace .replaceAll with .replace to allow more browser capability.
+    return str.replace(/ /g, "-").toLowerCase();
   } 
   return 'no-displayname';
 }

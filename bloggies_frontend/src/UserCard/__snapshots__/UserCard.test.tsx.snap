@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserCard should show user information 1`] = `
+"<Card className=\\"UserCard text-left\\" body={false}>
+  <CardBody>
+    <CardText className=\\"BlogCard-body\\">
+      <NavLink to=\\"/users/1/test-username/favorites\\">
+        Test Username
+      </NavLink>
+    </CardText>
+    <CardSubtitle>
+      Joined 
+      a year ago
+    </CardSubtitle>
+  </CardBody>
+</Card>"
+`;
