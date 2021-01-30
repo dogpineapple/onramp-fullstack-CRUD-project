@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Post } from "../custom";
 
 interface IProp {
   posts: Array<Post>,
-  handlePostSort: Function
+  handlePostSort: Function,
+  currentSort: string
 }
 
 /**
  * `SortSelection` renders a dropdown that enables a user to sort
  * posts by "most recent", "most favorited", and "least favorited".
  */
-function SortSelection({ posts, handlePostSort }: IProp) {
+function SortSelection({ posts, handlePostSort, currentSort }: IProp) {
   const DEFAULT_SORT_SELECT = "most recent";
   const [ sortType, setSortType ] = useState<string>(DEFAULT_SORT_SELECT);
+
+  // useEffect for ensuring the current sort type will be the recently selected sort type
+  // - ensures it stays the same sort type when a user causes a re-render of Homepage 
+  //   (caused by the change in global state of posts from favoriting/unfavoriting)
+  useEffect(() => {
+    handleSelection(currentSort);
+  }, [posts]);
 
   const handleSelection = (eventKey: string | null) => {
     let sortedPosts;

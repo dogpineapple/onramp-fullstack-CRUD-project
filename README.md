@@ -2,22 +2,25 @@
 
 Bloggies is a blog post web application developed primarily in TypeScript; Express.js and React.js.
 
+>This project is hosted live on https://bloggies.diana-liang.com/
+>(with Netlify and Heroku)
+
 # Functionalities
 As a users, they can 
-	-  read posts
-	- search for blog posts and users based on the post **author name** and the **post's title and description**.
-	- sort the Homepage's blog lists by **most recent (default)**, **most favorited**, and **least favorited**.
-	-  view user profiles
-	- create an account
-	- login an account
-	- logout an account. 
+-  read posts
+- search for blog posts and users based on the post **author name** and the **post's title and description**.
+- sort the Homepage's blog lists by **most recent (default)**, **most favorited**, and **least favorited**.
+-  view user profiles
+- create an account
+- login an account
+- logout an account. 
 	
 As a **registered** user, they can
-	- create a post
-	- edit/delete their posts
-	- favorite posts
-	- write comments
-	- reply to comments.
+- create a post
+- edit/delete their posts
+- favorite posts
+- write comments
+- reply to comments.
 
 # Technologies
 bloggies_frontend
@@ -99,10 +102,10 @@ Bloggies' database is composed of five tables:
 						- For authentication, a user must have a `username` and password (that is saved as a `hashed_pwd`) to login.
 						- The `display_name` is used as the user's display name when using Bloggies' functionalities.
 						- The `join_date` is used in when searching for a specific user in the search function and is displayed when a user appears as a search result.
->**users relationships to other tables:**
-`users` *one-to-many* && *many-to-many* `posts`
-`users` *one-to-many* `favorites`
-`users` *one-to-many* `comments`
+	>**users relationships to other tables:**
+	- `users` *one-to-many* && *many-to-many* `posts`,
+	- `users` *one-to-many* `favorites`,
+	- `users` *one-to-many* `comments`
 				
 2. **posts** - The `posts` table keeps a blog post's data.
 					- `title` is a required column in order to create a post. 
@@ -111,9 +114,9 @@ Bloggies' database is composed of five tables:
 					- An `author_id` is required to create a post because only registered users may 	create posts.
 					- `created_at` and `last_updated_at` are timestamps to show users how old a post is and when the post was last updated. This will also allow users to sort the posts by most recents.
 	>**posts relationships to other tables:**
-	`posts` *one-to-many* `favorites`
-	`posts` *one-to-many* `comments`
-	`posts` *many-to-one* && *many-to-many* `users`
+	- `posts` *one-to-many* `favorites`,
+	- `posts` *one-to-many* `comments`,
+	- `posts` *many-to-one* && *many-to-many* `users`
 				
 3. **favorites** - The `favorites` table is a **join** table between the `users` and `posts` for a user favoriting a post. (ex. *a user may have many favorited posts and a post may have many favorites by users.*) 
 				- A unique pair of `post_id` and `user_id` is kept in this table to ensure that a user may only like a specific post once at a time. 
@@ -124,19 +127,21 @@ Bloggies' database is composed of five tables:
 							- `body` is a required column and is the comment's text/main content.
 							- `created_at` is a timestamp that shows users when a comment was made.
 							- `is_reply` is a boolean that denotes whether a comment was made as a comment to a post or a comment to another comment (a **reply**)
->**comments relationships to other tables:**
-`comments` *many-to-one* `users`
-`comments` *many-to-one* `posts`
- `comments` *one-to-many* `replies`
+	>**comments relationships to other tables:**
+	- `comments` *many-to-one* `users`,
+	- `comments` *many-to-one* `posts`,
+	- `comments` *one-to-many* `replies`
 5. **replies**- The `replies` table stores two foreign keys related to the `comments`'s `id` column. 
 					- `comment_id` is the `id` of the **reply comment**
 					- `reply_to_comment_id` is the `id` of the comment the `replies.comment_id` is meant to be a reply for. `reply_to_comment_id` is an `id` from the `comments` table.
-					**replies relationships to other tables:**
-					- `replies` *one-to-many* `comments`
+	>**replies relationships to other tables:**
+	- `replies` *one-to-many* `comments`
+
 **NOTE: A reply cannot be made to a reply comment. Not just yet... :D**
 
 ## React Components
 ![bloggies_react_components_diagram](https://i.imgur.com/WbrFQKk.png)
+
 In Bloggies, the diagram above illustrates the components used to develop the frontend UIs.
 -
 Aside from the components, the following files are also included:
@@ -166,7 +171,7 @@ Unittests were written for the backend **models** and **routes**. Tests were don
 1. **Add code comments**
 		Throughout this application, there has been many complexities built up over the course of development and with complexities, there must be code comments added in order to ease readability for other developers to understand the code at a glance. Every frontend functional components were given an overall description at the top of the functions, as well as helper functions. 
 		VSCode allows hovering over a function to view their descriptions in a tooltip, which is extra nice and convenient for understanding imported functions within a file!
-2. **Code reusability **
+2. **Code reusability**
 	Within the frontend, components are seperated by UI- with some pieces bigger than others. To decide what components should be made, each component is planned for **reusability** throughout the frontend application. For example, the `BlogList` component is reused by `Homepage` (to show all blog posts), `UserProfile` (to show a user's blog post publications), and `SearchResults` (to show blog posts matching a search term). `BlogForm` is not only used for **creating a new blog post**, but also to make an **edit of an existing blog post**. `CommentCard` is another component that is reused to display comment replies to a comment. 
 3. **Code  modulation**
 	Bloggies' frontend and backend code has been written based on making modular code. To allow for better backend **unittesting**, database CRUD operations are seperated by the `model`/table it operates upon and seperated further by small class methods. An example of this is seen when creating a `comment` (to a post) and then a `reply comment` (to a comment). Both are creating comments in the `comments table`, but creating a `reply comment` requires an extra step to add a record in the `replies table`. In this case, there are two class methods within the `models/comments.ts`: `.createComment` and `.createReply`. 
@@ -201,7 +206,7 @@ SIGN UP SUCCESS, REDIRECT TO HOMEPAGE
 ![bloggies_redirect](https://i.imgur.com/YU1YNjH.png)
 
 The user likes the **Strawberry Basil Soda ** post and successfully favorites the post.
-Now the user will click on the **Strawberry Basil Soda **'s card to look at what the post is all about!
+Now the user will click on the **Strawberry Basil Soda**'s card to look at what the post is all about!
 
 POST DETAILS PAGE
 ![bloggies_post_details](https://i.imgur.com/yOT6vLd.png)
@@ -221,8 +226,9 @@ The user clicks "Publish post" and is redirected to the homepage showing the lis
 ![bloggies_show_new_post](https://i.imgur.com/ZdPPfBt.png)
 The user's newly posted blog post is up and showing on the homepage! By default, the homepage shows the list of blogs by most recent. To make an update or delete their post, the user must go to the post's detail page.
 ![bloggies_update](https://i.imgur.com/0qU3t8L.png)
-The user clicks on the teal colored button "Edit" to update a post or the red colored button "Delete" to delete the post. When making an edit, a modal pops up and displays a Blog Form that you see when creating a new blog post. Except, this form is passed a post object to allow the user to make edits to their existing post. 
-*NOTE: Updates and deletes can only happen for posts that the current user owns/published! *
+The user clicks on the teal colored button "Edit" to update a post or the red colored button "Delete" to delete the post. When making an edit, a modal pops up and displays a Blog Form that you see when creating a new blog post. Except, this form is passed a post object to allow the user to make edits to their existing post.
+
+*NOTE: Updates and deletes can only happen for posts that the current user owns/published *
 > Components shown:
 > EditFormModal, BlogForm
 

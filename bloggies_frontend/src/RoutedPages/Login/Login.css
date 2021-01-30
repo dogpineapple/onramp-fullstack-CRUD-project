@@ -1,6 +1,7 @@
 .Login {
   background-color: rgb(46, 45, 49);
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
 }
 
 .Login-not-user {
