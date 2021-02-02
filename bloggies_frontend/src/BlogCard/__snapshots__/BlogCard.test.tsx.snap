@@ -1,0 +1,260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar should match snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <BlogCard
+      post={
+        Object {
+          "author_id": 1,
+          "author_name": "test user",
+          "body": "test body",
+          "created_at": "1/1/2020",
+          "description": "test description",
+          "favorite_count": "5",
+          "id": 123,
+          "last_updated_at": "1/1/2020",
+          "title": "test title",
+        }
+      }
+    >
+      <Card
+        body={false}
+        className="BlogCard text-left"
+      >
+        <div
+          className="BlogCard text-left card"
+        >
+          <CardBody>
+            <div
+              className="card-body"
+            >
+              <NavLink
+                to="/blogs/123/test-title"
+              >
+                <Link
+                  aria-current={null}
+                  to={
+                    Object {
+                      "hash": "",
+                      "pathname": "/blogs/123/test-title",
+                      "search": "",
+                      "state": null,
+                    }
+                  }
+                >
+                  <LinkAnchor
+                    aria-current={null}
+                    href="/blogs/123/test-title"
+                    navigate={[Function]}
+                  >
+                    <a
+                      aria-current={null}
+                      href="/blogs/123/test-title"
+                      onClick={[Function]}
+                    >
+                      <CardTitle>
+                        <ForwardRef
+                          className="card-title"
+                        >
+                          <div
+                            className="card-title h5"
+                          >
+                            test title
+                          </div>
+                        </ForwardRef>
+                      </CardTitle>
+                      <CardSubtitle>
+                        <ForwardRef
+                          className="card-subtitle"
+                        >
+                          <div
+                            className="card-subtitle h6"
+                          >
+                            test description
+                          </div>
+                        </ForwardRef>
+                      </CardSubtitle>
+                      <CardText
+                        className="BlogCard-body"
+                      >
+                        <p
+                          className="BlogCard-body card-text"
+                        >
+                          test body
+                        </p>
+                      </CardText>
+                    </a>
+                  </LinkAnchor>
+                </Link>
+              </NavLink>
+              <Container
+                fluid={true}
+              >
+                <div
+                  className="container-fluid"
+                >
+                  <Row
+                    className="d-flex align-items-baseline justify-content-between"
+                    noGutters={false}
+                  >
+                    <div
+                      className="d-flex align-items-baseline justify-content-between row"
+                    >
+                      <CardSubtitle
+                        className="BlogCard-author-date"
+                      >
+                        <ForwardRef
+                          className="BlogCard-author-date card-subtitle"
+                        >
+                          <div
+                            className="BlogCard-author-date card-subtitle h6"
+                          >
+                            Posted by 
+                            <NavLink
+                              to="/users/1/test-user/favorites"
+                            >
+                              <Link
+                                aria-current={null}
+                                to={
+                                  Object {
+                                    "hash": "",
+                                    "pathname": "/users/1/test-user/favorites",
+                                    "search": "",
+                                    "state": null,
+                                  }
+                                }
+                              >
+                                <LinkAnchor
+                                  aria-current={null}
+                                  href="/users/1/test-user/favorites"
+                                  navigate={[Function]}
+                                >
+                                  <a
+                                    aria-current={null}
+                                    href="/users/1/test-user/favorites"
+                                    onClick={[Function]}
+                                  >
+                                    test user
+                                  </a>
+                                </LinkAnchor>
+                              </Link>
+                            </NavLink>
+                             
+                            <span
+                              className="text-muted"
+                            >
+                               
+                              a year ago
+                            </span>
+                             
+                          </div>
+                        </ForwardRef>
+                      </CardSubtitle>
+                      <FavoriteButton
+                        post={
+                          Object {
+                            "author_id": 1,
+                            "author_name": "test user",
+                            "body": "test body",
+                            "created_at": "1/1/2020",
+                            "description": "test description",
+                            "favorite_count": "5",
+                            "id": 123,
+                            "last_updated_at": "1/1/2020",
+                            "title": "test title",
+                          }
+                        }
+                      >
+                        <div
+                          className="FavoriteButton d-flex align-items-center"
+                        >
+                          <FontAwesomeIcon
+                            border={false}
+                            className="FavoriteButton-btn"
+                            fixedWidth={false}
+                            flip={null}
+                            icon={
+                              Object {
+                                "icon": Array [
+                                  512,
+                                  512,
+                                  Array [],
+                                  "f004",
+                                  "M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z",
+                                ],
+                                "iconName": "heart",
+                                "prefix": "far",
+                              }
+                            }
+                            inverse={false}
+                            listItem={false}
+                            mask={null}
+                            onClick={[Function]}
+                            pull={null}
+                            pulse={false}
+                            rotation={null}
+                            size="1x"
+                            spin={false}
+                            swapOpacity={false}
+                            symbol={false}
+                            title=""
+                            transform={null}
+                          >
+                            <svg
+                              aria-hidden="true"
+                              className="svg-inline--fa fa-heart fa-w-16 fa-1x FavoriteButton-btn"
+                              data-icon="heart"
+                              data-prefix="far"
+                              focusable="false"
+                              onClick={[Function]}
+                              role="img"
+                              style={Object {}}
+                              viewBox="0 0 512 512"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
+                                fill="currentColor"
+                                style={Object {}}
+                              />
+                            </svg>
+                          </FontAwesomeIcon>
+                          <span>
+                            5
+                          </span>
+                        </div>
+                      </FavoriteButton>
+                    </div>
+                  </Row>
+                </div>
+              </Container>
+            </div>
+          </CardBody>
+        </div>
+      </Card>
+    </BlogCard>
+  </Router>
+</BrowserRouter>
+`;

@@ -27,6 +27,18 @@ export function changeToURLFriendly(str: string) {
 }
 
 /**
+ * Returns a new string. 
+ * Replaces all "-" for " ".
+ */
+export function removeStrDashes(str: string) {
+  if (str) {
+    // POST-SUBMISSION UPDATE: replace .replaceAll with .replace to allow more browser capability.
+    return str.replace(/-/g, " ");
+  } 
+  return 'no displayname';
+}
+
+/**
  * Returns boolean. 
  * Checks whether the data meets the basic length requirements.
  */
