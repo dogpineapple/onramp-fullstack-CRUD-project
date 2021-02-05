@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchBar should match snapshot 1`] = `
+exports[`BlogCard should match snapshot 1`] = `
 <BrowserRouter>
   <Router
     history={

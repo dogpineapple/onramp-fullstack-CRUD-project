@@ -12,7 +12,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const mockStore = configureStore();
 
-describe('SearchBar', () => {
+describe('BlogCard', () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
@@ -33,7 +33,6 @@ describe('SearchBar', () => {
 
   it('should display correct post text', () => {
     const bodyTextTag = wrapper.find(".BlogCard-body > p");
-
     expect(bodyTextTag.text()).toBe(MOCK_POST.body);
   });
 });

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommentCard should match snapshot 1`] = `
+<div
+  className="CommentCard text-left"
+>
+  <Card
+    body={false}
+  >
+    <div
+      className="card"
+    >
+      <CardBody>
+        <div
+          className="card-body"
+        >
+          <CardText>
+            <p
+              className="card-text"
+            >
+              test comment
+            </p>
+          </CardText>
+          <CardText
+            className="text-muted d-flex justify-content-between"
+          >
+            <p
+              className="text-muted d-flex justify-content-between card-text"
+            >
+              <span>
+                <span
+                  className="App-author"
+                >
+                  test user
+                </span>
+                 commented 
+                a month ago
+              </span>
+              <Button
+                active={false}
+                disabled={false}
+                onClick={[Function]}
+                variant="primary"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Reply
+                </button>
+              </Button>
+            </p>
+          </CardText>
+        </div>
+      </CardBody>
+    </div>
+  </Card>
+</div>
+`;
