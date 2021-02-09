@@ -6,6 +6,7 @@ import BlogList from "../../BlogList";
 import { BASE_URL } from "../../config";
 import { CustomReduxState, Post } from "../../custom";
 import FavoritesList from "../../FavoritesList";
+import { removeStrDashes } from "../../helpers";
 import "./UserProfile.css";
 
 /**
@@ -57,7 +58,7 @@ function UserProfile() {
 
   return (
     <Container className="UserProfile">
-      <h1 className="mt-4">{displayName.replaceAll("-", " ")}'s profile</h1>
+      <h1 className="mt-4">{removeStrDashes(displayName)}'s profile</h1>
       { serverErr && <Alert>{serverErr}</Alert>}
       <Row>
         <Col md={6}>

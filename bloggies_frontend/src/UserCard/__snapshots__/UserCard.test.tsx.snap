@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserCard should match snapshot 1`] = `
+<Card
+  body={false}
+  className="UserCard text-left"
+>
+  <CardBody>
+    <CardText
+      className="BlogCard-body"
+    >
+      <NavLink
+        to="/users/1/test-username/favorites"
+      >
+        Test Username
+      </NavLink>
+    </CardText>
+    <CardSubtitle>
+      Joined 
+      a year ago
+    </CardSubtitle>
+  </CardBody>
+</Card>
+`;

@@ -1,0 +1,487 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommentList should match snapshot 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <CommentList
+      comments={
+        Array [
+          Object {
+            "author_id": 1,
+            "author_name": "test user",
+            "body": "first test comment",
+            "created_at": "1/1/2021",
+            "id": 1,
+            "is_reply": false,
+            "post_id": 1,
+            "reply_count": "1",
+          },
+          Object {
+            "author_id": 1,
+            "author_name": "test user",
+            "body": "second test comment",
+            "created_at": "1/1/2021",
+            "id": 2,
+            "is_reply": false,
+            "post_id": 1,
+            "reply_count": "1",
+          },
+        ]
+      }
+      postComment={[MockFunction]}
+      postId={123}
+    >
+      <div
+        className="CommentList text-left"
+      >
+        <h3>
+          Comments
+        </h3>
+        <CommentCard
+          comment={
+            Object {
+              "author_id": 1,
+              "author_name": "test user",
+              "body": "first test comment",
+              "created_at": "1/1/2021",
+              "id": 1,
+              "is_reply": false,
+              "post_id": 1,
+              "reply_count": "1",
+            }
+          }
+          handlePostReply={[Function]}
+          key="1"
+        >
+          <div
+            className="CommentCard text-left"
+          >
+            <Card
+              body={false}
+            >
+              <div
+                className="card"
+              >
+                <CardBody>
+                  <div
+                    className="card-body"
+                  >
+                    <CardText>
+                      <p
+                        className="card-text"
+                      >
+                        first test comment
+                      </p>
+                    </CardText>
+                    <CardText
+                      className="text-muted d-flex justify-content-between"
+                    >
+                      <p
+                        className="text-muted d-flex justify-content-between card-text"
+                      >
+                        <span>
+                          <span
+                            className="App-author"
+                          >
+                            test user
+                          </span>
+                           commented 
+                          a month ago
+                        </span>
+                        <Button
+                          active={false}
+                          disabled={false}
+                          onClick={[Function]}
+                          variant="primary"
+                        >
+                          <button
+                            className="btn btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Reply
+                          </button>
+                        </Button>
+                      </p>
+                    </CardText>
+                    <CommentReplyAccord
+                      commentId={1}
+                      key="1"
+                      replyCount="1"
+                    >
+                      <div
+                        className="CommentReplyAccord mt-3"
+                      >
+                        <Accordion
+                          defaultActiveKey="0"
+                        >
+                          <div
+                            className="accordion"
+                          >
+                            <Card
+                              body={false}
+                            >
+                              <div
+                                className="card"
+                              >
+                                <CardHeader>
+                                  <div
+                                    className="card-header"
+                                  >
+                                    <ForwardRef
+                                      as={
+                                        Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "defaultProps": Object {
+                                            "active": false,
+                                            "disabled": false,
+                                            "variant": "primary",
+                                          },
+                                          "render": [Function],
+                                        }
+                                      }
+                                      eventKey="1"
+                                      onClick={[Function]}
+                                      variant="link"
+                                    >
+                                      <Button
+                                        active={false}
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        variant="link"
+                                      >
+                                        <button
+                                          className="btn btn-link"
+                                          disabled={false}
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          View 
+                                          1
+                                           
+                                          reply
+                                        </button>
+                                      </Button>
+                                    </ForwardRef>
+                                  </div>
+                                </CardHeader>
+                                <AccordionCollapse
+                                  eventKey="1"
+                                >
+                                  <ForwardRef
+                                    appear={false}
+                                    getDimensionValue={[Function]}
+                                    in={false}
+                                    mountOnEnter={false}
+                                    timeout={300}
+                                    unmountOnExit={false}
+                                  >
+                                    <Transition
+                                      addEndListener={[Function]}
+                                      appear={false}
+                                      aria-expanded={null}
+                                      enter={true}
+                                      exit={true}
+                                      in={false}
+                                      mountOnEnter={false}
+                                      onEnter={[Function]}
+                                      onEntered={[Function]}
+                                      onEntering={[Function]}
+                                      onExit={[Function]}
+                                      onExited={[Function]}
+                                      onExiting={[Function]}
+                                      timeout={300}
+                                      unmountOnExit={false}
+                                    >
+                                      <div
+                                        aria-expanded={null}
+                                        className="collapse"
+                                      >
+                                        <CardBody>
+                                          <div
+                                            className="card-body"
+                                          >
+                                            Fetching replies..
+                                          </div>
+                                        </CardBody>
+                                      </div>
+                                    </Transition>
+                                  </ForwardRef>
+                                </AccordionCollapse>
+                              </div>
+                            </Card>
+                          </div>
+                        </Accordion>
+                      </div>
+                    </CommentReplyAccord>
+                  </div>
+                </CardBody>
+              </div>
+            </Card>
+          </div>
+        </CommentCard>
+        <CommentCard
+          comment={
+            Object {
+              "author_id": 1,
+              "author_name": "test user",
+              "body": "second test comment",
+              "created_at": "1/1/2021",
+              "id": 2,
+              "is_reply": false,
+              "post_id": 1,
+              "reply_count": "1",
+            }
+          }
+          handlePostReply={[Function]}
+          key="2"
+        >
+          <div
+            className="CommentCard text-left"
+          >
+            <Card
+              body={false}
+            >
+              <div
+                className="card"
+              >
+                <CardBody>
+                  <div
+                    className="card-body"
+                  >
+                    <CardText>
+                      <p
+                        className="card-text"
+                      >
+                        second test comment
+                      </p>
+                    </CardText>
+                    <CardText
+                      className="text-muted d-flex justify-content-between"
+                    >
+                      <p
+                        className="text-muted d-flex justify-content-between card-text"
+                      >
+                        <span>
+                          <span
+                            className="App-author"
+                          >
+                            test user
+                          </span>
+                           commented 
+                          a month ago
+                        </span>
+                        <Button
+                          active={false}
+                          disabled={false}
+                          onClick={[Function]}
+                          variant="primary"
+                        >
+                          <button
+                            className="btn btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Reply
+                          </button>
+                        </Button>
+                      </p>
+                    </CardText>
+                    <CommentReplyAccord
+                      commentId={2}
+                      key="1"
+                      replyCount="1"
+                    >
+                      <div
+                        className="CommentReplyAccord mt-3"
+                      >
+                        <Accordion
+                          defaultActiveKey="0"
+                        >
+                          <div
+                            className="accordion"
+                          >
+                            <Card
+                              body={false}
+                            >
+                              <div
+                                className="card"
+                              >
+                                <CardHeader>
+                                  <div
+                                    className="card-header"
+                                  >
+                                    <ForwardRef
+                                      as={
+                                        Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "defaultProps": Object {
+                                            "active": false,
+                                            "disabled": false,
+                                            "variant": "primary",
+                                          },
+                                          "render": [Function],
+                                        }
+                                      }
+                                      eventKey="2"
+                                      onClick={[Function]}
+                                      variant="link"
+                                    >
+                                      <Button
+                                        active={false}
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        variant="link"
+                                      >
+                                        <button
+                                          className="btn btn-link"
+                                          disabled={false}
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          View 
+                                          1
+                                           
+                                          reply
+                                        </button>
+                                      </Button>
+                                    </ForwardRef>
+                                  </div>
+                                </CardHeader>
+                                <AccordionCollapse
+                                  eventKey="2"
+                                >
+                                  <ForwardRef
+                                    appear={false}
+                                    getDimensionValue={[Function]}
+                                    in={false}
+                                    mountOnEnter={false}
+                                    timeout={300}
+                                    unmountOnExit={false}
+                                  >
+                                    <Transition
+                                      addEndListener={[Function]}
+                                      appear={false}
+                                      aria-expanded={null}
+                                      enter={true}
+                                      exit={true}
+                                      in={false}
+                                      mountOnEnter={false}
+                                      onEnter={[Function]}
+                                      onEntered={[Function]}
+                                      onEntering={[Function]}
+                                      onExit={[Function]}
+                                      onExited={[Function]}
+                                      onExiting={[Function]}
+                                      timeout={300}
+                                      unmountOnExit={false}
+                                    >
+                                      <div
+                                        aria-expanded={null}
+                                        className="collapse"
+                                      >
+                                        <CardBody>
+                                          <div
+                                            className="card-body"
+                                          >
+                                            Fetching replies..
+                                          </div>
+                                        </CardBody>
+                                      </div>
+                                    </Transition>
+                                  </ForwardRef>
+                                </AccordionCollapse>
+                              </div>
+                            </Card>
+                          </div>
+                        </Accordion>
+                      </div>
+                    </CommentReplyAccord>
+                  </div>
+                </CardBody>
+              </div>
+            </Card>
+          </div>
+        </CommentCard>
+        <CommentForm
+          handlePostComment={[Function]}
+          isReply={false}
+          postId={123}
+        >
+          <div
+            className="CommentForm text-right"
+          >
+            <Form
+              inline={false}
+              onSubmit={[Function]}
+            >
+              <form
+                className=""
+                onSubmit={[Function]}
+              >
+                <FormControl
+                  as="textarea"
+                  name="comment"
+                  onChange={[Function]}
+                  placeholder="Enter comment"
+                  required={true}
+                  rows={3}
+                  value=""
+                >
+                  <textarea
+                    className="form-control"
+                    name="comment"
+                    onChange={[Function]}
+                    placeholder="Enter comment"
+                    required={true}
+                    rows={3}
+                    value=""
+                  />
+                </FormControl>
+                <Button
+                  active={false}
+                  className="mt-1"
+                  disabled={false}
+                  type="submit"
+                  variant="success"
+                >
+                  <button
+                    className="mt-1 btn btn-success"
+                    disabled={false}
+                    type="submit"
+                  >
+                    Comment
+                  </button>
+                </Button>
+              </form>
+            </Form>
+          </div>
+        </CommentForm>
+      </div>
+    </CommentList>
+  </Router>
+</BrowserRouter>
+`;

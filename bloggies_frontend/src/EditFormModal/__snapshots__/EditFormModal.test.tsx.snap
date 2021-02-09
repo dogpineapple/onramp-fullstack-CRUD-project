@@ -1,0 +1,760 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  dialogAs={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "render": [Function],
+    }
+  }
+  enforceFocus={true}
+  keyboard={true}
+  onHide={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <Modal
+    autoFocus={true}
+    backdrop={true}
+    backdropTransition={[Function]}
+    containerClassName="modal-open"
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      BootstrapModalManager {
+        "containers": Array [
+          <body
+            class="modal-open"
+            style="padding-right: 0px;"
+          >
+            <div
+              class="fade modal-backdrop show"
+            />
+            <div
+              aria-modal="true"
+              class="fade modal show"
+              role="dialog"
+              style="display: block;"
+              tabindex="-1"
+            >
+              <div
+                class="modal-dialog"
+              >
+                <div
+                  class="modal-content"
+                >
+                  <div
+                    class="modal-header"
+                  >
+                    <div
+                      class="modal-title h4"
+                    >
+                      Make an edit
+                    </div>
+                    <button
+                      class="close"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                      >
+                        ×
+                      </span>
+                      <span
+                        class="sr-only"
+                      >
+                        Close
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    class="modal-body"
+                  >
+                    <div
+                      class="BlogForm text-right"
+                    >
+                      <form
+                        class=""
+                        novalidate=""
+                      >
+                        <div
+                          class="form-group"
+                        >
+                          <input
+                            class="form-control"
+                            name="title"
+                            placeholder="Title"
+                            required=""
+                            value="test title"
+                          />
+                          <div
+                            class="invalid-feedback"
+                          >
+                            Post must have a title.
+                          </div>
+                        </div>
+                        <div
+                          class="form-group"
+                        >
+                          <input
+                            class="form-control"
+                            name="description"
+                            placeholder="Subtitle"
+                            value="test description"
+                          />
+                        </div>
+                        <div
+                          class="form-group"
+                        >
+                          <textarea
+                            class="form-control"
+                            name="body"
+                            placeholder="Body"
+                          >
+                            test body
+                          </textarea>
+                        </div>
+                        <button
+                          class="btn btn-primary"
+                          type="submit"
+                        >
+                          Publish post
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </body>,
+        ],
+        "data": Array [
+          Object {
+            "classes": Array [
+              "modal-open",
+            ],
+            "modals": Array [
+              Object {
+                "add": [Function],
+                "backdrop": <div
+                  class="fade modal-backdrop show"
+                />,
+                "dialog": <div
+                  aria-modal="true"
+                  class="fade modal show"
+                  role="dialog"
+                  style="display: block;"
+                  tabindex="-1"
+                >
+                  <div
+                    class="modal-dialog"
+                  >
+                    <div
+                      class="modal-content"
+                    >
+                      <div
+                        class="modal-header"
+                      >
+                        <div
+                          class="modal-title h4"
+                        >
+                          Make an edit
+                        </div>
+                        <button
+                          class="close"
+                          type="button"
+                        >
+                          <span
+                            aria-hidden="true"
+                          >
+                            ×
+                          </span>
+                          <span
+                            class="sr-only"
+                          >
+                            Close
+                          </span>
+                        </button>
+                      </div>
+                      <div
+                        class="modal-body"
+                      >
+                        <div
+                          class="BlogForm text-right"
+                        >
+                          <form
+                            class=""
+                            novalidate=""
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <input
+                                class="form-control"
+                                name="title"
+                                placeholder="Title"
+                                required=""
+                                value="test title"
+                              />
+                              <div
+                                class="invalid-feedback"
+                              >
+                                Post must have a title.
+                              </div>
+                            </div>
+                            <div
+                              class="form-group"
+                            >
+                              <input
+                                class="form-control"
+                                name="description"
+                                placeholder="Subtitle"
+                                value="test description"
+                              />
+                            </div>
+                            <div
+                              class="form-group"
+                            >
+                              <textarea
+                                class="form-control"
+                                name="body"
+                                placeholder="Body"
+                              >
+                                test body
+                              </textarea>
+                            </div>
+                            <button
+                              class="btn btn-primary"
+                              type="submit"
+                            >
+                              Publish post
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>,
+                "isTopModal": [Function],
+                "remove": [Function],
+                "setBackdropRef": [Function],
+                "setDialogRef": [Function],
+              },
+            ],
+            "overflowing": true,
+            "style": Object {
+              "overflow": "",
+              "paddingRight": "",
+            },
+          },
+        ],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "modals": Array [
+          Object {
+            "add": [Function],
+            "backdrop": <div
+              class="fade modal-backdrop show"
+            />,
+            "dialog": <div
+              aria-modal="true"
+              class="fade modal show"
+              role="dialog"
+              style="display: block;"
+              tabindex="-1"
+            >
+              <div
+                class="modal-dialog"
+              >
+                <div
+                  class="modal-content"
+                >
+                  <div
+                    class="modal-header"
+                  >
+                    <div
+                      class="modal-title h4"
+                    >
+                      Make an edit
+                    </div>
+                    <button
+                      class="close"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                      >
+                        ×
+                      </span>
+                      <span
+                        class="sr-only"
+                      >
+                        Close
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    class="modal-body"
+                  >
+                    <div
+                      class="BlogForm text-right"
+                    >
+                      <form
+                        class=""
+                        novalidate=""
+                      >
+                        <div
+                          class="form-group"
+                        >
+                          <input
+                            class="form-control"
+                            name="title"
+                            placeholder="Title"
+                            required=""
+                            value="test title"
+                          />
+                          <div
+                            class="invalid-feedback"
+                          >
+                            Post must have a title.
+                          </div>
+                        </div>
+                        <div
+                          class="form-group"
+                        >
+                          <input
+                            class="form-control"
+                            name="description"
+                            placeholder="Subtitle"
+                            value="test description"
+                          />
+                        </div>
+                        <div
+                          class="form-group"
+                        >
+                          <textarea
+                            class="form-control"
+                            name="body"
+                            placeholder="Body"
+                          >
+                            test body
+                          </textarea>
+                        </div>
+                        <button
+                          class="btn btn-primary"
+                          type="submit"
+                        >
+                          Publish post
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>,
+            "isTopModal": [Function],
+            "remove": [Function],
+            "setBackdropRef": [Function],
+            "setDialogRef": [Function],
+          },
+        ],
+        "scrollbarSize": 0,
+      }
+    }
+    onEnter={[Function]}
+    onEntering={[Function]}
+    onEscapeKeyDown={[Function]}
+    onExit={[Function]}
+    onExited={[Function]}
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    renderDialog={[Function]}
+    restoreFocus={true}
+    show={true}
+    transition={[Function]}
+  >
+    <Portal
+      containerInfo={
+        <body
+          class="modal-open"
+          style="padding-right: 0px;"
+        >
+          <div
+            class="fade modal-backdrop show"
+          />
+          <div
+            aria-modal="true"
+            class="fade modal show"
+            role="dialog"
+            style="display: block;"
+            tabindex="-1"
+          >
+            <div
+              class="modal-dialog"
+            >
+              <div
+                class="modal-content"
+              >
+                <div
+                  class="modal-header"
+                >
+                  <div
+                    class="modal-title h4"
+                  >
+                    Make an edit
+                  </div>
+                  <button
+                    class="close"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      ×
+                    </span>
+                    <span
+                      class="sr-only"
+                    >
+                      Close
+                    </span>
+                  </button>
+                </div>
+                <div
+                  class="modal-body"
+                >
+                  <div
+                    class="BlogForm text-right"
+                  >
+                    <form
+                      class=""
+                      novalidate=""
+                    >
+                      <div
+                        class="form-group"
+                      >
+                        <input
+                          class="form-control"
+                          name="title"
+                          placeholder="Title"
+                          required=""
+                          value="test title"
+                        />
+                        <div
+                          class="invalid-feedback"
+                        >
+                          Post must have a title.
+                        </div>
+                      </div>
+                      <div
+                        class="form-group"
+                      >
+                        <input
+                          class="form-control"
+                          name="description"
+                          placeholder="Subtitle"
+                          value="test description"
+                        />
+                      </div>
+                      <div
+                        class="form-group"
+                      >
+                        <textarea
+                          class="form-control"
+                          name="body"
+                          placeholder="Body"
+                        >
+                          test body
+                        </textarea>
+                      </div>
+                      <button
+                        class="btn btn-primary"
+                        type="submit"
+                      >
+                        Publish post
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </body>
+      }
+    >
+      <BackdropTransition
+        appear={true}
+        in={true}
+      >
+        <Fade
+          appear={true}
+          in={true}
+          mountOnEnter={false}
+          timeout={300}
+          unmountOnExit={false}
+        >
+          <Transition
+            addEndListener={[Function]}
+            appear={true}
+            enter={true}
+            exit={true}
+            in={true}
+            mountOnEnter={false}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={300}
+            unmountOnExit={false}
+          >
+            <div
+              className="fade modal-backdrop show"
+              onClick={[Function]}
+            />
+          </Transition>
+        </Fade>
+      </BackdropTransition>
+      <DialogTransition
+        appear={true}
+        in={true}
+        onEnter={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        unmountOnExit={true}
+      >
+        <Fade
+          appear={true}
+          in={true}
+          mountOnEnter={false}
+          onEnter={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          timeout={300}
+          unmountOnExit={true}
+        >
+          <Transition
+            addEndListener={[Function]}
+            appear={true}
+            enter={true}
+            exit={true}
+            in={true}
+            mountOnEnter={false}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={300}
+            unmountOnExit={true}
+          >
+            <div
+              aria-modal={true}
+              className="fade modal show"
+              onClick={[Function]}
+              onMouseUp={[Function]}
+              role="dialog"
+              style={
+                Object {
+                  "paddingLeft": undefined,
+                  "paddingRight": undefined,
+                }
+              }
+              tabIndex={-1}
+            >
+              <ModalDialog
+                onMouseDown={[Function]}
+              >
+                <div
+                  className="modal-dialog"
+                  onMouseDown={[Function]}
+                >
+                  <div
+                    className="modal-content"
+                  >
+                    <ModalHeader
+                      closeButton={true}
+                      closeLabel="Close"
+                    >
+                      <div
+                        className="modal-header"
+                      >
+                        <ModalTitle>
+                          <ForwardRef
+                            className="modal-title"
+                          >
+                            <div
+                              className="modal-title h4"
+                            >
+                              Make an edit
+                            </div>
+                          </ForwardRef>
+                        </ModalTitle>
+                        <CloseButton
+                          label="Close"
+                          onClick={[Function]}
+                        >
+                          <button
+                            className="close"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <span
+                              aria-hidden="true"
+                            >
+                              ×
+                            </span>
+                            <span
+                              className="sr-only"
+                            >
+                              Close
+                            </span>
+                          </button>
+                        </CloseButton>
+                      </div>
+                    </ModalHeader>
+                    <ModalBody>
+                      <div
+                        className="modal-body"
+                      >
+                        <BlogForm
+                          addPost={[Function]}
+                          closeModal={[Function]}
+                          post={
+                            Object {
+                              "author_id": 1,
+                              "author_name": "test user",
+                              "body": "test body",
+                              "created_at": "1/1/2020",
+                              "description": "test description",
+                              "favorite_count": "5",
+                              "id": 123,
+                              "last_updated_at": "1/1/2020",
+                              "title": "test title",
+                            }
+                          }
+                        >
+                          <div
+                            className="BlogForm text-right"
+                          >
+                            <Form
+                              inline={false}
+                              noValidate={true}
+                              onSubmit={[Function]}
+                              validated={false}
+                            >
+                              <form
+                                className=""
+                                noValidate={true}
+                                onSubmit={[Function]}
+                              >
+                                <FormGroup>
+                                  <div
+                                    className="form-group"
+                                  >
+                                    <FormControl
+                                      name="title"
+                                      onChange={[Function]}
+                                      placeholder="Title"
+                                      required={true}
+                                      value="test title"
+                                    >
+                                      <input
+                                        className="form-control"
+                                        name="title"
+                                        onChange={[Function]}
+                                        placeholder="Title"
+                                        required={true}
+                                        value="test title"
+                                      />
+                                    </FormControl>
+                                    <Feedback
+                                      type="invalid"
+                                    >
+                                      <div
+                                        className="invalid-feedback"
+                                      >
+                                        Post must have a title.
+                                      </div>
+                                    </Feedback>
+                                  </div>
+                                </FormGroup>
+                                <FormGroup>
+                                  <div
+                                    className="form-group"
+                                  >
+                                    <FormControl
+                                      name="description"
+                                      onChange={[Function]}
+                                      placeholder="Subtitle"
+                                      value="test description"
+                                    >
+                                      <input
+                                        className="form-control"
+                                        name="description"
+                                        onChange={[Function]}
+                                        placeholder="Subtitle"
+                                        value="test description"
+                                      />
+                                    </FormControl>
+                                  </div>
+                                </FormGroup>
+                                <FormGroup>
+                                  <div
+                                    className="form-group"
+                                  >
+                                    <FormControl
+                                      as="textarea"
+                                      name="body"
+                                      onChange={[Function]}
+                                      placeholder="Body"
+                                      value="test body"
+                                    >
+                                      <textarea
+                                        className="form-control"
+                                        name="body"
+                                        onChange={[Function]}
+                                        placeholder="Body"
+                                        value="test body"
+                                      />
+                                    </FormControl>
+                                  </div>
+                                </FormGroup>
+                                <Button
+                                  active={false}
+                                  disabled={false}
+                                  type="submit"
+                                  variant="primary"
+                                >
+                                  <button
+                                    className="btn btn-primary"
+                                    disabled={false}
+                                    type="submit"
+                                  >
+                                    Publish post
+                                  </button>
+                                </Button>
+                              </form>
+                            </Form>
+                          </div>
+                        </BlogForm>
+                      </div>
+                    </ModalBody>
+                  </div>
+                </div>
+              </ModalDialog>
+            </div>
+          </Transition>
+        </Fade>
+      </DialogTransition>
+    </Portal>
+  </Modal>
+</Modal>
+`;

@@ -20,9 +20,22 @@ export function isFavorited(postId: number, favorites: Array<Post>) {
  */
 export function changeToURLFriendly(str: string) {
   if (str) {
-    return str.replaceAll(" ", "-").toLowerCase();
+    // POST-SUBMISSION UPDATE: replace .replaceAll with .replace to allow more browser capability.
+    return str.replace(/ /g, "-").toLowerCase();
   } 
   return 'no-displayname';
+}
+
+/**
+ * Returns a new string. 
+ * Replaces all "-" for " ".
+ */
+export function removeStrDashes(str: string) {
+  if (str) {
+    // POST-SUBMISSION UPDATE: replace .replaceAll with .replace to allow more browser capability.
+    return str.replace(/-/g, " ");
+  } 
+  return 'no displayname';
 }
 
 /**

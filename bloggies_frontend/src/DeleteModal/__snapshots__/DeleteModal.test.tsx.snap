@@ -1,0 +1,536 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  dialogAs={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "render": [Function],
+    }
+  }
+  enforceFocus={true}
+  keyboard={true}
+  onHide={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <Modal
+    autoFocus={true}
+    backdrop={true}
+    backdropTransition={[Function]}
+    containerClassName="modal-open"
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      BootstrapModalManager {
+        "containers": Array [
+          <body
+            class="modal-open"
+            style="padding-right: 0px;"
+          >
+            <div
+              class="fade modal-backdrop show"
+            />
+            <div
+              aria-modal="true"
+              class="fade modal show"
+              role="dialog"
+              style="display: block;"
+              tabindex="-1"
+            >
+              <div
+                class="modal-dialog"
+              >
+                <div
+                  class="modal-content"
+                >
+                  <div
+                    class="modal-header"
+                  >
+                    <div
+                      class="modal-title h4"
+                    >
+                      Delete Confirmation
+                    </div>
+                    <button
+                      class="close"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                      >
+                        ×
+                      </span>
+                      <span
+                        class="sr-only"
+                      >
+                        Close
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    class="modal-body"
+                  >
+                    Are you sure you want to delete this post?
+                  </div>
+                  <div
+                    class="modal-footer"
+                  >
+                    <button
+                      class="btn btn-danger"
+                      type="button"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                    >
+                      Go back
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </body>,
+        ],
+        "data": Array [
+          Object {
+            "classes": Array [
+              "modal-open",
+            ],
+            "modals": Array [
+              Object {
+                "add": [Function],
+                "backdrop": <div
+                  class="fade modal-backdrop show"
+                />,
+                "dialog": <div
+                  aria-modal="true"
+                  class="fade modal show"
+                  role="dialog"
+                  style="display: block;"
+                  tabindex="-1"
+                >
+                  <div
+                    class="modal-dialog"
+                  >
+                    <div
+                      class="modal-content"
+                    >
+                      <div
+                        class="modal-header"
+                      >
+                        <div
+                          class="modal-title h4"
+                        >
+                          Delete Confirmation
+                        </div>
+                        <button
+                          class="close"
+                          type="button"
+                        >
+                          <span
+                            aria-hidden="true"
+                          >
+                            ×
+                          </span>
+                          <span
+                            class="sr-only"
+                          >
+                            Close
+                          </span>
+                        </button>
+                      </div>
+                      <div
+                        class="modal-body"
+                      >
+                        Are you sure you want to delete this post?
+                      </div>
+                      <div
+                        class="modal-footer"
+                      >
+                        <button
+                          class="btn btn-danger"
+                          type="button"
+                        >
+                          Yes
+                        </button>
+                        <button
+                          class="btn btn-primary"
+                          type="button"
+                        >
+                          Go back
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>,
+                "isTopModal": [Function],
+                "remove": [Function],
+                "setBackdropRef": [Function],
+                "setDialogRef": [Function],
+              },
+            ],
+            "overflowing": true,
+            "style": Object {
+              "overflow": "",
+              "paddingRight": "",
+            },
+          },
+        ],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "modals": Array [
+          Object {
+            "add": [Function],
+            "backdrop": <div
+              class="fade modal-backdrop show"
+            />,
+            "dialog": <div
+              aria-modal="true"
+              class="fade modal show"
+              role="dialog"
+              style="display: block;"
+              tabindex="-1"
+            >
+              <div
+                class="modal-dialog"
+              >
+                <div
+                  class="modal-content"
+                >
+                  <div
+                    class="modal-header"
+                  >
+                    <div
+                      class="modal-title h4"
+                    >
+                      Delete Confirmation
+                    </div>
+                    <button
+                      class="close"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                      >
+                        ×
+                      </span>
+                      <span
+                        class="sr-only"
+                      >
+                        Close
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    class="modal-body"
+                  >
+                    Are you sure you want to delete this post?
+                  </div>
+                  <div
+                    class="modal-footer"
+                  >
+                    <button
+                      class="btn btn-danger"
+                      type="button"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                    >
+                      Go back
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>,
+            "isTopModal": [Function],
+            "remove": [Function],
+            "setBackdropRef": [Function],
+            "setDialogRef": [Function],
+          },
+        ],
+        "scrollbarSize": 0,
+      }
+    }
+    onEnter={[Function]}
+    onEntering={[Function]}
+    onEscapeKeyDown={[Function]}
+    onExit={[Function]}
+    onExited={[Function]}
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    renderDialog={[Function]}
+    restoreFocus={true}
+    show={true}
+    transition={[Function]}
+  >
+    <Portal
+      containerInfo={
+        <body
+          class="modal-open"
+          style="padding-right: 0px;"
+        >
+          <div
+            class="fade modal-backdrop show"
+          />
+          <div
+            aria-modal="true"
+            class="fade modal show"
+            role="dialog"
+            style="display: block;"
+            tabindex="-1"
+          >
+            <div
+              class="modal-dialog"
+            >
+              <div
+                class="modal-content"
+              >
+                <div
+                  class="modal-header"
+                >
+                  <div
+                    class="modal-title h4"
+                  >
+                    Delete Confirmation
+                  </div>
+                  <button
+                    class="close"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      ×
+                    </span>
+                    <span
+                      class="sr-only"
+                    >
+                      Close
+                    </span>
+                  </button>
+                </div>
+                <div
+                  class="modal-body"
+                >
+                  Are you sure you want to delete this post?
+                </div>
+                <div
+                  class="modal-footer"
+                >
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                  >
+                    Go back
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </body>
+      }
+    >
+      <BackdropTransition
+        appear={true}
+        in={true}
+      >
+        <Fade
+          appear={true}
+          in={true}
+          mountOnEnter={false}
+          timeout={300}
+          unmountOnExit={false}
+        >
+          <Transition
+            addEndListener={[Function]}
+            appear={true}
+            enter={true}
+            exit={true}
+            in={true}
+            mountOnEnter={false}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={300}
+            unmountOnExit={false}
+          >
+            <div
+              className="fade modal-backdrop show"
+              onClick={[Function]}
+            />
+          </Transition>
+        </Fade>
+      </BackdropTransition>
+      <DialogTransition
+        appear={true}
+        in={true}
+        onEnter={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        unmountOnExit={true}
+      >
+        <Fade
+          appear={true}
+          in={true}
+          mountOnEnter={false}
+          onEnter={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          timeout={300}
+          unmountOnExit={true}
+        >
+          <Transition
+            addEndListener={[Function]}
+            appear={true}
+            enter={true}
+            exit={true}
+            in={true}
+            mountOnEnter={false}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={300}
+            unmountOnExit={true}
+          >
+            <div
+              aria-modal={true}
+              className="fade modal show"
+              onClick={[Function]}
+              onMouseUp={[Function]}
+              role="dialog"
+              style={
+                Object {
+                  "paddingLeft": undefined,
+                  "paddingRight": undefined,
+                }
+              }
+              tabIndex={-1}
+            >
+              <ModalDialog
+                onMouseDown={[Function]}
+              >
+                <div
+                  className="modal-dialog"
+                  onMouseDown={[Function]}
+                >
+                  <div
+                    className="modal-content"
+                  >
+                    <ModalHeader
+                      closeButton={true}
+                      closeLabel="Close"
+                    >
+                      <div
+                        className="modal-header"
+                      >
+                        <ModalTitle>
+                          <ForwardRef
+                            className="modal-title"
+                          >
+                            <div
+                              className="modal-title h4"
+                            >
+                              Delete Confirmation
+                            </div>
+                          </ForwardRef>
+                        </ModalTitle>
+                        <CloseButton
+                          label="Close"
+                          onClick={[Function]}
+                        >
+                          <button
+                            className="close"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <span
+                              aria-hidden="true"
+                            >
+                              ×
+                            </span>
+                            <span
+                              className="sr-only"
+                            >
+                              Close
+                            </span>
+                          </button>
+                        </CloseButton>
+                      </div>
+                    </ModalHeader>
+                    <ModalBody>
+                      <div
+                        className="modal-body"
+                      >
+                        Are you sure you want to delete this post?
+                      </div>
+                    </ModalBody>
+                    <ModalFooter>
+                      <div
+                        className="modal-footer"
+                      >
+                        <Button
+                          active={false}
+                          disabled={false}
+                          onClick={[Function]}
+                          variant="danger"
+                        >
+                          <button
+                            className="btn btn-danger"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Yes
+                          </button>
+                        </Button>
+                        <Button
+                          active={false}
+                          disabled={false}
+                          onClick={[Function]}
+                          variant="primary"
+                        >
+                          <button
+                            className="btn btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            Go back
+                          </button>
+                        </Button>
+                      </div>
+                    </ModalFooter>
+                  </div>
+                </div>
+              </ModalDialog>
+            </div>
+          </Transition>
+        </Fade>
+      </DialogTransition>
+    </Portal>
+  </Modal>
+</Modal>
+`;

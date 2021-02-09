@@ -16,7 +16,7 @@ function SearchBar() {
   const [ formData, setFormData ] = useState({ searchTerm: "" });
   const history = useHistory();
   const dispatch = useDispatch();
-
+  
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(getSearchResultsFromAPI(formData.searchTerm));

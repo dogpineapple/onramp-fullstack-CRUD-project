@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar should match snapshot 1`] = `
+<UserProfile>
+  <Container
+    className="UserProfile"
+    fluid={false}
+  >
+    <div
+      className="UserProfile container"
+    >
+      <h1
+        className="mt-4"
+      >
+        test user
+        's profile
+      </h1>
+      <Row
+        noGutters={false}
+      >
+        <div
+          className="row"
+        >
+          <Col
+            md={6}
+          >
+            <div
+              className="col-md-6"
+            >
+              <Container
+                fluid={false}
+              >
+                <div
+                  className="container"
+                >
+                  <Row
+                    noGutters={false}
+                  >
+                    <div
+                      className="row"
+                    >
+                      <h3
+                        className="mt-4"
+                      >
+                        Publications
+                      </h3>
+                    </div>
+                  </Row>
+                  <Row
+                    noGutters={false}
+                  >
+                    <div
+                      className="row"
+                    >
+                      <BlogList
+                        posts={Array []}
+                      >
+                        <Container
+                          className="BlogList"
+                          fluid={false}
+                        >
+                          <div
+                            className="BlogList container"
+                          >
+                            <Row
+                              noGutters={false}
+                            >
+                              <div
+                                className="row"
+                              >
+                                <Col
+                                  md={12}
+                                >
+                                  <div
+                                    className="col-md-12"
+                                  >
+                                    <p
+                                      className="mt-5"
+                                    >
+                                      No posts made yet.
+                                    </p>
+                                  </div>
+                                </Col>
+                              </div>
+                            </Row>
+                          </div>
+                        </Container>
+                      </BlogList>
+                    </div>
+                  </Row>
+                </div>
+              </Container>
+            </div>
+          </Col>
+          <Col
+            md={6}
+          >
+            <div
+              className="col-md-6"
+            >
+              <FavoritesList
+                favorites={Array []}
+              >
+                <Container
+                  className="FavoritesList"
+                  fluid={false}
+                >
+                  <div
+                    className="FavoritesList container"
+                  >
+                    <Row
+                      noGutters={false}
+                    >
+                      <div
+                        className="row"
+                      >
+                        <h3
+                          className="mt-4"
+                        >
+                          Favorites
+                        </h3>
+                      </div>
+                    </Row>
+                    <Row
+                      noGutters={false}
+                    >
+                      <div
+                        className="row"
+                      >
+                        <div>
+                          Empty... for now!
+                        </div>
+                      </div>
+                    </Row>
+                  </div>
+                </Container>
+              </FavoritesList>
+            </div>
+          </Col>
+        </div>
+      </Row>
+    </div>
+  </Container>
+</UserProfile>
+`;
