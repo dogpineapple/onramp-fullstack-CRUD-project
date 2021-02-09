@@ -12,6 +12,7 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
   try {
     const user = req.user;
     const { title, description, body } = req.body;
+    console.log("posting a post with cookie", req.cookies.token);
     const post = await Post.create(title, description, body, user.user_id);
     return res.status(201).send({ post });
   } catch (err) {

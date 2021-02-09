@@ -6,8 +6,9 @@ import jwt from "jsonwebtoken";
 /** Middleware for checking JWT validity */
 export function authenticateJWT(req: Request, res: Response, next: NextFunction): void {
   try {
-    const token = req.body._token;
-    const payload = jwt.verify(token, SECRET_KEY);
+    // const token = req.body._token;
+    const cookieToken = req.cookies.token;
+    const payload = jwt.verify(cookieToken, SECRET_KEY);
     req.user = payload;
     return next();
   } catch (err) {

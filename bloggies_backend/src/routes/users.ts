@@ -13,6 +13,7 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
     const { username, password, display_name } = req.body;
     if (username && password && display_name) {
       const result = await User.register(username, password, display_name);
+      res.cookie("token", result.token);
       return res.status(201).json(result);
     }
     throw new ExpressError("Invalid registration values. Check all fields.", 400);
@@ -27,6 +28,7 @@ usersRouter.post("/login", async function (req: Request, res: Response, next: Ne
   try {
     const { username, password } = req.body;
     const result = await User.authenticate(username, password);
+    res.cookie("token", result.token);
     return res.json(result);
   } catch (err) {
     return next(err);
