@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Redirect, useHistory } from "react-router";
 import { PostFormData } from "../../custom";
 import BlogForm from "../../Forms/BlogForm";
+import { getCookie } from "../../helpers";
 import { addPostToAPI } from "../../redux/actionCreators";
 import "./ComposePage.css";
 
@@ -16,7 +17,7 @@ function ComposePage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  if (!localStorage.getItem("token")) {
+  if (!getCookie("token")) {
     return <Redirect to="/"/>
   }
 
