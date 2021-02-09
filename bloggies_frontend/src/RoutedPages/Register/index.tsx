@@ -36,7 +36,8 @@ function Register() {
     });
     const userRes = await res.json();
     // set the user's token into the localStorage.
-    localStorage.setItem("token", userRes.token);
+    // Deprecated: No longer storing token in localStorage; Exists as cookie
+    // localStorage.setItem("token", userRes.token);
     
     if (res.status === 201) {
       // update the redux store state with user information.

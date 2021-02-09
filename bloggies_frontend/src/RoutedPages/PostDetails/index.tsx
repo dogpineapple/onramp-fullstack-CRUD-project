@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EditFormModal from "../../EditFormModal";
 import DeleteModal from "../../DeleteModal";
 import { deletePostFromAPI, updateCurrentPost } from "../../redux/actionCreators";
-import { changeToURLFriendly } from "../../helpers";
+import { changeToURLFriendly, getCookie } from "../../helpers";
 
 /**
  * `PostDetails` renders a post's data in full and a `FavoriteButton` and a
@@ -34,7 +34,6 @@ function PostDetails() {
   const [serverErr, setServerErr] = useState<string>("");
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [showDelConf, setShowDelConf] = useState<boolean>(false);
-  const _token = localStorage.getItem("token");
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -78,11 +77,12 @@ function PostDetails() {
   const updatePost = async (data: Post) => {
     setServerErr("");
     // requires user login to update a post
-    if (post && _token) {
+    let token = getCookie("token");
+    if (post && token) {
       const res = await fetch(`${BASE_URL}/posts/${post.id}`, {
         method: "PATCH",
         credentials: "include",
-        body: JSON.stringify({ ...data, _token }),
+        body: JSON.stringify({ ...data }),
         headers: {
           "Content-type": "application/json"
         }
@@ -102,15 +102,17 @@ function PostDetails() {
   
   const deletePost = async () => {
     setServerErr("");
-    if (post && _token) {
-      dispatch(deletePostFromAPI(post.id, _token));
+    let token = getCookie("token");
+    if (post && token) {
+      dispatch(deletePostFromAPI(post.id));
       history.push("/");
     }
   }
   
   const postComment = async (postId: number, commentId: number | undefined, isReply: boolean, comment: string) => {
     // requires user login to create a post.
-    if (post && _token) {
+    let token = getCookie("token");
+    if (post && token) {
       const newComment = {
         body: comment,
         post_id: postId,

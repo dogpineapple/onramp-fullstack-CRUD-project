@@ -33,8 +33,8 @@ function Login() {
       }
     });
     const loginRes = await res.json();
-    // set the user's token into the localStorage.
-    localStorage.setItem("token", loginRes.token);
+    // set the user's token into the localStorage. (Deprecated: No longer store token in localStorage)
+    // localStorage.setItem("token", loginRes.token);
     
     if (res.status === 200) {
       dispatch(gotUserInfo(loginRes.user));

@@ -48,3 +48,17 @@ export function checkSignUpDataValid(username: string, password: string, repeatP
     && (display_name.length !== 0)
     && (password === repeatPassword);
 }
+
+/**
+ * Returns cookie value
+ * Retrieves the value of a cookie by cookie's key.
+ * Credit: https://stackoverflow.com/questions/10730362/get-cookie-by-name
+ */
+export function getCookie(name: string) {
+  let cookie: any = {};
+  document.cookie.split(';').forEach(function(el) {
+    let [k,v] = el.split('=');
+    cookie[k.trim()] = v;
+  })
+  return cookie[name];
+}

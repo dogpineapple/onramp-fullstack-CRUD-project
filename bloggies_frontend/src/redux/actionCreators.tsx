@@ -10,11 +10,10 @@ import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ER
  */
 export function addPostToAPI(postData: PostFormData) {
   return async function (dispatch: Dispatch<Action>) {
-    const _token = localStorage.getItem("token");
     const res = await fetch(`${BASE_URL}/posts`, {
       method: "POST",
       credentials: "include",
-      body: JSON.stringify({ ...postData, _token }),
+      body: JSON.stringify({ ...postData }),
       headers: {
         "Content-type": "application/json"
       }
@@ -36,12 +35,11 @@ function addPost(post: Post) {
  * DELETE request to remove a post on backend and dispatches
  * action to update redux store.
  */
-export function deletePostFromAPI(postId: number, _token: string) {
+export function deletePostFromAPI(postId: number) {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/posts/${postId}`, {
       method: "DELETE",
       credentials: "include",
-      body: JSON.stringify({ _token }),
       headers: {
         "Content-type": "application/json"
       }
@@ -79,12 +77,11 @@ export function getPostsFromAPI() {
  * GET request to add a post to backend and dispatches
  * action to update redux store.
  */
-export function getUserInfoFromAPI(token: string) {
+export function getUserInfoFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/user`, {
       method: "GET",
-      credentials: "include",
-      body: JSON.stringify({ "_token": token })
+      credentials: "include"
     });
     const userRes = await res.json();
     dispatch(gotUserInfo(userRes.user));
@@ -126,11 +123,10 @@ function gotSearchResults(posts: Array<Post>, users: Array<User>) {
  */
 export function addFavoriteToAPI(post: Post) {
   return async function (dispatch: Dispatch<Action>) {
-    const token = localStorage.getItem("token");
     const res = await fetch(`${BASE_URL}/favorites`, {
       method: "POST",
       credentials: "include",
-      body: JSON.stringify({ postId: post.id, _token: token }),
+      body: JSON.stringify({ postId: post.id }),
       headers: {
         "Content-type": "application/json"
       }
@@ -151,11 +147,10 @@ function addFavorite(post: Post) {
  */
 export function deleteFavoriteFromAPI(postId: number) {
   return async function (dispatch: Dispatch<Action>) {
-    const token = localStorage.getItem("token")
     const res = await fetch(`${BASE_URL}/favorites`, {
       method: "DELETE",
       credentials: "include",
-      body: JSON.stringify({ postId, _token: token }),
+      body: JSON.stringify({ postId }),
       headers: {
         "Content-type": "application/json"
       }

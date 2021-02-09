@@ -6,7 +6,7 @@ import "./FavoriteButton.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavoriteToAPI, deleteFavoriteFromAPI } from "../redux/actionCreators";
 import { CustomReduxState, Post } from "../custom";
-import { isFavorited } from "../helpers";
+import { getCookie, isFavorited } from "../helpers";
 
 interface IProp {
   post: Post
@@ -45,7 +45,7 @@ function FavoriteButton({ post }: IProp) {
    * (Only allows logged in users to invoke dispatch)
    */
   const handleFavorites = async (type: string) => {
-    if (!localStorage.getItem("token")) {
+    if (!getCookie("token")) {
       alert("Must be signed in to favorite.");
     } else {
       let currFavCount = parseInt(post.favorite_count);
@@ -57,7 +57,6 @@ function FavoriteButton({ post }: IProp) {
           //    the component need to manually update the favCount to display.
           if (posts.length === 0) {
             post.favorite_count = (currFavCount + 1).toString();
-            console.log("trying to increment count");
           }
           break;
         case "DELETE":

@@ -8,18 +8,19 @@ import { useDispatch } from 'react-redux';
 import { getUserFavoritesFromAPI, getUserInfoFromAPI } from './redux/actionCreators';
 import NavBar from './NavBar';
 import { CustomReduxState } from './custom';
+import { getCookie } from './helpers';
 
 function App() {
   const userId = ((st: CustomReduxState) => st.user.id);
   const dispatch = useDispatch();
 
   useEffect(function handleGetUser() {
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     // if the user has not signed out from previous session and
     // still has a token, retrieve the user's information by
     // id upon App mount.
     if (token && !userId) {
-      dispatch(getUserInfoFromAPI(token));
+      dispatch(getUserInfoFromAPI());
       dispatch(getUserFavoritesFromAPI(userId));
     }
   }, []);
