@@ -28,6 +28,7 @@ function NavBar() {
   // To logout a user, call the logoutUser() action and clear localStorage to remove token.
   const handleLogout = () => {
     localStorage.clear();
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     dispatch(logoutUser());
     history.push("/");
   }

@@ -57,6 +57,7 @@ function FavoriteButton({ post }: IProp) {
           //    the component need to manually update the favCount to display.
           if (posts.length === 0) {
             post.favorite_count = (currFavCount + 1).toString();
+            console.log("trying to increment count");
           }
           break;
         case "DELETE":

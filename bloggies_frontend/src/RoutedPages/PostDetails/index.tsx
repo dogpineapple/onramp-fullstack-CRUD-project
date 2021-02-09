@@ -81,6 +81,7 @@ function PostDetails() {
     if (post && _token) {
       const res = await fetch(`${BASE_URL}/posts/${post.id}`, {
         method: "PATCH",
+        credentials: "include",
         body: JSON.stringify({ ...data, _token }),
         headers: {
           "Content-type": "application/json"
