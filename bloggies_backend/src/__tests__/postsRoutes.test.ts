@@ -35,11 +35,11 @@ describe("Test Post routes", function () {
   test("POST /posts - Create new post", async function () {
     const resp = await request(app)
       .post(`/posts`)
+      .set('Cookie', [`token=${token}`])
       .send({
         title: "test title",
         description: "test description",
-        body: "test body",
-        _token: token
+        body: "test body"
       });
     expect(resp.body.post.description).toBe("test description");
     expect(resp.status).toBe(201);
@@ -75,9 +75,9 @@ describe("Test Post routes", function () {
   test("PATCH /posts/:postId - updates an existing post by post id", async function () {
     const resp = await request(app)
       .patch(`/posts/${validPostId}`)
+      .set('Cookie', [`token=${token}`])
       .send({
-        title: "Blueberry Basil Soda",
-        _token: token
+        title: "Blueberry Basil Soda"
       });
     expect(resp.status).toBe(200);
     expect(resp.body.last_updated_at).toBeDefined();
@@ -97,9 +97,9 @@ describe("Test Post routes", function () {
   test("PATCH /posts/:postId - handle updates a post as not the post's author", async function () {
     const resp = await request(app)
       .patch(`/posts/${validPostId}`)
+      .set('Cookie', [`token=${secondToken}`])
       .send({
-        title: "Blueberry Basil Soda",
-        _token: secondToken
+        title: "Blueberry Basil Soda"
       });
     expect(resp.status).toBe(401);
     expect(resp.body.error.message).toBe("Update failed: token does not belong to the post author.");
@@ -109,9 +109,8 @@ describe("Test Post routes", function () {
   test("DELETE /posts/:postId - deletes an existing post by post id with valid token", async function () {
     const resp = await request(app)
       .delete(`/posts/${validPostId}`)
-      .send({
-        _token: token
-      });
+      .set('Cookie', [`token=${token}`]);
+
     expect(resp.status).toBe(200);
     expect(resp.body.message).toBe("Successfully deleted.");
   });

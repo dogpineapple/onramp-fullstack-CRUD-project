@@ -49,7 +49,10 @@ describe("Test Post routes", function () {
 
   /** POST /favorites => status 201, { message }.**/
   test("POST /favorites - add a favorite post to a user", async function () {
-    const resp = await request(app).post(`/favorites`).send({ postId: validNotFavPostId, _token: token });
+    const resp = await request(app).post(`/favorites`)
+      .set('Cookie', [`token=${token}`])
+      .send({ postId: validNotFavPostId });
+      
     expect(resp.status).toBe(201);
     expect(resp.body.message).toBe("Favorited successfully.");
   });
@@ -62,7 +65,10 @@ describe("Test Post routes", function () {
 
   /** DELETE /favorites => status 200, { posts }.**/
   test("DELETE /favorites - remove a favorite post from a user", async function () {
-    const resp = await request(app).delete(`/favorites`).send({ postId: validPostId, _token: token });
+    const resp = await request(app).delete(`/favorites`)
+      .set('Cookie', [`token=${token}`])
+      .send({ postId: validPostId });
+
     expect(resp.status).toBe(200);
     expect(resp.body.message).toBe("Unfavorited successfully.");
   });
