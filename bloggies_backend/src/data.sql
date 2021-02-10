@@ -14,6 +14,7 @@ CREATE TABLE users (
   username VARCHAR (25) UNIQUE NOT NULL,
   display_name VARCHAR (30) NOT NULL,
   hashed_pwd VARCHAR (100) NOT NULL,
+  photo_url TEXT,
   join_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 

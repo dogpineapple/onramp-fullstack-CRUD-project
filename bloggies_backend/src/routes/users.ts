@@ -3,8 +3,26 @@ import { ensureLoggedIn } from "../auth";
 import User from "../models/user";
 import express from "express";
 import ExpressError from "../expressError";
+import multer from "multer";
+import multerS3 from "multer-s3";
+import { s3 } from "../s3";
+import { PHOTO_BUCKET } from "../config";
 
 export const usersRouter = express.Router();
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: PHOTO_BUCKET,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    metadata: function (req, file, cb) {
+      cb(null, { fieldname: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      cb(null, file.originalname + Date.now().toString());
+    }
+  })
+});
 
 /** POST /users/register - creates a new user. 
  * Returns user object & jwt */
@@ -16,11 +34,25 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
       res.cookie("token", result.token);
       return res.status(201).json(result);
     }
+    console.log("register event with: ", username, password, display_name);
     throw new ExpressError("Invalid registration values. Check all fields.", 400);
   } catch (err) {
     return next(err);
   }
 });
+
+/** PATCH /users/upload-photo - updates an existing user's profile photo. 
+ * Returns user object */
+usersRouter.post("/upload-photo", ensureLoggedIn, upload.single("upload"), async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    // TODO: Update the database to include the user's uploaded profile image.
+    return res.json({"photoUrl": req.file })
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
 
 /** POST /users/login - authenticate credentials and login a user. 
  * Returns user object & jwt*/
