@@ -5,15 +5,16 @@ DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "replies";
 DROP TABLE IF EXISTS "favorites";
 
-CREATE DATABASE "bloggies";
+CREATE DATABASE "bloggies-test";
 
-\c "bloggies"
+\c "bloggies-test"
 
 CREATE TABLE users ( 
   id SERIAL PRIMARY KEY,
   username VARCHAR (25) UNIQUE NOT NULL,
   display_name VARCHAR (30) NOT NULL,
   hashed_pwd VARCHAR (100) NOT NULL,
+  photo_url TEXT,
   join_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
