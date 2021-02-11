@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
 import { Post, PostFormData, User } from "../custom";
-import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, UPDATE_POST } from "./actionTypes";
+import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, UPDATE_POST, UPDATE_PROFILE_PHOTO } from "./actionTypes";
 
 /**
  * POST request to add a post to backend and dispatches
@@ -195,4 +195,23 @@ export function logoutUser() {
 /**Returns an action object for type LOAD_USER*/
 export function gotUserInfo(user: User) {
   return { type: LOAD_USER, payload: { user } };
+}
+
+
+export function uploadFileToApi(file: FormData) {
+  return async function (dispatch: Dispatch<Action>) {
+    const res = await fetch(`${BASE_URL}/users/upload-photo`, {
+      method: 'POST',
+      credentials: 'include',
+      body: file
+    });
+    if (res.status === 200) {
+      const resData = await res.json();
+      dispatch(gotPhotoUrl(resData.photoUrl));
+    }
+  }
+}
+
+function gotPhotoUrl(photoUrl: string) {
+  return { type: UPDATE_PROFILE_PHOTO, payload: { photoUrl } };
 }
