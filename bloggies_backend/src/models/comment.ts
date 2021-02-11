@@ -7,7 +7,7 @@ export default class Comment {
     try {
       /** LEFT OUTER JOIN to retrieve replies of comments && comments WITHOUT comments */
       const res = await db.query(
-        `SELECT c.id, c.body, c.author_id, u.display_name as author_name, c.created_at, c.is_reply, COUNT(r.reply_to_comment_id) as reply_count, c.post_id
+        `SELECT c.id, c.body, c.author_id, u.display_name as author_name, u.photo_url as author_photo, c.created_at, c.is_reply, COUNT(r.reply_to_comment_id) as reply_count, c.post_id
           FROM comments as c
           JOIN posts as p 
             ON c.post_id = p.id
@@ -15,12 +15,13 @@ export default class Comment {
             ON c.author_id = u.id
           LEFT OUTER JOIN replies as r 
             ON c.id = r.reply_to_comment_id
-          GROUP BY r.reply_to_comment_id, c.id, c.body, c.author_id, c.created_at, u.display_name, c.post_id, c.is_reply
+          GROUP BY r.reply_to_comment_id, c.id, c.body, c.author_id, c.created_at, u.display_name, c.post_id, c.is_reply, u.photo_url
             HAVING c.post_id = $1`,
         [postId]);
       const comments = res.rows;
       return { comments };
     } catch (err) {
+      console.log(err);
       throw new ExpressError("Invalid post id", 400);
     }
   }
@@ -28,7 +29,7 @@ export default class Comment {
   static async getRepliesByCommentId(commentId: number) {
     try {
       const res = await db.query(
-        `SELECT c.id, c.body, c.author_id, c.created_at, u.display_name as author_name, c.post_id, c.is_reply
+        `SELECT c.id, c.body, c.author_id, c.created_at, u.display_name as author_name, c.post_id, c.is_reply, u.photo_url as author_photo
           FROM replies as r
           JOIN comments as c ON r.comment_id = c.id
           JOIN users as u ON u.id = c.author_id
