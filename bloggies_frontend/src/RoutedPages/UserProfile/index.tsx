@@ -7,6 +7,8 @@ import { BASE_URL } from "../../config";
 import { CustomReduxState, Post } from "../../custom";
 import FavoritesList from "../../FavoritesList";
 import { removeStrDashes } from "../../helpers";
+import UploadPhotoModal from "../../UploadPhotoModal";
+import UserProfilePhoto from "../../UserProfilePhoto";
 import "./UserProfile.css";
 
 /**
@@ -14,13 +16,15 @@ import "./UserProfile.css";
  * Publications (`BlogList`).
  */
 function UserProfile() {
-  const currUserId = useSelector((st: CustomReduxState) => st.user.id);
+  const currUser = useSelector((st: CustomReduxState) => st.user);
   const { userId, displayName } = useParams<{ userId: string, displayName: string }>();
   const [isCurrUserProfile, setIsCurrUserProfile] = useState<boolean>(false);
   const currUserFavs = useSelector((st: CustomReduxState) => st.favorites);
   const [userFavs, setUserFavs] = useState<Array<Post>>([]);
   const [userPosts, setUserPosts] = useState<Array<Post>>([]);
   const [serverErr, setServerErr] = useState("");
+  const [profilePhotoUrl, setProfilePhotoUrl ] = useState("");
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   useEffect(function checkProfileOwner() {
     // retrieve user favorites by a GET request with user id from params.
@@ -45,19 +49,40 @@ function UserProfile() {
       }
     }
 
+    async function getUserProfilePhoto() {
+      try {
+        const userPhotoRes = await fetch(`${BASE_URL}/users/${userId}/photo`);
+        const userPhotoResData = await userPhotoRes.json();
+        setProfilePhotoUrl(userPhotoResData.photo_url);
+      } catch (err) {
+        setServerErr("This user does not exist.");
+      }
+    }
+
     // if profile belongs to the current user, use redux data.
-    if (parseInt(userId) === currUserId) {
+    if (parseInt(userId) === currUser.id) {
       setIsCurrUserProfile(true);
       getUserPosts();
+      setProfilePhotoUrl(currUser.photo_url);
     } else {
       // if not current user's profile, fetch the data from backend.
       getUserFavorites();
       getUserPosts();
+      getUserProfilePhoto();
     }
   }, [userId]);
 
+  const handlePhotoUploadModal = () => {
+    setShowUploadModal(true);
+    console.log("opening the photo upload modal");
+  }
+
   return (
     <Container className="UserProfile">
+      {isCurrUserProfile && <UploadPhotoModal show={showUploadModal} handleClose={() => setShowUploadModal(false)} />}
+      <div className="UserProfile-photo">
+      <UserProfilePhoto username={removeStrDashes(displayName)} photoUrl={isCurrUserProfile? currUser.photo_url : profilePhotoUrl} handlePhotoClick={handlePhotoUploadModal} width="8rem" />
+      </div>
       <h1 className="mt-4">{removeStrDashes(displayName)}'s profile</h1>
       { serverErr && <Alert>{serverErr}</Alert>}
       <Row>

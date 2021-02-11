@@ -41,18 +41,18 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
   }
 });
 
-/** PATCH /users/upload-photo - updates an existing user's profile photo. 
+/** POST /users/upload-photo - uploads an existing user's profile photo. 
  * Returns user object */
 usersRouter.post("/upload-photo", ensureLoggedIn, upload.single("upload"), async function (req: Request, res: Response, next: NextFunction) {
   try {
     // TODO: Update the database to include the user's uploaded profile image.
-    return res.json({"photoUrl": req.file })
+    await User.updatePhoto(req.user.user_id, (req.file as any).location);
+    console.log("uploading photo", (req.file as any).location);
+    return res.json({"photoUrl": (req.file as any).location});
   } catch (err) {
     return next(err);
   }
 });
-
-
 
 /** POST /users/login - authenticate credentials and login a user. 
  * Returns user object & jwt*/
@@ -80,6 +80,14 @@ usersRouter.get("/search", async function (req: Request, res: Response, next: Ne
   } catch (err) {
     return next(err);
   }
+});
+
+/** GET /users/:id/photo - Get a specific user's profile photo url. 
+ * Return a photo_url */
+usersRouter.get("/:id/photo", async function (req: Request, res: Response, next: NextFunction) {
+  const userId = req.params.id;
+  const user = await User.getUser(parseInt(userId));
+  return res.json({ photo_url: user.photo_url });
 });
 
 /** GET /users - get the currently logged in user. Requires logged in. 

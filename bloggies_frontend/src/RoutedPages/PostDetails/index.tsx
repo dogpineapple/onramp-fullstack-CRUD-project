@@ -54,7 +54,10 @@ function PostDetails() {
     async function getComments() {
       const commentsRes = await fetch(`${BASE_URL}/comments/${postId}`);
       const commentsData = await commentsRes.json();
-      const commentsSortedByCreateDate = commentsData.comments.sort((a: Comment, b: Comment) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      let commentsSortedByCreateDate: Array<Comment> = [];
+      if (commentsData.comments) {
+        commentsSortedByCreateDate = commentsData.comments.sort((a: Comment, b: Comment) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      }
       setComments(commentsSortedByCreateDate);
     }
 
@@ -142,6 +145,7 @@ function PostDetails() {
                 created_at: commentData.created_at,
                 id: commentData.id,
                 author_name: currUser.display_name,
+                author_photo: currUser.photo_url,
                 reply_count: "0"
               }]);
             }

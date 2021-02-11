@@ -21,13 +21,13 @@ export default class Post {
   static async getAll() {
     try {
       const res = await db.query(
-        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url AS author_photo, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u 
         ON p.author_id = u.id
         LEFT OUTER JOIN favorites AS f
         ON p.id = f.post_id
-        GROUP BY f.post_id, p.id, u.display_name`);
+        GROUP BY f.post_id, p.id, u.display_name, u.photo_url`);
       return res.rows;
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
@@ -38,13 +38,13 @@ export default class Post {
   static async getPost(id: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, p.title, p.description, p.body, u.display_name AS author_name, p.author_id, p.created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, p.title, p.description, p.body, u.display_name AS author_name, u.photo_url AS author_photo, p.author_id, p.created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u 
           ON p.author_id = u.id
         LEFT OUTER JOIN favorites AS f
           ON p.id = f.post_id
-        GROUP BY f.post_id, p.id, u.display_name, p.title, p.description, p.body, p.author_id, p.created_at, p.last_updated_at
+        GROUP BY f.post_id, p.id, u.display_name, u.photo_url, p.title, p.description, p.body, p.author_id, p.created_at, p.last_updated_at
           HAVING p.id = $1`,
         [id]);
       return res.rows[0];
@@ -56,13 +56,13 @@ export default class Post {
   static async getPostByUserId(id: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, p.title, p.description, u.display_name AS author_name, p.body, p.author_id, p.created_at, p.last_updated_at,  COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, p.title, p.description, u.display_name AS author_name, u.photo_url AS author_photo, p.body, p.author_id, p.created_at, p.last_updated_at,  COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u
           ON p.author_id = u.id
         LEFT OUTER JOIN favorites AS f
           ON f.post_id = p.id
-        GROUP BY f.post_id, p.id, p.title, p.description, u.display_name, p.body, p.author_id, p.created_at, p.last_updated_at
+        GROUP BY f.post_id, p.id, p.title, p.description, u.display_name, u.photo_url, p.body, p.author_id, p.created_at, p.last_updated_at
           HAVING p.author_id = $1`,
         [id]);
       return res.rows;
@@ -111,13 +111,13 @@ export default class Post {
   static async searchPosts(term: string) {
     // if term is a date.. search posts by created_at dates
     const res = await db.query(
-      `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
+      `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url as author_photo, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
       FROM posts AS p
       JOIN users AS u 
       ON p.author_id = u.id
       LEFT OUTER JOIN favorites AS f
       ON p.id = f.post_id
-      GROUP BY f.post_id, p.id, u.display_name
+      GROUP BY f.post_id, p.id, u.display_name, u.photo_url
       HAVING LOWER(p.title) LIKE LOWER('%' || $1 || '%') 
         OR LOWER(p.description) LIKE LOWER('%' || $1 || '%')
         OR LOWER(u.display_name) LIKE LOWER('%' || $1 || '%')`,

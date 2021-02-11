@@ -5,9 +5,9 @@ DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "replies";
 DROP TABLE IF EXISTS "favorites";
 
-CREATE DATABASE "bloggies-test";
+CREATE DATABASE "bloggies";
 
-\c "bloggies-test"
+\c "bloggies"
 
 CREATE TABLE users ( 
   id SERIAL PRIMARY KEY,

@@ -1,0 +1,12 @@
+.UserProfilePhoto-wrapper {
+  margin: auto;
+  border-radius:50%;
+  overflow:hidden;
+  border:rgb(236, 236, 236) 1px solid;
+}
+
+.UserProfilePhoto-wrapper > img {
+  object-fit: cover;
+  width:100%;
+  height:100%;
+}

@@ -13,7 +13,7 @@ export default class User {
       const res = await db.query(
         `INSERT INTO users (username, display_name, hashed_pwd) 
           VALUES ($1, $2, $3)
-          RETURNING id, username, display_name, join_date`,
+          RETURNING id, username, display_name, join_date, photo_url`,
         [username, displayName, hashedPwd]);
       const user = res.rows[0];
       // Generate a jwt token with payload of `username` and `user_id`.
@@ -27,7 +27,7 @@ export default class User {
   /** Authenticate a user login */
   static async authenticate(username: string, password: string) {
     const res = await db.query(
-      `SELECT hashed_pwd, id, join_date, display_name FROM users WHERE username = $1`,
+      `SELECT hashed_pwd, id, join_date, display_name, photo_url FROM users WHERE username = $1`,
       [username]);
     const user = res.rows[0];
     if (user) {
@@ -36,7 +36,7 @@ export default class User {
       if (isValid) {
         // Generate a jwt token with payload of `username` and `user_id`.
         let token = jwt.sign({ username: username, user_id: user.id }, SECRET_KEY);
-        return { user: { id: user.id, username: username, join_date: user.join_date, display_name: user.display_name }, token };
+        return { user: { id: user.id, username: username, join_date: user.join_date, display_name: user.display_name, photo_url: user.photo_url}, token };
       }
       // Throw error if password is not valid.
       throw new ExpressError("Credentials do not match, please try again", 400);
@@ -48,16 +48,33 @@ export default class User {
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT id, username, display_name, join_date
+      `SELECT id, username, display_name, join_date, photo_url
         FROM users 
         WHERE id = $1`,
       [userId]);
     return res.rows[0];
   }
 
+  /** Update profile photo for a specific user from database */
+  static async updatePhoto(userId: number, photoUrl: string) {
+    try {
+      console.log("photoUrl", photoUrl);
+      await db.query(
+        `UPDATE users
+          SET photo_url = $2
+          WHERE id = $1`,
+        [userId, photoUrl]);
+      return "success";
+    } catch (err) {
+      console.log(err);
+      throw new ExpressError(`Error occurred when updating profile photo: ${err}`, 400);
+    }
+  }
+
+
   static async searchUsers(term: string) {
     const res = await db.query(
-      `SELECT id, username, display_name, join_date
+      `SELECT id, username, display_name, join_date, photo_url
         FROM users 
         WHERE LOWER(display_name) LIKE LOWER('%' || $1 || '%')`,
       [term]);

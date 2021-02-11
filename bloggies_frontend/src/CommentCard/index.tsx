@@ -5,6 +5,9 @@ import CommentReplyAccord from "../CommentReplyAccord";
 import { Comment } from "../custom";
 import "./CommentCard.css";
 import CommentForm from "../Forms/CommentForm";
+import UserProfilePhoto from "../UserProfilePhoto";
+import { useHistory } from "react-router";
+import { changeToURLFriendly } from "./../helpers";
 
 interface IProp {
   comment: Comment,
@@ -19,7 +22,8 @@ interface IProp {
  */
 function CommentCard({ comment, handlePostReply }: IProp) {
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
-  const [ replyCount, setReplyCount ] = useState<number>(0);
+  const [replyCount, setReplyCount] = useState<number>(0);
+  const history = useHistory();
 
   useEffect(() => {
     setReplyCount(parseInt(comment.reply_count));
@@ -31,7 +35,7 @@ function CommentCard({ comment, handlePostReply }: IProp) {
       handlePostReply(postId, commentId, isReply, body);
       setShowCommentForm(false);
     }
-    
+
     // if the comment is a reply to another comment, increment the `replyCount` state.
     // this will cause the `CommentReplyAccord` to re-render due to the replyCount passed as a `key` property.
     if (isReply) {
@@ -39,18 +43,27 @@ function CommentCard({ comment, handlePostReply }: IProp) {
     }
   }
 
+  const redirectToProfile = () => {
+    // go to their profile
+    history.push(`/users/${comment.author_id}/${changeToURLFriendly(comment.author_name)}/favorites`);
+  }
+
   return (
     <div className="CommentCard text-left">
       <Card>
         <Card.Body>
           <Card.Text>{comment.body}</Card.Text>
-          <Card.Text className="text-muted d-flex justify-content-between">
-            <span><span className="App-author">{comment.author_name}</span> commented {moment(comment.created_at).fromNow()}</span>
+          <div className="text-muted d-flex justify-content-between">
+            <span className="d-flex flex-row align-items-center">
+              <UserProfilePhoto username={comment.author_name} photoUrl={comment.author_photo} handlePhotoClick={redirectToProfile} width="2rem" />
+              <span className="App-author ml-2 mr-1">{comment.author_name}</span>
+              commented {moment(comment.created_at).fromNow()}
+            </span>
             {/* Only show 'Reply' button if the comment is not a reply comment. */}
             {!comment.is_reply && <Button onClick={() => setShowCommentForm(!showCommentForm)}>{showCommentForm ? "Cancel" : "Reply"}</Button>}
-          </Card.Text>
+          </div>
           {/* Show `CommentForm` if showCommentForm is true */}
-          {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} handlePostComment={postReply}/>}
+          {showCommentForm && <CommentForm postId={comment.post_id} commentId={comment.id} isReply={true} handlePostComment={postReply} />}
           {/* If a comment has replies, show a collapsible of the comment's replies */}
           {replyCount > 0 && <CommentReplyAccord key={replyCount} replyCount={replyCount.toString()} commentId={comment.id} />}
         </Card.Body>
