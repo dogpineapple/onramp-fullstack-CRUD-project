@@ -58,7 +58,7 @@ function deletePost(postId: number) {
 }
 
 function displayServerErr(message: string) {
-  return { type: DISPLAY_SERVER_ERR, payload: { message }};
+  return { type: DISPLAY_SERVER_ERR, payload: { message } };
 }
 
 /**
@@ -69,7 +69,11 @@ export function getPostsFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/posts`);
     const postsRes = await res.json();
-    dispatch(gotPosts(postsRes.posts));
+    if (res.status === 200) {
+      dispatch(gotPosts(postsRes.posts));
+    } else {
+      console.log(postsRes.error.message);
+    }
   }
 }
 
@@ -92,7 +96,7 @@ export function getUserInfoFromAPI() {
  * returns UPDATE_POST action object to update redux store.
  */
 export function updateCurrentPost(post: Post) {
-  return { type: UPDATE_POST, payload: { post }};
+  return { type: UPDATE_POST, payload: { post } };
 }
 
 /**

@@ -13,7 +13,7 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
     case LOAD_USER:
       return { ...state, user: action.payload.user };
     case LOAD_POSTS:
-      return { ...state, posts: action.payload.posts };
+      return { ...state, posts: [...action.payload.posts] };
     case LOAD_FAVORITES:
       return { ...state, favorites: [...action.payload.favorites] };
     case LOAD_SEARCH_RESULTS:
