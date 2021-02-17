@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ensureLoggedIn } from "../auth";
+import { ensureLoggedIn } from "../middleware/auth";
 import express from "express";
 import Favorite from "../models/favorite";
 

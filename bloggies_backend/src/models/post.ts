@@ -9,7 +9,7 @@ export default class Post {
       const res = await db.query(
         `INSERT INTO posts ( title, description, body, author_id )
           VALUES ($1, $2, $3, $4) 
-          RETURNING id, title, description, body, author_id, created_at, last_updated_at`,
+          RETURNING id, title, description, body, author_id, created_at, p.last_updated_at`,
         [title, description, body, userId]);
       return res.rows[0];
     } catch (err) {
@@ -21,7 +21,7 @@ export default class Post {
   static async getAll() {
     try {
       const res = await db.query(
-        `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url AS author_photo, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url AS author_photo, author_id, created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
         FROM posts AS p
         JOIN users AS u 
         ON p.author_id = u.id
@@ -87,10 +87,10 @@ export default class Post {
       }
 
       const res = await db.query(
-        `UPDATE posts
-        SET ${query} last_updated_at = CURRENT_TIMESTAMP 
+        `UPDATE posts AS p
+        SET ${query} p.last_updated_at = CURRENT_TIMESTAMP 
         WHERE id = $1
-        RETURNING last_updated_at`,
+        RETURNING p.last_updated_at`,
         [id]);
       const updatedPost = res.rows[0];
       return { last_updated_at: updatedPost.last_updated_at };
@@ -111,7 +111,7 @@ export default class Post {
   static async searchPosts(term: string) {
     // if term is a date.. search posts by created_at dates
     const res = await db.query(
-      `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url as author_photo, author_id, created_at, last_updated_at, COUNT(f.post_id) AS favorite_count
+      `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url as author_photo, author_id, created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
       FROM posts AS p
       JOIN users AS u 
       ON p.author_id = u.id

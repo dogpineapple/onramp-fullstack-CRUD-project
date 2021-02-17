@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import CookieParser from 'cookie-parser';
 import { usersRouter} from "./routes/users";
-import { authenticateJWT } from "./auth";
+import { authenticateJWT } from "./middleware/auth";
 import { postsRouter } from "./routes/posts";
 import { favoritesRouter } from "./routes/favorites";
 import { commentsRouter } from "./routes/comments";

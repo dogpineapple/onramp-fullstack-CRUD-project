@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ensureLoggedIn } from "../auth";
+import { ensureLoggedIn } from "../middleware/auth";
 import Post from "../models/post";
 import express from "express";
 import ExpressError from "../expressError";

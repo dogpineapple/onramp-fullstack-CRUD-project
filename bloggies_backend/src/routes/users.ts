@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ensureLoggedIn } from "../auth";
+import { ensureLoggedIn } from "../middleware/auth";
 import User from "../models/user";
 import express from "express";
 import ExpressError from "../expressError";
@@ -7,6 +7,7 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import { s3 } from "../s3";
 import { PHOTO_BUCKET } from "../config";
+import { ensureNoCooldown } from "../middleware/middlewares";
 
 export const usersRouter = express.Router();
 
@@ -43,12 +44,11 @@ usersRouter.post("/register", async function (req: Request, res: Response, next:
 
 /** POST /users/upload-photo - uploads an existing user's profile photo. 
  * Returns user object */
-usersRouter.post("/upload-photo", ensureLoggedIn, upload.single("upload"), async function (req: Request, res: Response, next: NextFunction) {
+usersRouter.post("/upload-photo", ensureLoggedIn, ensureNoCooldown, upload.single("upload"), async function (req: Request, res: Response, next: NextFunction) {
   try {
-    // TODO: Update the database to include the user's uploaded profile image.
     await User.updatePhoto(req.user.user_id, (req.file as any).location);
     console.log("uploading photo", (req.file as any).location);
-    return res.json({"photoUrl": (req.file as any).location});
+    return res.json({ "photoUrl": (req.file as any).location });
   } catch (err) {
     return next(err);
   }

@@ -55,13 +55,23 @@ export default class User {
     return res.rows[0];
   }
 
+  /** Get the last_updated_at time for specific user from database */
+  static async getLastUpdated(userId: number) {
+    const res = await db.query(
+      `SELECT last_updated_at
+        FROM users 
+        WHERE id = $1`,
+      [userId]);
+    return res.rows[0].last_updated_at;
+  }
+
   /** Update profile photo for a specific user from database */
   static async updatePhoto(userId: number, photoUrl: string) {
     try {
       console.log("photoUrl", photoUrl);
       await db.query(
         `UPDATE users
-          SET photo_url = $2
+          SET photo_url = $2, last_updated_at = CURRENT_TIMESTAMP
           WHERE id = $1`,
         [userId, photoUrl]);
       return "success";

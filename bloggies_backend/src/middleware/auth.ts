@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from "express";
-import { SECRET_KEY } from "./config";
-import ExpressError from "./expressError";
+import { SECRET_KEY } from "../config";
+import ExpressError from "../expressError";
 import jwt from "jsonwebtoken";
 
 /** Middleware for checking JWT validity */
