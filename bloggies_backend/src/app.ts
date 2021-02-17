@@ -3,7 +3,6 @@ import ExpressError from "./expressError";
 import express from "express";
 import cors from "cors";
 import CookieParser from 'cookie-parser';
-import AWS from 'aws-sdk';
 import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./auth";
 import { postsRouter } from "./routes/posts";
@@ -14,8 +13,6 @@ const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true
 }
-
-AWS.config.update({region: 'us-west-1'})
 
 const app: Express = express();
 
