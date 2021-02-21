@@ -4,14 +4,15 @@ import './animations.css';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserFavoritesFromAPI, getUserInfoFromAPI } from './redux/actionCreators';
 import NavBar from './NavBar';
 import { CustomReduxState } from './custom';
 import { getCookie } from './helpers';
 
 function App() {
-  const userId = ((st: CustomReduxState) => st.user.id);
+  const userId = useSelector((st: CustomReduxState) => st.user.id);
+  const serverErr = useSelector((st: CustomReduxState) => st.serverErr);
   const dispatch = useDispatch();
 
   useEffect(function handleGetUser() {
@@ -28,6 +29,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        {serverErr && <div className="App-server-error">{serverErr}</div>}
         <NavBar />
         <Routes />
       </BrowserRouter>
