@@ -76,7 +76,6 @@ export default class User {
         [userId, photoUrl]);
       return "success";
     } catch (err) {
-      console.log(err);
       throw new ExpressError(`Error occurred when updating profile photo: ${err}`, 400);
     }
   }
