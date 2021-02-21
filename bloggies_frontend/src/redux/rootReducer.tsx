@@ -1,5 +1,5 @@
 import { Post, CustomReduxState } from "../custom";
-import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS, ADD_POST, DELETE_POST, UPDATE_POST, UPDATE_PROFILE_PHOTO } from "./actionTypes";
+import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS, ADD_POST, DELETE_POST, UPDATE_POST, UPDATE_PROFILE_PHOTO, DISPLAY_SERVER_ERR, REMOVE_SERVER_ERR } from "./actionTypes";
 
 const INITIAL_STATE: CustomReduxState = { user: {}, posts: [], favorites: [], searchResults: { posts: [], users: [] }, serverErr: "" };
 
@@ -13,9 +13,9 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
     case LOAD_USER:
       return { ...state, user: action.payload.user };
     case LOAD_POSTS:
-      return { ...state, posts: [...action.payload.posts] };
+      return { ...state, posts: [ ...action.payload.posts ] };
     case LOAD_FAVORITES:
-      return { ...state, favorites: [...action.payload.favorites] };
+      return { ...state, favorites: [...action.payload.favorites ] };
     case LOAD_SEARCH_RESULTS:
       return { ...state, searchResults: action.payload }
     case ADD_FAVORITE:
@@ -72,8 +72,12 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
     case LOGOUT:
       // reset all states related to a current user.
       return { ...state, user: {}, favorites: [] };
+    case DISPLAY_SERVER_ERR:
+      return { ...state, serverErr: action.payload.err }
     case UPDATE_PROFILE_PHOTO:
       return { ...state, user: { ...state.user, photo_url: action.payload.photoUrl }};
+    case REMOVE_SERVER_ERR:
+      return { ...state, serverErr: "" }
     default:
       return state;
   }

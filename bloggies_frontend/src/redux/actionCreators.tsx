@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
 import { Post, PostFormData, User } from "../custom";
-import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, UPDATE_POST, UPDATE_PROFILE_PHOTO } from "./actionTypes";
+import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, REMOVE_SERVER_ERR, UPDATE_POST, UPDATE_PROFILE_PHOTO } from "./actionTypes";
 
 /**
  * POST request to add a post to backend and dispatches
@@ -20,9 +20,10 @@ export function addPostToAPI(postData: PostFormData) {
     });
     const resData = await res.json();
     if (res.status === 201) {
+      dispatch(deleteServerErr());
       dispatch(addPost(resData.post));
     } else {
-      console.log("error in posting", resData.error.message);
+      dispatch(gotServerErr(resData.error.message));
     }
   }
 }
@@ -46,19 +47,16 @@ export function deletePostFromAPI(postId: number) {
     });
     const resData = await res.json();
     if (res.status === 200) {
+      dispatch(deleteServerErr());
       dispatch(deletePost(postId))
     } else {
-      dispatch(displayServerErr(resData.error.message));
+      dispatch(gotServerErr(resData.error.message));
     }
   }
 }
 
 function deletePost(postId: number) {
   return { type: DELETE_POST, payload: { postId } };
-}
-
-function displayServerErr(message: string) {
-  return { type: DISPLAY_SERVER_ERR, payload: { message } };
 }
 
 /**
@@ -70,9 +68,10 @@ export function getPostsFromAPI() {
     const res = await fetch(`${BASE_URL}/posts`);
     const postsRes = await res.json();
     if (res.status === 200) {
+      dispatch(deleteServerErr());
       dispatch(gotPosts(postsRes.posts));
     } else {
-      console.log(postsRes.error.message);
+      dispatch(gotServerErr(postsRes.error.message));
     }
   }
 }
@@ -112,6 +111,7 @@ export function getSearchResultsFromAPI(term: string) {
     const usersData = await usersRes.json();
 
     if (postsRes.status === 200 && usersRes.status === 200) {
+      dispatch(deleteServerErr());
       dispatch(gotSearchResults(postsData.posts, usersData.users));
     }
   }
@@ -136,7 +136,11 @@ export function addFavoriteToAPI(post: Post) {
       }
     });
     if (res.status === 201) {
+      dispatch(deleteServerErr());
       dispatch(addFavorite(post));
+    } else {
+      const resData = await res.json();
+      dispatch(gotServerErr(resData.error.message));
     }
   }
 }
@@ -160,13 +164,22 @@ export function deleteFavoriteFromAPI(postId: number) {
       }
     });
     if (res.status === 200) {
+      dispatch(deleteServerErr());
       dispatch(deleteFavorite(postId));
     }
   }
 }
 
 function deleteFavorite(postId: number) {
-  return { type: DELETE_FAVORITE, payload: { postId } }
+  return { type: DELETE_FAVORITE, payload: { postId } };
+}
+
+function gotServerErr(err: string) {
+  return { type: DISPLAY_SERVER_ERR, payload: { err } };
+}
+
+function deleteServerErr() {
+  return { type: REMOVE_SERVER_ERR };
 }
 
 /**
@@ -209,9 +222,12 @@ export function uploadFileToApi(file: FormData) {
       credentials: 'include',
       body: file
     });
-    if (res.status === 200) {
-      const resData = await res.json();
+    const resData = await res.json();
+    if (res.status === 200) {   
+      dispatch(deleteServerErr());
       dispatch(gotPhotoUrl(resData.photoUrl));
+    } else {
+      dispatch(gotServerErr(resData.error.message));
     }
   }
 }
