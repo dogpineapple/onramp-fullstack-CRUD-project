@@ -4,7 +4,7 @@ import ExpressError from "../expressError";
 export default class Post {
 
   /** Create a new post */
-  static async create(title: string, description: string, body: string, userId: number) {
+  static async createPost(title: string, description: string, body: string, userId: number) {
     try {
       const res = await db.query(
         `INSERT INTO posts ( title, description, body, author_id )
@@ -18,7 +18,7 @@ export default class Post {
   }
 
   /** Get all existing posts */
-  static async getAll() {
+  static async getAllPosts() {
     try {
       const res = await db.query(
         `SELECT p.id, title, description, body, u.display_name AS author_name, u.photo_url AS author_photo, author_id, created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
@@ -72,13 +72,13 @@ export default class Post {
   }
 
   /** Check if post belongs to the current user */
-  static async isAuthor(postId: number, currentUserId: number) {
+  static async checkIsAuthor(postId: number, currentUserId: number) {
     const post = await this.getPost(postId);
     return post.author_id === currentUserId;
   }
 
-  /** Update an existing posts */
-  static async update(id: number, updateData: any) {
+  /** Update an existing post */
+  static async updatePost(id: number, updateData: any) {
     try {
       let query = "";
 
@@ -99,7 +99,7 @@ export default class Post {
     }
   }
 
-  static async delete(id: number) {
+  static async deletePost(id: number) {
     await db.query(
       `DELETE FROM posts
       WHERE id = $1`,

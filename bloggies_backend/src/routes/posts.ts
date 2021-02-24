@@ -12,7 +12,7 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
   try {
     const user = req.user;
     const { title, description, body } = req.body;
-    const post = await Post.create(title, description, body, user.user_id);
+    const post = await Post.createPost(title, description, body, user.user_id);
     return res.status(201).send({ post });
   } catch (err) {
     return next(err);
@@ -23,7 +23,7 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
  * Returns posts */
 postsRouter.get("/", async function (req: Request, res: Response, next: NextFunction) {
   try {
-    const posts = await Post.getAll();
+    const posts = await Post.getAllPosts();
     return res.json({ posts });
   } catch (err) {
     return next(err);
@@ -76,10 +76,10 @@ postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Res
   try {
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
-    if (await Post.isAuthor(postId, currentUser.user_id)) {
+    if (await Post.checkIsAuthor(postId, currentUser.user_id)) {
       const updateData = req.body;
       delete updateData._token;
-      const lastUpdatedDate = await Post.update(postId, updateData);
+      const lastUpdatedDate = await Post.updatePost(postId, updateData);
       return res.json(lastUpdatedDate);
     }
 
@@ -97,8 +97,8 @@ postsRouter.delete("/:id", ensureLoggedIn, async function (req: Request, res: Re
     const postId = parseInt(req.params.id);
     const currentUser = req.user;
 
-    if (await Post.isAuthor(postId, currentUser.user_id)) {
-      const message = await Post.delete(postId);
+    if (await Post.checkIsAuthor(postId, currentUser.user_id)) {
+      const message = await Post.deletePost(postId);
       return res.json(message)
     }
 

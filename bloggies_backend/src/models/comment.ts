@@ -5,7 +5,7 @@ export default class Comment {
   /** Retrieve all comment for a post by post_id */
   static async getCommentsByPostId(postId: number) {
     try {
-      /** LEFT OUTER JOIN to retrieve replies of comments && comments WITHOUT comments */
+      /** LEFT OUTER JOIN to retrieve replies of comments && comments WITHOUT comments.  */
       const res = await db.query(
         `SELECT c.id, c.body, c.author_id, u.display_name as author_name, u.photo_url as author_photo, c.created_at, c.is_reply, COUNT(r.reply_to_comment_id) as reply_count, c.post_id
           FROM comments as c
@@ -21,11 +21,12 @@ export default class Comment {
       const comments = res.rows;
       return { comments };
     } catch (err) {
-      console.log(err);
+      console.error(`Error occurred in getCommentsByPostId : ${err}`);
       throw new ExpressError("Invalid post id", 400);
     }
   }
 
+  /** Retrieve all replies for a comment by commentId. Returns { replies } */
   static async getRepliesByCommentId(commentId: number) {
     try {
       const res = await db.query(
@@ -42,6 +43,7 @@ export default class Comment {
     }
   }
 
+  /** Creates a new comment for a post. Returns { created_at, id } */
   static async createComment(body: string, postId: number, authorId: number, isReply: boolean) {
     try {
       const res = await db.query(
@@ -55,6 +57,7 @@ export default class Comment {
     }
   }
 
+  /** Creates a new reply comment to an existing comment. */
   static async createReply(commentId: number, replyToCommentId: number) {
     try {
       await db.query(

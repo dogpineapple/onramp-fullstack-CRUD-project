@@ -4,7 +4,7 @@ import ExpressError from "../expressError";
 export default class Favorite {
 
   /** Retrieve all favorites for a user by user_id */
-  static async getAll(userId: number) {
+  static async getAllFavorites(userId: number) {
     const res = await db.query(
       `SELECT p.id, p.title, p.description, p.body, p.author_id, p.created_at, u.display_name AS author_name, COUNT(f.post_id) AS favorite_count
           FROM favorites AS f
@@ -18,7 +18,7 @@ export default class Favorite {
   }
 
   /** Adds a favorited post for a user */
-  static async add(userId: number, postId: number) {
+  static async createFavorite(userId: number, postId: number) {
     try {
       await db.query(
         `INSERT INTO favorites (user_id, post_id)
@@ -31,7 +31,7 @@ export default class Favorite {
   }
 
   /** Adds a favorited post for a user */
-  static async delete(userId: number, postId: number) {
+  static async deleteFavorite(userId: number, postId: number) {
     await db.query(
       `DELETE FROM favorites
            WHERE user_id = $1 AND post_id = $2`,
