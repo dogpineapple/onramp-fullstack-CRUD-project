@@ -1,6 +1,6 @@
 /** Database setup */
 
-const { Client } = require("pg");
+import { Client } from "pg";
 
 let DB_URI;
 
