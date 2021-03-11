@@ -1,20 +1,19 @@
-DROP DATABASE IF EXISTS "bloggies";
+DROP DATABASE IF EXISTS "learning_circle_test";
 DROP TABLE IF EXISTS "users";
 DROP TABLE IF EXISTS "posts";
 DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "replies";
 DROP TABLE IF EXISTS "favorites";
 
-CREATE DATABASE "bloggies";
+CREATE DATABASE "learning_circle_test";
 
-\c "bloggies"
+\c "learning_circle_test"
 
 CREATE TABLE users ( 
   id SERIAL PRIMARY KEY,
   username VARCHAR (25) UNIQUE NOT NULL,
   display_name VARCHAR (30) NOT NULL,
   hashed_pwd VARCHAR (100) NOT NULL,
-  photo_url TEXT,
   join_date DATE NOT NULL DEFAULT CURRENT_DATE,
   last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -25,7 +24,6 @@ CREATE TABLE posts (
   description VARCHAR (255),
   body VARCHAR (10000),
   author_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
-  media_urls TEXT[],
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
