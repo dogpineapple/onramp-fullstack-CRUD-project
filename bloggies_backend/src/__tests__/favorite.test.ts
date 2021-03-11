@@ -32,7 +32,7 @@ describe("Test favorite class model", function () {
   });
 
   test("can add a favorite", async () => {
-    const res = await Favorite.add(validUserId, validPostId);
+    const res = await Favorite.createFavorite(validUserId, validPostId);
     expect(res.message).toBe("Favorited successfully.");
 
     const expectedRes = await db.query(
@@ -50,14 +50,14 @@ describe("Test favorite class model", function () {
 
   test("can handle invalid user_id when adding a favorite", async () => {
     try { 
-       await Favorite.add(9999, validPostId);
+       await Favorite.createFavorite(9999, validPostId);
     } catch (err) {
       expect(err.message).toBe("Invalid user_id/post_id");
     }
   });
 
   test("can remove a favorite", async () => {
-    const res = await Favorite.delete(validUserId, validPostId);
+    const res = await Favorite.deleteFavorite(validUserId, validPostId);
     expect(res.message).toBe("Unfavorited successfully.");
     const expectedRes = await db.query(
       `SELECT p.id
@@ -94,7 +94,7 @@ describe("Test favorite class model", function () {
         VALUES ($1, $2)`,
       [validUserId, secondPostId]);
 
-    const favorites = await Favorite.getAll(validUserId);
+    const favorites = await Favorite.getAllFavorites(validUserId);
     expect(favorites.length).toBe(2);
   });
 
