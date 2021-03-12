@@ -1,4 +1,5 @@
 DROP DATABASE IF EXISTS "learning_circle_test";
+DROP DATABASE IF EXISTS "learning_circle";
 DROP TABLE IF EXISTS "users";
 DROP TABLE IF EXISTS "posts";
 DROP TABLE IF EXISTS "comments";
