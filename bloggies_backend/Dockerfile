@@ -1,7 +1,3 @@
-FROM node:14-alpine
-WORKDIR /bloggies_backend
-COPY package*.json ./
-RUN npm install
-COPY . .
-EXPOSE 5000
-CMD ["npm", "start"]
+FROM postgres:13-alpine
+COPY ./src/data.sql /docker-entrypoint-initdb.d/
+ENV POSTGRES_PASSWORD password
