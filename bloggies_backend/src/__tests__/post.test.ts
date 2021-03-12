@@ -30,7 +30,7 @@ describe("Test post class", function () {
   });
 
   test("can create new post", async function () {
-    const post = await Post.create("Test title", "Test description", "Test body", validUserId);
+    const post = await Post.createPost("Test title", "Test description", "Test body", validUserId);
     expect(post.title).toBe("Test title");
     expect(post.body).toBe("Test body");
     expect(post.author_id).toBe(validUserId);
@@ -45,7 +45,7 @@ describe("Test post class", function () {
 
   test("can update a post", async function () {
     const updateData = { title: "Lemon Soda", description: "Lemon with Sparkling Water" }
-    const res = await Post.update(validPostId, updateData);
+    const res = await Post.updatePost(validPostId, updateData);
 
     const results = await db.query(
       `SELECT title, description
@@ -60,7 +60,7 @@ describe("Test post class", function () {
   });
 
   test("can delete post", async function () {
-    await Post.delete(validPostId);
+    await Post.deletePost(validPostId);
     const res = await db.query(
       `SELECT id, title, description, body, author_id, created_at, last_updated_at
       FROM posts
@@ -69,12 +69,12 @@ describe("Test post class", function () {
   });
 
   test("can identify current user as not the author of a post", async function () {
-    const author = await Post.isAuthor(validUserId, 99);
+    const author = await Post.checkIsAuthor(validUserId, 99);
     expect(author).toBe(false);
   });
 
   test("can identify current user as the author of a post", async function () {
-    const author = await Post.isAuthor(validUserId, validUserId);
+    const author = await Post.checkIsAuthor(validUserId, validUserId);
     expect(author).toBe(true);
   });
 
