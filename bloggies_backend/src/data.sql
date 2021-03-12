@@ -6,8 +6,9 @@ DROP TABLE IF EXISTS "replies";
 DROP TABLE IF EXISTS "favorites";
 
 CREATE DATABASE "learning_circle_test";
+CREATE DATABASE "learning_circle";
 
-\c "learning_circle_test"
+\c "learning_circle"
 
 CREATE TABLE users ( 
   id SERIAL PRIMARY KEY,
@@ -75,3 +76,44 @@ INSERT INTO favorites(post_id, user_id)
 VALUES
     (1, 3),
     (2, 3);
+
+\c "learning_circle_test"
+
+CREATE TABLE users ( 
+  id SERIAL PRIMARY KEY,
+  username VARCHAR (25) UNIQUE NOT NULL,
+  display_name VARCHAR (30) NOT NULL,
+  hashed_pwd VARCHAR (100) NOT NULL,
+  join_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY, 
+  title VARCHAR (255) NOT NULL, 
+  description VARCHAR (255),
+  body VARCHAR (10000),
+  author_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+                    
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY, 
+  body VARCHAR(5000) NOT NULL, 
+  post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
+  author_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  is_reply BOOLEAN NOT NULL
+);
+
+CREATE TABLE replies (
+  comment_id INT NOT NULL REFERENCES comments ON DELETE CASCADE,
+  reply_to_comment_id INT NOT NULL REFERENCES comments ON DELETE CASCADE
+);
+
+CREATE TABLE favorites (
+  post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
+  user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+  UNIQUE(post_id, user_id)
+);
