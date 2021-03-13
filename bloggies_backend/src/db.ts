@@ -1,15 +1,17 @@
 /** Database setup */
+import * as dotenv from "dotenv";
 import { Client } from "pg";
 
-let { POSTGRES_USER, POSTGRES_PWD, POSTGRES_PORT, NODE_ENV } = process.env; 
+dotenv.config({ path: __dirname + '/.env'});
 
+let { DB_USERNAME, DB_PASSWORD, DB_PORT, NODE_ENV } = process.env; 
 let DB_URI;
 
 // connect to PSQL container using docker
 if (NODE_ENV === "test") {
-  DB_URI = `postgresql://${POSTGRES_USER}:${POSTGRES_PWD}@localhost:${POSTGRES_PORT}/learning_circle_test`;
+  DB_URI = `postgresql://${DB_USERNAME}:${DB_PASSWORD}@localhost:${DB_PORT}/learning_circle_test`;
 } else {
-  DB_URI = "postgresql://${POSTGRES_USER}:${POSTGRES_PWD}@localhost:${POSTGRES_PORT}/learning_circle";
+  DB_URI = `postgresql://${DB_USERNAME}:${DB_PASSWORD}@localhost:${DB_PORT}/learning_circle`;
 }
 
 let db = new Client({

@@ -46,22 +46,22 @@ bloggies_backend
 	pg 8.5.1
 	ts-jest 26.4.4 
 	Supertest 6.0.1
+	Docker 20.10.5
+
 bloggies_database
 
-	PostgreSQL
+	PostgreSQL:13-alpine
 
 # Installation
-To run this project, download or clone this repository to get the `bloggies_backend` and `bloggies_frontend` files.
+To run this project, you must have Docker installed and download/clone this repository to get the `bloggies_backend` and `bloggies_frontend` files.
+
 To setup the **backend** run the following commands in the command line (from the root directory):
 	
 	$ cd bloggies_backend
-	$ npm install
-	$ cd src/
-	$ psql < data.sql	**NOTE: This will not create the test database.
-								To create the test database, go open `data.sql`
-								and change "bloggies" to "bloggest_test", save
-								`data.sql` and re-run the command. **
-	$ npm start			**code will be on localhost:5000**
+	$ npm install			**NOTE: Setup .env file with DB_USERNAME, DB_PASSWORD, DB_PORT variables before moving on**
+	$ docker build -t learning_circle_db --build-arg DB_PASSWORD=YOUR_PASSWORD_HERE .
+	$ docker run -dp YOUR_PORT_HERE:5432 --name lc_db learning_circle_db 
+	$ npm start				**code will be on localhost:5000**
 **To run backend tests, run `$ npm test` in `bloggies_backend/`**
 
 To setup the **frontend** run the following commands in the command line (from the root directory):
