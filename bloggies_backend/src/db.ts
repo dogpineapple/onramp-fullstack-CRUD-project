@@ -1,7 +1,7 @@
 /** Database setup */
 
 import { Client } from "pg";
-require('dotenv').config({ path: require('find-config')('.env') })
+require('dotenv').config({ path: require('find-config')('.env') });
 
 let DB_URI;
 
