@@ -30,6 +30,7 @@ exports[`BlogList should match snapshot 1`] = `
           Object {
             "author_id": 1,
             "author_name": "test user",
+            "author_photo": "",
             "body": "first test body",
             "created_at": "1/1/2020",
             "description": "first test description",
@@ -41,6 +42,7 @@ exports[`BlogList should match snapshot 1`] = `
           Object {
             "author_id": 1,
             "author_name": "test user",
+            "author_photo": "",
             "body": "second test body",
             "created_at": "1/1/2020",
             "description": "second test description",
@@ -52,6 +54,7 @@ exports[`BlogList should match snapshot 1`] = `
           Object {
             "author_id": 1,
             "author_name": "test user",
+            "author_photo": "",
             "body": "third test body",
             "created_at": "1/1/2020",
             "description": "third test description",
@@ -88,6 +91,7 @@ exports[`BlogList should match snapshot 1`] = `
                       Object {
                         "author_id": 1,
                         "author_name": "test user",
+                        "author_photo": "",
                         "body": "first test body",
                         "created_at": "1/1/2020",
                         "description": "first test description",
@@ -182,24 +186,26 @@ exports[`BlogList should match snapshot 1`] = `
                                     className="d-flex align-items-baseline justify-content-between row"
                                   >
                                     <CardSubtitle
-                                      className="BlogCard-author-date"
+                                      className="BlogCard-author-date d-flex align-items-center"
                                     >
                                       <ForwardRef
-                                        className="BlogCard-author-date card-subtitle"
+                                        className="BlogCard-author-date d-flex align-items-center card-subtitle"
                                       >
                                         <div
-                                          className="BlogCard-author-date card-subtitle h6"
+                                          className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
                                           <NavLink
-                                            to="/users/1/test-user/favorites"
+                                            className="d-flex align-items-center ml-1 mr-1"
+                                            to="/users/1/test-user"
                                           >
                                             <Link
                                               aria-current={null}
+                                              className="d-flex align-items-center ml-1 mr-1"
                                               to={
                                                 Object {
                                                   "hash": "",
-                                                  "pathname": "/users/1/test-user/favorites",
+                                                  "pathname": "/users/1/test-user",
                                                   "search": "",
                                                   "state": null,
                                                 }
@@ -207,20 +213,47 @@ exports[`BlogList should match snapshot 1`] = `
                                             >
                                               <LinkAnchor
                                                 aria-current={null}
-                                                href="/users/1/test-user/favorites"
+                                                className="d-flex align-items-center ml-1 mr-1"
+                                                href="/users/1/test-user"
                                                 navigate={[Function]}
                                               >
                                                 <a
                                                   aria-current={null}
-                                                  href="/users/1/test-user/favorites"
+                                                  className="d-flex align-items-center ml-1 mr-1"
+                                                  href="/users/1/test-user"
                                                   onClick={[Function]}
                                                 >
+                                                  <UserProfilePhoto
+                                                    handlePhotoClick={[Function]}
+                                                    photoUrl=""
+                                                    username="test user"
+                                                    width="2rem"
+                                                  >
+                                                    <div
+                                                      className="UserProfilePhoto"
+                                                    >
+                                                      <div
+                                                        className="UserProfilePhoto-wrapper"
+                                                        style={
+                                                          Object {
+                                                            "height": "2rem",
+                                                            "width": "2rem",
+                                                          }
+                                                        }
+                                                      >
+                                                        <img
+                                                          alt="test user"
+                                                          onClick={[Function]}
+                                                          src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
+                                                        />
+                                                      </div>
+                                                    </div>
+                                                  </UserProfilePhoto>
                                                   test user
                                                 </a>
                                               </LinkAnchor>
                                             </Link>
                                           </NavLink>
-                                           
                                           <span
                                             className="text-muted"
                                           >
@@ -236,6 +269,7 @@ exports[`BlogList should match snapshot 1`] = `
                                         Object {
                                           "author_id": 1,
                                           "author_name": "test user",
+                                          "author_photo": "",
                                           "body": "first test body",
                                           "created_at": "1/1/2020",
                                           "description": "first test description",
@@ -328,6 +362,7 @@ exports[`BlogList should match snapshot 1`] = `
                       Object {
                         "author_id": 1,
                         "author_name": "test user",
+                        "author_photo": "",
                         "body": "second test body",
                         "created_at": "1/1/2020",
                         "description": "second test description",
@@ -422,24 +457,26 @@ exports[`BlogList should match snapshot 1`] = `
                                     className="d-flex align-items-baseline justify-content-between row"
                                   >
                                     <CardSubtitle
-                                      className="BlogCard-author-date"
+                                      className="BlogCard-author-date d-flex align-items-center"
                                     >
                                       <ForwardRef
-                                        className="BlogCard-author-date card-subtitle"
+                                        className="BlogCard-author-date d-flex align-items-center card-subtitle"
                                       >
                                         <div
-                                          className="BlogCard-author-date card-subtitle h6"
+                                          className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
                                           <NavLink
-                                            to="/users/1/test-user/favorites"
+                                            className="d-flex align-items-center ml-1 mr-1"
+                                            to="/users/1/test-user"
                                           >
                                             <Link
                                               aria-current={null}
+                                              className="d-flex align-items-center ml-1 mr-1"
                                               to={
                                                 Object {
                                                   "hash": "",
-                                                  "pathname": "/users/1/test-user/favorites",
+                                                  "pathname": "/users/1/test-user",
                                                   "search": "",
                                                   "state": null,
                                                 }
@@ -447,20 +484,47 @@ exports[`BlogList should match snapshot 1`] = `
                                             >
                                               <LinkAnchor
                                                 aria-current={null}
-                                                href="/users/1/test-user/favorites"
+                                                className="d-flex align-items-center ml-1 mr-1"
+                                                href="/users/1/test-user"
                                                 navigate={[Function]}
                                               >
                                                 <a
                                                   aria-current={null}
-                                                  href="/users/1/test-user/favorites"
+                                                  className="d-flex align-items-center ml-1 mr-1"
+                                                  href="/users/1/test-user"
                                                   onClick={[Function]}
                                                 >
+                                                  <UserProfilePhoto
+                                                    handlePhotoClick={[Function]}
+                                                    photoUrl=""
+                                                    username="test user"
+                                                    width="2rem"
+                                                  >
+                                                    <div
+                                                      className="UserProfilePhoto"
+                                                    >
+                                                      <div
+                                                        className="UserProfilePhoto-wrapper"
+                                                        style={
+                                                          Object {
+                                                            "height": "2rem",
+                                                            "width": "2rem",
+                                                          }
+                                                        }
+                                                      >
+                                                        <img
+                                                          alt="test user"
+                                                          onClick={[Function]}
+                                                          src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
+                                                        />
+                                                      </div>
+                                                    </div>
+                                                  </UserProfilePhoto>
                                                   test user
                                                 </a>
                                               </LinkAnchor>
                                             </Link>
                                           </NavLink>
-                                           
                                           <span
                                             className="text-muted"
                                           >
@@ -476,6 +540,7 @@ exports[`BlogList should match snapshot 1`] = `
                                         Object {
                                           "author_id": 1,
                                           "author_name": "test user",
+                                          "author_photo": "",
                                           "body": "second test body",
                                           "created_at": "1/1/2020",
                                           "description": "second test description",
@@ -568,6 +633,7 @@ exports[`BlogList should match snapshot 1`] = `
                       Object {
                         "author_id": 1,
                         "author_name": "test user",
+                        "author_photo": "",
                         "body": "third test body",
                         "created_at": "1/1/2020",
                         "description": "third test description",
@@ -662,24 +728,26 @@ exports[`BlogList should match snapshot 1`] = `
                                     className="d-flex align-items-baseline justify-content-between row"
                                   >
                                     <CardSubtitle
-                                      className="BlogCard-author-date"
+                                      className="BlogCard-author-date d-flex align-items-center"
                                     >
                                       <ForwardRef
-                                        className="BlogCard-author-date card-subtitle"
+                                        className="BlogCard-author-date d-flex align-items-center card-subtitle"
                                       >
                                         <div
-                                          className="BlogCard-author-date card-subtitle h6"
+                                          className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
                                           <NavLink
-                                            to="/users/1/test-user/favorites"
+                                            className="d-flex align-items-center ml-1 mr-1"
+                                            to="/users/1/test-user"
                                           >
                                             <Link
                                               aria-current={null}
+                                              className="d-flex align-items-center ml-1 mr-1"
                                               to={
                                                 Object {
                                                   "hash": "",
-                                                  "pathname": "/users/1/test-user/favorites",
+                                                  "pathname": "/users/1/test-user",
                                                   "search": "",
                                                   "state": null,
                                                 }
@@ -687,20 +755,47 @@ exports[`BlogList should match snapshot 1`] = `
                                             >
                                               <LinkAnchor
                                                 aria-current={null}
-                                                href="/users/1/test-user/favorites"
+                                                className="d-flex align-items-center ml-1 mr-1"
+                                                href="/users/1/test-user"
                                                 navigate={[Function]}
                                               >
                                                 <a
                                                   aria-current={null}
-                                                  href="/users/1/test-user/favorites"
+                                                  className="d-flex align-items-center ml-1 mr-1"
+                                                  href="/users/1/test-user"
                                                   onClick={[Function]}
                                                 >
+                                                  <UserProfilePhoto
+                                                    handlePhotoClick={[Function]}
+                                                    photoUrl=""
+                                                    username="test user"
+                                                    width="2rem"
+                                                  >
+                                                    <div
+                                                      className="UserProfilePhoto"
+                                                    >
+                                                      <div
+                                                        className="UserProfilePhoto-wrapper"
+                                                        style={
+                                                          Object {
+                                                            "height": "2rem",
+                                                            "width": "2rem",
+                                                          }
+                                                        }
+                                                      >
+                                                        <img
+                                                          alt="test user"
+                                                          onClick={[Function]}
+                                                          src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
+                                                        />
+                                                      </div>
+                                                    </div>
+                                                  </UserProfilePhoto>
                                                   test user
                                                 </a>
                                               </LinkAnchor>
                                             </Link>
                                           </NavLink>
-                                           
                                           <span
                                             className="text-muted"
                                           >
@@ -716,6 +811,7 @@ exports[`BlogList should match snapshot 1`] = `
                                         Object {
                                           "author_id": 1,
                                           "author_name": "test user",
+                                          "author_photo": "",
                                           "body": "third test body",
                                           "created_at": "1/1/2020",
                                           "description": "third test description",
