@@ -34,8 +34,8 @@ export default class Checkout {
       });
 
       return session;
-    } catch (e) {
-      throw new ExpressError(`Err: ${e}`, 400);
+    } catch (err) {
+      throw new ExpressError(`Err: ${err}`, 400);
     }
   }
 }

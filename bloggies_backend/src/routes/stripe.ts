@@ -11,7 +11,7 @@ stripeRouter.post("/create-checkout-session", async function (req: Request, res:
     const {priceId}= req.body;
     const session = await Checkout.stripeCheckout(priceId);
     res.status(201).send({sessionId: session.id})
-  } catch (e) {
-    return next(e);
+  } catch (err) {
+    return next(err);
   }
 });
