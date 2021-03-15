@@ -8,7 +8,7 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
   try {
     // const token = req.body._token;
     const cookieToken = req.cookies.token;
-    const payload = jwt.verify(cookieToken, SECRET_KEY);
+    const payload = jwt.verify(cookieToken, SECRET_KEY as string);
     req.user = payload;
     return next();
   } catch (err) {

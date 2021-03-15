@@ -1,7 +1,12 @@
 import User from "../models/user";
 import db from "../db";
 import bcrypt from "bcrypt";
-import { BCRYPT_WORK_FACTOR } from "../config";
+// import { BCRYPT_WORK_FACTOR } from "../config";
+import * as dotenv from 'dotenv';
+
+dotenv.config({path: __dirname + '/env'});
+
+const {BCRYPT_WORK_FACTOR} = process.env;
 
 let validUserId: number;
 
@@ -11,7 +16,7 @@ describe("Test User class", function () {
     await db.query("DELETE FROM users");
 
     const password = 'password';
-    const hashedPwd = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+    const hashedPwd = await bcrypt.hash(password, BCRYPT_WORK_FACTOR as string);
     const userRes = await db.query(
       `INSERT INTO users (username, display_name, hashed_pwd)
       VALUES ($1, $2, $3)

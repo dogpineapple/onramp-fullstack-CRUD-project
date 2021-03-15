@@ -1,9 +1,13 @@
 import Stripe from "stripe";
-require("dotenv").config({ path: require("find-config")(".env") });
+import * as dotenv from 'dotenv';
 import ExpressError from "../expressError";
 
+dotenv.config({ path: __dirname + '/../env'});
+
+const {STRIPE_API_KEY} = process.env;
+
 /* create new Stripe instance to facilitate interactions with Stripe API*/
-const stripe = new Stripe(process.env.STRIPE_API_KEY as string, {
+const stripe = new Stripe(STRIPE_API_KEY as string, {
   apiVersion: "2020-08-27",
 });
 
