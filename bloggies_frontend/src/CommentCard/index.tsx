@@ -45,7 +45,7 @@ function CommentCard({ comment, handlePostReply }: IProp) {
 
   const redirectToProfile = () => {
     // go to their profile
-    history.push(`/users/${comment.author_id}/${changeToURLFriendly(comment.author_name)}/favorites`);
+    history.push(`/users/${comment.author_id}/${changeToURLFriendly(comment.author_name)}`);
   }
 
   return (
