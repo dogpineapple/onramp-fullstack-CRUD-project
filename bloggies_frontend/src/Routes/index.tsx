@@ -8,13 +8,23 @@ import PostDetails from "../RoutedPages/PostDetails";
 import UserProfile from "../RoutedPages/UserProfile";
 import ComposePage from "../RoutedPages/ComposePage";
 import SearchResults from "../RoutedPages/SearchResults";
+import RegisterStatusPage from "../RoutedPages/RegisterStatusPage";
+import PremiumBlogPage from "../RoutedPages/PremiumBlogPage";
+import UserSettingsPage from "../RoutedPages/UserSettingsPage";
+import PaymentCancelPage from "../RoutedPages/PaymentCancelPage";
+import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
 
 function Routes() {
   return (
     <Switch>
-      <Route exact path="/users/:userId/:displayName/favorites">
+      <Route exact path="/users/:userId/:displayName">
         <div className="Routes-thin-container">
           <UserProfile />
+        </div>
+      </Route>
+      <Route exact path="/users/:userId/settings">
+        <div className="Routes-thin-container">
+          <UserSettingsPage />
         </div>
       </Route>
       <Route exact path="/blogs/:postId/:postTitle">
@@ -22,19 +32,37 @@ function Routes() {
           <PostDetails />
         </div>
       </Route>
-      <Route exact path="/search">
-        <SearchResults />
+      <Route exact path="/blogs/premium">
+        <div className="Routes-thin-container">
+          <PremiumBlogPage />
+        </div>
       </Route>
       <Route exact path="/blogs/create">
         <div className="Routes-thin-container">
           <ComposePage />
         </div>
       </Route>
-      <Route exact path="/users/login">
-        <Login />
+      <Route exact path="/payment/success">
+        <div className="Routes-thin-container">
+          <PaymentSuccessPage />
+        </div>
+      </Route>
+      <Route exact path="/payment/cancel">
+        <div className="Routes-thin-container">
+          <PaymentCancelPage />
+        </div>
+      </Route>
+      <Route exact path="/users/register/membership-status">
+        <RegisterStatusPage />
       </Route>
       <Route exact path="/users/register">
         <Register />
+      </Route>
+      <Route exact path="/users/login">
+        <Login />
+      </Route>
+      <Route exact path="/search">
+        <SearchResults />
       </Route>
       <Route exact path="/">
         <div className="Routes-thin-container">
