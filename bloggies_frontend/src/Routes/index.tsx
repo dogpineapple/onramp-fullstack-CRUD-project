@@ -32,11 +32,6 @@ function Routes() {
           <PostDetails />
         </div>
       </Route>
-      <Route exact path="/blogs/premium">
-        <div className="Routes-thin-container">
-          <PremiumBlogPage />
-        </div>
-      </Route>
       <Route exact path="/blogs/create">
         <div className="Routes-thin-container">
           <ComposePage />
@@ -50,6 +45,11 @@ function Routes() {
       <Route exact path="/payment/cancel">
         <div className="Routes-thin-container">
           <PaymentCancelPage />
+        </div>
+      </Route>
+      <Route exact path="/member/blogs">
+        <div className="Routes-thin-container">
+          <PremiumBlogPage />
         </div>
       </Route>
       <Route exact path="/users/register/membership-status">
