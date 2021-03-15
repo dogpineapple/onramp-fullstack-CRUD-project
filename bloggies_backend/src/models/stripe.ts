@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import * as dotenv from 'dotenv';
 import ExpressError from "../expressError";
 
-dotenv.config({ path: __dirname + '/../env'});
+dotenv.config({ path: __dirname + '/env'});
 
 const {STRIPE_API_KEY} = process.env;
 

@@ -2,7 +2,6 @@ import db from "../db";
 import ExpressError from "../expressError";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import { BCRYPT_WORK_FACTOR, SECRET_KEY } from "../config";
 import * as dotenv from 'dotenv';
 
 dotenv.config({path: __dirname + '/env'})
@@ -13,7 +12,7 @@ export default class User {
 
   /** Registers a user */
   static async register(username: string, password: string, displayName: string) {
-    const hashedPwd = await bcrypt.hash(password, BCRYPT_WORK_FACTOR as string);
+    const hashedPwd = await bcrypt.hash(password, BCRYPT_WORK_FACTOR as unknown as number);
     try {
       const res = await db.query(
         `INSERT INTO users (username, display_name, hashed_pwd)
