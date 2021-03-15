@@ -2,11 +2,8 @@ import db from "../db";
 import ExpressError from "../expressError";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as dotenv from 'dotenv';
 
-dotenv.config({path: __dirname + '/env'})
-
-const {BCRYPT_WORK_FACTOR, SECRET_KEY} = process.env;
+import {BCRYPT_WORK_FACTOR, SECRET_KEY} from '../config';
 
 export default class User {
 

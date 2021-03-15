@@ -1,11 +1,7 @@
 /** Database setup */
-
 import { Client } from "pg";
-import * as dotenv from 'dotenv';
 
-dotenv.config({ path: __dirname + '/.env'});
-
-let { DB_USERNAME, DB_PASSWORD, DB_PORT, NODE_ENV } = process.env;
+import {DB_USERNAME, DB_PASSWORD, DB_PORT, NODE_ENV } from './config';
 
 let DB_URI;
 

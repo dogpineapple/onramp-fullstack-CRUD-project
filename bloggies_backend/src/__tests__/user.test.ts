@@ -1,11 +1,8 @@
 import User from "../models/user";
 import db from "../db";
 import bcrypt from "bcrypt";
-import * as dotenv from 'dotenv';
 
-dotenv.config({path: __dirname + '/env'});
-
-const {BCRYPT_WORK_FACTOR} = process.env;
+import {BCRYPT_WORK_FACTOR} from '../config';
 
 let validUserId: number;
 

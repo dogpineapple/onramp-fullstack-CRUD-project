@@ -1,10 +1,6 @@
 import Stripe from "stripe";
-import * as dotenv from 'dotenv';
 import ExpressError from "../expressError";
-
-dotenv.config({ path: __dirname + '/env'});
-
-const {STRIPE_API_KEY} = process.env;
+import {STRIPE_API_KEY} from '../config';
 
 /* create new Stripe instance to facilitate interactions with Stripe API*/
 const stripe = new Stripe(STRIPE_API_KEY as string, {
@@ -12,7 +8,10 @@ const stripe = new Stripe(STRIPE_API_KEY as string, {
 });
 
 export default class Checkout {
-  /** create a new checkout session */
+  /** create a new checkout session
+   * takes in a priceId, which is the id associated with the Learning Circle Subscription created in Stripe
+   * example priceId = price_1IULb0E8sgH3eli5Ol7qktPn
+  */
   static async stripeCheckout(priceId: string) {
     try {
       const session = await stripe.checkout.sessions.create({
