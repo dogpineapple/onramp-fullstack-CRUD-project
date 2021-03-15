@@ -1,5 +1,5 @@
 /** Database setup */
-
+import { config } from '../db_config';
 import { Pool } from "pg";
 
 // let DB_URI;
@@ -11,21 +11,14 @@ import { Pool } from "pg";
 // }
 
 let db = new Pool({
-  user: "postgres",
-  password: "mypassword123",
+  user: config.PGUSER,
+  password: config.PGPASSWORD,
   host: "localhost",
   port: 5432,
   database: "learning_circle"
   //connectionString: DB_URI
 });
 
-
-
 db.connect();
-
-// db.query("SELECT * FROM posts", (err, res) => {
-//   console.log(err ? err.stack : res.rows); 
-//   db.end();
-// });
 
 export default db;
