@@ -3,6 +3,13 @@ import { SECRET_KEY } from "../config";
 import ExpressError from "../expressError";
 import jwt from "jsonwebtoken";
 
+/*bug in code below, SECRET_KEY importing as undefined, will fix soon so we can delete SECRET_KEY from config file
+*/
+// import * as dotenv from 'dotenv';
+
+// dotenv.config({path: __dirname + '/env' })
+// const { SECRET_KEY } = process.env;
+// console.log(SECRET_KEY);
 /** Middleware for checking JWT validity */
 export function authenticateJWT(req: Request, res: Response, next: NextFunction): void {
   try {
