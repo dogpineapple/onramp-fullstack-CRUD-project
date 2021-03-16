@@ -10,7 +10,7 @@ exports[`UserCard should match snapshot 1`] = `
       className="BlogCard-body"
     >
       <NavLink
-        to="/users/1/test-username/favorites"
+        to="/users/1/test-username"
       >
         Test Username
       </NavLink>

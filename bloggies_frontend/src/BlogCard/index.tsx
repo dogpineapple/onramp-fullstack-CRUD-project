@@ -35,7 +35,7 @@ function BlogCard({ post }: IProp) {
         </NavLink>
         <Container fluid>
           <Row className="d-flex align-items-baseline justify-content-between">
-            <Card.Subtitle className="BlogCard-author-date d-flex align-items-center">Posted by <NavLink className="d-flex align-items-center ml-1 mr-1" to={`/users/${post.author_id}/${authorNameForURL}/favorites`}>
+            <Card.Subtitle className="BlogCard-author-date d-flex align-items-center">Posted by <NavLink className="d-flex align-items-center ml-1 mr-1" to={`/users/${post.author_id}/${authorNameForURL}`}>
             <UserProfilePhoto username={post.author_name} photoUrl={post.author_photo} handlePhotoClick={() => ""} width="2rem" />
               {post.author_name}
               </NavLink>

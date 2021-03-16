@@ -9,6 +9,36 @@ exports[`SearchBar should match snapshot 1`] = `
     <div
       className="UserProfile container"
     >
+      <div
+        className="UserProfile-photo"
+      >
+        <UserProfilePhoto
+          handlePhotoClick={[Function]}
+          photoUrl=""
+          username="test user"
+          width="8rem"
+        >
+          <div
+            className="UserProfilePhoto"
+          >
+            <div
+              className="UserProfilePhoto-wrapper"
+              style={
+                Object {
+                  "height": "8rem",
+                  "width": "8rem",
+                }
+              }
+            >
+              <img
+                alt="test user"
+                onClick={[Function]}
+                src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
+              />
+            </div>
+          </div>
+        </UserProfilePhoto>
+      </div>
       <h1
         className="mt-4"
       >
