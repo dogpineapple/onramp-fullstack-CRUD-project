@@ -1,13 +1,14 @@
 /** Database setup */
+import { Client } from "pg";
 
-const { Client } = require("pg");
+import {DB_USERNAME, DB_PASSWORD, DB_PORT, NODE_ENV } from './config';
 
 let DB_URI;
 
-if (process.env.NODE_ENV === "test") {
-  DB_URI = "postgresql:///bloggies_test";
+if (NODE_ENV === "test") {
+  DB_URI = `postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:${DB_PORT}/learning_circle_test`;
 } else {
-  DB_URI = "postgresql:///bloggies";
+  DB_URI = `postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:${DB_PORT}/learning_circle`;
 }
 
 let db = new Client({

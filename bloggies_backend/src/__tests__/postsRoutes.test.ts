@@ -57,7 +57,6 @@ describe("Test Post routes", function () {
   test("GET /posts/search - search for a user with a search term", async function () {
     const resp = await request(app)
       .get(`/posts/search?term=strawberry`);
-
     expect(resp.status).toBe(200);
     expect(resp.body.posts.length).toBe(1);
     expect(resp.body.posts[0].title).toBe("Strawberry Basil Soda");
