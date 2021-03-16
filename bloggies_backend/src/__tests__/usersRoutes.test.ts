@@ -3,14 +3,15 @@ import request from "supertest"
 import jwt from "jsonwebtoken";
 import app from "../app";
 import db from "../db";
-import User from "../models/user";
+// import User from "../models/user";
+import UserAuth from "../models/userAuth";
 
 
 describe("Test User routes", function () {
   beforeEach(async function () {
     await db.query("DELETE FROM users");
 
-    await User.register('GrahaTia', 'password', 'Crystal Exarch');
+    await UserAuth.register('GrahaTia@test.com', 'password');
   });
 
   /** POST /users/register => status 201, { user, token } */
