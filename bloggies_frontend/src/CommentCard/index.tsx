@@ -5,7 +5,6 @@ import CommentReplyAccord from "../CommentReplyAccord";
 import { Comment } from "../custom";
 import "./CommentCard.css";
 import CommentForm from "../Forms/CommentForm";
-import UserProfilePhoto from "../UserProfilePhoto";
 import { useHistory } from "react-router";
 import { changeToURLFriendly } from "./../helpers";
 
@@ -45,7 +44,7 @@ function CommentCard({ comment, handlePostReply }: IProp) {
 
   const redirectToProfile = () => {
     // go to their profile
-    history.push(`/users/${comment.author_id}/${changeToURLFriendly(comment.author_name)}/favorites`);
+    history.push(`/users/${comment.author_id}/${changeToURLFriendly(comment.author_name)}`);
   }
 
   return (
@@ -55,7 +54,6 @@ function CommentCard({ comment, handlePostReply }: IProp) {
           <Card.Text>{comment.body}</Card.Text>
           <div className="text-muted d-flex justify-content-between">
             <span className="d-flex flex-row align-items-center">
-              <UserProfilePhoto username={comment.author_name} photoUrl={comment.author_photo} handlePhotoClick={redirectToProfile} width="2rem" />
               <span className="App-author ml-2 mr-1">{comment.author_name}</span>
               commented {moment(comment.created_at).fromNow()}
             </span>

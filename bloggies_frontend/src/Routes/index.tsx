@@ -1,20 +1,30 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 import Login from "../RoutedPages/Login";
-import Homepage from "../RoutedPages/Homepage";
 import Register from "../RoutedPages/Register";
-import "./Routes.css";
+import RegisterStatusPage from "../RoutedPages/RegisterStatusPage";
+import BlogPage from "../RoutedPages/BlogPage";
 import PostDetails from "../RoutedPages/PostDetails";
-import UserProfile from "../RoutedPages/UserProfile";
 import ComposePage from "../RoutedPages/ComposePage";
 import SearchResults from "../RoutedPages/SearchResults";
+import UserProfile from "../RoutedPages/UserProfile";
+import UserSettingsPage from "../RoutedPages/UserSettingsPage";
+import PaymentCancelPage from "../RoutedPages/PaymentCancelPage";
+import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
+import PaymentPage from "../RoutedPages/PaymentPage";
+import "./Routes.css";
 
 function Routes() {
   return (
     <Switch>
-      <Route exact path="/users/:userId/:displayName/favorites">
+      <Route exact path="/users/:userId/:displayName">
         <div className="Routes-thin-container">
           <UserProfile />
+        </div>
+      </Route>
+      <Route exact path="/users/:userId/settings">
+        <div className="Routes-thin-container">
+          <UserSettingsPage />
         </div>
       </Route>
       <Route exact path="/blogs/:postId/:postTitle">
@@ -22,23 +32,41 @@ function Routes() {
           <PostDetails />
         </div>
       </Route>
-      <Route exact path="/search">
-        <SearchResults />
-      </Route>
       <Route exact path="/blogs/create">
         <div className="Routes-thin-container">
           <ComposePage />
         </div>
       </Route>
-      <Route exact path="/users/login">
-        <Login />
+      <Route exact path="/payment/success">
+        <div className="Routes-thin-container">
+          <PaymentSuccessPage />
+        </div>
+      </Route>
+      <Route exact path="/payment/cancel">
+        <div className="Routes-thin-container">
+          <PaymentCancelPage />
+        </div>
+      </Route>
+      <Route exact path="/payment/checkout">
+        <div className="Routes-thin-container">
+          <PaymentPage />
+        </div>
+      </Route>
+      <Route exact path="/users/register/membership-status">
+        <RegisterStatusPage />
       </Route>
       <Route exact path="/users/register">
         <Register />
       </Route>
+      <Route exact path="/users/login">
+        <Login />
+      </Route>
+      <Route exact path="/search">
+        <SearchResults />
+      </Route>
       <Route exact path="/">
         <div className="Routes-thin-container">
-          <Homepage />
+          <BlogPage />
         </div>
       </Route>
       <Redirect to="/" />

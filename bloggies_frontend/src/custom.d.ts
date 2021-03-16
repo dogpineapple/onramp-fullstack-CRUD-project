@@ -6,7 +6,6 @@ export interface Comment {
   author_id: number,
   author_name: string,
   created_at: string,
-  author_photo: string,
   is_reply: Boolean,
   reply_count: string,
   post_id: number
@@ -19,7 +18,6 @@ export interface Post {
   body: string,
   author_id: number,
   author_name: string,
-  author_photo: string,
   created_at: string,
   last_updated_at: string,
   favorite_count: string
@@ -48,6 +46,5 @@ export interface User {
   id: number,
   username: string,
   join_date: string,
-  display_name: string,
-  photo_url: string
+  display_name: string
 }

@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
 import { Post, PostFormData, User } from "../custom";
-import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, REMOVE_SERVER_ERR, UPDATE_POST, UPDATE_PROFILE_PHOTO } from "./actionTypes";
+import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, REMOVE_SERVER_ERR, UPDATE_POST } from "./actionTypes";
 
 /**
  * POST request to add a post to backend and dispatches
@@ -212,26 +212,4 @@ export function logoutUser() {
 /**Returns an action object for type LOAD_USER*/
 export function gotUserInfo(user: User) {
   return { type: LOAD_USER, payload: { user } };
-}
-
-
-export function uploadFileToApi(file: FormData) {
-  return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/users/upload-photo`, {
-      method: 'POST',
-      credentials: 'include',
-      body: file
-    });
-    const resData = await res.json();
-    if (res.status === 200) {   
-      dispatch(deleteServerErr());
-      dispatch(gotPhotoUrl(resData.photoUrl));
-    } else {
-      dispatch(gotServerErr(resData.error.message));
-    }
-  }
-}
-
-function gotPhotoUrl(photoUrl: string) {
-  return { type: UPDATE_PROFILE_PHOTO, payload: { photoUrl } };
 }

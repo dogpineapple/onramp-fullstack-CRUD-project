@@ -94,38 +94,36 @@ exports[`CommentList should match snapshot 1`] = `
                         first test comment
                       </p>
                     </CardText>
-                    <CardText
+                    <div
                       className="text-muted d-flex justify-content-between"
                     >
-                      <p
-                        className="text-muted d-flex justify-content-between card-text"
+                      <span
+                        className="d-flex flex-row align-items-center"
                       >
-                        <span>
-                          <span
-                            className="App-author"
-                          >
-                            test user
-                          </span>
-                           commented 
-                          a month ago
+                        <span
+                          className="App-author ml-2 mr-1"
+                        >
+                          test user
                         </span>
-                        <Button
-                          active={false}
+                        commented 
+                        3 months ago
+                      </span>
+                      <Button
+                        active={false}
+                        disabled={false}
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <button
+                          className="btn btn-primary"
                           disabled={false}
                           onClick={[Function]}
-                          variant="primary"
+                          type="button"
                         >
-                          <button
-                            className="btn btn-primary"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            Reply
-                          </button>
-                        </Button>
-                      </p>
-                    </CardText>
+                          Reply
+                        </button>
+                      </Button>
+                    </div>
                     <CommentReplyAccord
                       commentId={1}
                       key="1"
@@ -278,38 +276,36 @@ exports[`CommentList should match snapshot 1`] = `
                         second test comment
                       </p>
                     </CardText>
-                    <CardText
+                    <div
                       className="text-muted d-flex justify-content-between"
                     >
-                      <p
-                        className="text-muted d-flex justify-content-between card-text"
+                      <span
+                        className="d-flex flex-row align-items-center"
                       >
-                        <span>
-                          <span
-                            className="App-author"
-                          >
-                            test user
-                          </span>
-                           commented 
-                          a month ago
+                        <span
+                          className="App-author ml-2 mr-1"
+                        >
+                          test user
                         </span>
-                        <Button
-                          active={false}
+                        commented 
+                        3 months ago
+                      </span>
+                      <Button
+                        active={false}
+                        disabled={false}
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <button
+                          className="btn btn-primary"
                           disabled={false}
                           onClick={[Function]}
-                          variant="primary"
+                          type="button"
                         >
-                          <button
-                            className="btn btn-primary"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            Reply
-                          </button>
-                        </Button>
-                      </p>
-                    </CardText>
+                          Reply
+                        </button>
+                      </Button>
+                    </div>
                     <CommentReplyAccord
                       commentId={2}
                       key="1"

@@ -145,7 +145,6 @@ function PostDetails() {
                 created_at: commentData.created_at,
                 id: commentData.id,
                 author_name: currUser.display_name,
-                author_photo: currUser.photo_url,
                 reply_count: "0"
               }]);
             }
@@ -185,7 +184,7 @@ function PostDetails() {
               </Row>
               <div className="text-muted">{post.description}</div>
               <div className="text-muted">
-                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}/favorites`}><span className="App-author">{post.author_name}</span></a> {moment(post.created_at).fromNow()}
+                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}`}><span className="App-author">{post.author_name}</span></a> {moment(post.created_at).fromNow()}
                 {post.last_updated_at !== post.created_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</div>
               <div className="PostDetails-body">{post.body}</div>
             </div>
