@@ -1,18 +1,18 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 import Login from "../RoutedPages/Login";
-import Homepage from "../RoutedPages/Homepage";
 import Register from "../RoutedPages/Register";
-import "./Routes.css";
+import RegisterStatusPage from "../RoutedPages/RegisterStatusPage";
+import BlogPage from "../RoutedPages/BlogPage";
 import PostDetails from "../RoutedPages/PostDetails";
-import UserProfile from "../RoutedPages/UserProfile";
 import ComposePage from "../RoutedPages/ComposePage";
 import SearchResults from "../RoutedPages/SearchResults";
-import RegisterStatusPage from "../RoutedPages/RegisterStatusPage";
-import PremiumBlogPage from "../RoutedPages/PremiumBlogPage";
+import UserProfile from "../RoutedPages/UserProfile";
 import UserSettingsPage from "../RoutedPages/UserSettingsPage";
 import PaymentCancelPage from "../RoutedPages/PaymentCancelPage";
 import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
+import PaymentPage from "../RoutedPages/PaymentPage";
+import "./Routes.css";
 
 function Routes() {
   return (
@@ -47,9 +47,9 @@ function Routes() {
           <PaymentCancelPage />
         </div>
       </Route>
-      <Route exact path="/member/blogs">
+      <Route exact path="/payment/checkout">
         <div className="Routes-thin-container">
-          <PremiumBlogPage />
+          <PaymentPage />
         </div>
       </Route>
       <Route exact path="/users/register/membership-status">
@@ -66,7 +66,7 @@ function Routes() {
       </Route>
       <Route exact path="/">
         <div className="Routes-thin-container">
-          <Homepage />
+          <BlogPage />
         </div>
       </Route>
       <Redirect to="/" />
