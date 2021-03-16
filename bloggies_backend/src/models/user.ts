@@ -9,7 +9,7 @@ export default class User {
       const res = await db.query(
         `INSERT INTO users (user_id, display_name, membership_status)
         VALUES ($1, $2, $3)
-        RETURNING id, display_name`,
+        RETURNING user_id, display_name`,
         [userId, displayName, membershipStatus]);
       const user = res.rows[0];
       return user;
@@ -21,9 +21,9 @@ export default class User {
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT id, username, display_name, membership_status, membership_start_date, membership_end_date
+      `SELECT user_id, display_name, membership_status, membership_start_date, membership_end_date, last_submission_date
         FROM users
-        WHERE id = $1`,
+        WHERE user_id = $1`,
       [userId]);
     return res.rows[0];
   }
@@ -33,14 +33,14 @@ export default class User {
     const res = await db.query(
       `SELECT last_submission_date
         FROM users
-        WHERE id = $1`,
+        WHERE user_id = $1`,
       [userId]);
     return res.rows[0].last_submission_date;
   }
 
   static async searchUsers(term: string) {
     const res = await db.query(
-      `SELECT id, username, display_name, membership_status
+      `SELECT user_id, display_name, membership_status, last_submission_date
         FROM users
         WHERE LOWER(display_name) LIKE LOWER('%' || $1 || '%')`,
       [term]);
