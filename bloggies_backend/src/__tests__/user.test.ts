@@ -1,7 +1,8 @@
 import User from "../models/user";
 import db from "../db";
 import bcrypt from "bcrypt";
-import { BCRYPT_WORK_FACTOR } from "../config";
+
+import {BCRYPT_WORK_FACTOR} from '../config';
 
 let validUserId: number;
 
