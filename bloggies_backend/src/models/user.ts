@@ -37,7 +37,7 @@ export default class User {
       if (isValid) {
         // Generate a jwt token with payload of `username` and `user_id`.
         let token = jwt.sign({ username: username, user_id: user.id }, SECRET_KEY as string);
-        return { user: { id: user.id, username: username, join_date: user.join_date, display_name: user.display_name, photo_url: user.photo_url}, token };
+        return { user: { id: user.id, username: username, join_date: user.join_date, display_name: user.display_name }, token };
       }
       // Throw error if password is not valid.
       throw new ExpressError("Credentials do not match, please try again", 400);
