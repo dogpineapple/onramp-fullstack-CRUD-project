@@ -145,7 +145,6 @@ function PostDetails() {
                 created_at: commentData.created_at,
                 id: commentData.id,
                 author_name: currUser.display_name,
-                author_photo: currUser.photo_url,
                 reply_count: "0"
               }]);
             }

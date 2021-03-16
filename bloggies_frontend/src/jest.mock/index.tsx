@@ -4,8 +4,7 @@ export const MOCK_USER: User = {
   id: 1,
   username: "testusername",
   join_date: "jan 1, 2020",
-  display_name: "Test Username",
-  photo_url: ""
+  display_name: "Test Username"
 };
 
 export const MOCK_POST: Post = {
@@ -15,7 +14,6 @@ export const MOCK_POST: Post = {
   body: 'test body',
   author_id: 1,
   author_name: 'test user',
-  author_photo: "",
   created_at: '1/1/2020',
   last_updated_at: '1/1/2020',
   favorite_count: '5'
@@ -29,7 +27,6 @@ export const MOCK_POSTS: Array<Post> = [
     body: 'first test body',
     author_id: 1,
     author_name: 'test user',
-    author_photo: "",
     created_at: '1/1/2020',
     last_updated_at: '1/1/2020',
     favorite_count: '0'
@@ -41,7 +38,6 @@ export const MOCK_POSTS: Array<Post> = [
     body: 'second test body',
     author_id: 1,
     author_name: 'test user',
-    author_photo: "",
     created_at: '1/1/2020',
     last_updated_at: '1/1/2020',
     favorite_count: '1'
@@ -53,7 +49,6 @@ export const MOCK_POSTS: Array<Post> = [
     body: 'third test body',
     author_id: 1,
     author_name: 'test user',
-    author_photo: "",
     created_at: '1/1/2020',
     last_updated_at: '1/1/2020',
     favorite_count: '5'
@@ -65,7 +60,6 @@ export const MOCK_COMMENT: Comment = {
   body: "test comment",
   author_id: 1,
   author_name: "test user",
-  author_photo: "",
   created_at: "1/1/2021",
   is_reply: false,
   reply_count: "1",
@@ -78,7 +72,6 @@ export const MOCK_COMMENTS: Array<Comment> = [
     body: "first test comment",
     author_id: 1,
     author_name: "test user",
-    author_photo: "",
     created_at: "1/1/2021",
     is_reply: false,
     reply_count: "1",
@@ -89,7 +82,6 @@ export const MOCK_COMMENTS: Array<Comment> = [
     body: "second test comment",
     author_id: 1,
     author_name: "test user",
-    author_photo: "",
     created_at: "1/1/2021",
     is_reply: false,
     reply_count: "1",

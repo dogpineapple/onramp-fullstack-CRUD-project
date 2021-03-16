@@ -182,20 +182,22 @@ exports[`BlogList should match snapshot 1`] = `
                                     className="d-flex align-items-baseline justify-content-between row"
                                   >
                                     <CardSubtitle
-                                      className="BlogCard-author-date"
+                                      className="BlogCard-author-date d-flex align-items-center"
                                     >
                                       <ForwardRef
-                                        className="BlogCard-author-date card-subtitle"
+                                        className="BlogCard-author-date d-flex align-items-center card-subtitle"
                                       >
                                         <div
-                                          className="BlogCard-author-date card-subtitle h6"
+                                          className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
                                           <NavLink
+                                            className="d-flex align-items-center ml-1 mr-1"
                                             to="/users/1/test-user/favorites"
                                           >
                                             <Link
                                               aria-current={null}
+                                              className="d-flex align-items-center ml-1 mr-1"
                                               to={
                                                 Object {
                                                   "hash": "",
@@ -207,11 +209,13 @@ exports[`BlogList should match snapshot 1`] = `
                                             >
                                               <LinkAnchor
                                                 aria-current={null}
+                                                className="d-flex align-items-center ml-1 mr-1"
                                                 href="/users/1/test-user/favorites"
                                                 navigate={[Function]}
                                               >
                                                 <a
                                                   aria-current={null}
+                                                  className="d-flex align-items-center ml-1 mr-1"
                                                   href="/users/1/test-user/favorites"
                                                   onClick={[Function]}
                                                 >
@@ -220,7 +224,6 @@ exports[`BlogList should match snapshot 1`] = `
                                               </LinkAnchor>
                                             </Link>
                                           </NavLink>
-                                           
                                           <span
                                             className="text-muted"
                                           >
@@ -422,20 +425,22 @@ exports[`BlogList should match snapshot 1`] = `
                                     className="d-flex align-items-baseline justify-content-between row"
                                   >
                                     <CardSubtitle
-                                      className="BlogCard-author-date"
+                                      className="BlogCard-author-date d-flex align-items-center"
                                     >
                                       <ForwardRef
-                                        className="BlogCard-author-date card-subtitle"
+                                        className="BlogCard-author-date d-flex align-items-center card-subtitle"
                                       >
                                         <div
-                                          className="BlogCard-author-date card-subtitle h6"
+                                          className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
                                           <NavLink
+                                            className="d-flex align-items-center ml-1 mr-1"
                                             to="/users/1/test-user/favorites"
                                           >
                                             <Link
                                               aria-current={null}
+                                              className="d-flex align-items-center ml-1 mr-1"
                                               to={
                                                 Object {
                                                   "hash": "",
@@ -447,11 +452,13 @@ exports[`BlogList should match snapshot 1`] = `
                                             >
                                               <LinkAnchor
                                                 aria-current={null}
+                                                className="d-flex align-items-center ml-1 mr-1"
                                                 href="/users/1/test-user/favorites"
                                                 navigate={[Function]}
                                               >
                                                 <a
                                                   aria-current={null}
+                                                  className="d-flex align-items-center ml-1 mr-1"
                                                   href="/users/1/test-user/favorites"
                                                   onClick={[Function]}
                                                 >
@@ -460,7 +467,6 @@ exports[`BlogList should match snapshot 1`] = `
                                               </LinkAnchor>
                                             </Link>
                                           </NavLink>
-                                           
                                           <span
                                             className="text-muted"
                                           >
@@ -662,20 +668,22 @@ exports[`BlogList should match snapshot 1`] = `
                                     className="d-flex align-items-baseline justify-content-between row"
                                   >
                                     <CardSubtitle
-                                      className="BlogCard-author-date"
+                                      className="BlogCard-author-date d-flex align-items-center"
                                     >
                                       <ForwardRef
-                                        className="BlogCard-author-date card-subtitle"
+                                        className="BlogCard-author-date d-flex align-items-center card-subtitle"
                                       >
                                         <div
-                                          className="BlogCard-author-date card-subtitle h6"
+                                          className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
                                           <NavLink
+                                            className="d-flex align-items-center ml-1 mr-1"
                                             to="/users/1/test-user/favorites"
                                           >
                                             <Link
                                               aria-current={null}
+                                              className="d-flex align-items-center ml-1 mr-1"
                                               to={
                                                 Object {
                                                   "hash": "",
@@ -687,11 +695,13 @@ exports[`BlogList should match snapshot 1`] = `
                                             >
                                               <LinkAnchor
                                                 aria-current={null}
+                                                className="d-flex align-items-center ml-1 mr-1"
                                                 href="/users/1/test-user/favorites"
                                                 navigate={[Function]}
                                               >
                                                 <a
                                                   aria-current={null}
+                                                  className="d-flex align-items-center ml-1 mr-1"
                                                   href="/users/1/test-user/favorites"
                                                   onClick={[Function]}
                                                 >
@@ -700,7 +710,6 @@ exports[`BlogList should match snapshot 1`] = `
                                               </LinkAnchor>
                                             </Link>
                                           </NavLink>
-                                           
                                           <span
                                             className="text-muted"
                                           >

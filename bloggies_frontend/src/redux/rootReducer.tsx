@@ -1,5 +1,5 @@
 import { Post, CustomReduxState } from "../custom";
-import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS, ADD_POST, DELETE_POST, UPDATE_POST, UPDATE_PROFILE_PHOTO, DISPLAY_SERVER_ERR, REMOVE_SERVER_ERR } from "./actionTypes";
+import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS, ADD_POST, DELETE_POST, UPDATE_POST, DISPLAY_SERVER_ERR, REMOVE_SERVER_ERR } from "./actionTypes";
 
 const INITIAL_STATE: CustomReduxState = { user: {}, posts: [], favorites: [], searchResults: { posts: [], users: [] }, serverErr: "" };
 
@@ -73,11 +73,9 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       // reset all states related to a current user.
       return { ...state, user: {}, favorites: [] };
     case DISPLAY_SERVER_ERR:
-      return { ...state, serverErr: action.payload.err }
-    case UPDATE_PROFILE_PHOTO:
-      return { ...state, user: { ...state.user, photo_url: action.payload.photoUrl }};
+      return { ...state, serverErr: action.payload.err };
     case REMOVE_SERVER_ERR:
-      return { ...state, serverErr: "" }
+      return { ...state, serverErr: "" };
     default:
       return state;
   }
