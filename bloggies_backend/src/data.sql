@@ -15,7 +15,7 @@ CREATE DATABASE "learning_circle";
 CREATE TABLE user_auth (
   id SERIAL PRIMARY KEY,
   email VARCHAR (25) UNIQUE NOT NULL,
-  hashed_pwd VARCHAR (100) NOT NULL
+  hashed_pwd VARCHAR (100) NOT NULL,
   join_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
