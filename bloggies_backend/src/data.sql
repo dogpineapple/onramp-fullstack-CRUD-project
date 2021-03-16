@@ -22,7 +22,6 @@ CREATE TABLE user_auth (
 CREATE TABLE users ( 
   user_id INT NOT NULL PRIMARY KEY REFERENCES users ON DELETE CASCADE,
   display_name VARCHAR (30) UNIQUE NOT NULL,
-  last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   membership_status VARCHAR(50) DEFAULT 'none',
   membership_start_date TIMESTAMP WITH TIME ZONE,
   membership_end_date TIMESTAMP WITH TIME ZONE,
