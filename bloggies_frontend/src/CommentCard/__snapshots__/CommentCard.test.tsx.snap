@@ -27,39 +27,13 @@ exports[`CommentCard should match snapshot 1`] = `
             <span
               className="d-flex flex-row align-items-center"
             >
-              <UserProfilePhoto
-                handlePhotoClick={[Function]}
-                photoUrl=""
-                username="test user"
-                width="2rem"
-              >
-                <div
-                  className="UserProfilePhoto"
-                >
-                  <div
-                    className="UserProfilePhoto-wrapper"
-                    style={
-                      Object {
-                        "height": "2rem",
-                        "width": "2rem",
-                      }
-                    }
-                  >
-                    <img
-                      alt="test user"
-                      onClick={[Function]}
-                      src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
-                    />
-                  </div>
-                </div>
-              </UserProfilePhoto>
               <span
                 className="App-author ml-2 mr-1"
               >
                 test user
               </span>
               commented 
-              2 months ago
+              3 months ago
             </span>
             <Button
               active={false}

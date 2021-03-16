@@ -30,7 +30,6 @@ exports[`BlogList should match snapshot 1`] = `
           Object {
             "author_id": 1,
             "author_name": "test user",
-            "author_photo": "",
             "body": "first test body",
             "created_at": "1/1/2020",
             "description": "first test description",
@@ -42,7 +41,6 @@ exports[`BlogList should match snapshot 1`] = `
           Object {
             "author_id": 1,
             "author_name": "test user",
-            "author_photo": "",
             "body": "second test body",
             "created_at": "1/1/2020",
             "description": "second test description",
@@ -54,7 +52,6 @@ exports[`BlogList should match snapshot 1`] = `
           Object {
             "author_id": 1,
             "author_name": "test user",
-            "author_photo": "",
             "body": "third test body",
             "created_at": "1/1/2020",
             "description": "third test description",
@@ -91,7 +88,6 @@ exports[`BlogList should match snapshot 1`] = `
                       Object {
                         "author_id": 1,
                         "author_name": "test user",
-                        "author_photo": "",
                         "body": "first test body",
                         "created_at": "1/1/2020",
                         "description": "first test description",
@@ -223,32 +219,6 @@ exports[`BlogList should match snapshot 1`] = `
                                                   href="/users/1/test-user"
                                                   onClick={[Function]}
                                                 >
-                                                  <UserProfilePhoto
-                                                    handlePhotoClick={[Function]}
-                                                    photoUrl=""
-                                                    username="test user"
-                                                    width="2rem"
-                                                  >
-                                                    <div
-                                                      className="UserProfilePhoto"
-                                                    >
-                                                      <div
-                                                        className="UserProfilePhoto-wrapper"
-                                                        style={
-                                                          Object {
-                                                            "height": "2rem",
-                                                            "width": "2rem",
-                                                          }
-                                                        }
-                                                      >
-                                                        <img
-                                                          alt="test user"
-                                                          onClick={[Function]}
-                                                          src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
-                                                        />
-                                                      </div>
-                                                    </div>
-                                                  </UserProfilePhoto>
                                                   test user
                                                 </a>
                                               </LinkAnchor>
@@ -269,7 +239,6 @@ exports[`BlogList should match snapshot 1`] = `
                                         Object {
                                           "author_id": 1,
                                           "author_name": "test user",
-                                          "author_photo": "",
                                           "body": "first test body",
                                           "created_at": "1/1/2020",
                                           "description": "first test description",
@@ -362,7 +331,6 @@ exports[`BlogList should match snapshot 1`] = `
                       Object {
                         "author_id": 1,
                         "author_name": "test user",
-                        "author_photo": "",
                         "body": "second test body",
                         "created_at": "1/1/2020",
                         "description": "second test description",
@@ -494,32 +462,6 @@ exports[`BlogList should match snapshot 1`] = `
                                                   href="/users/1/test-user"
                                                   onClick={[Function]}
                                                 >
-                                                  <UserProfilePhoto
-                                                    handlePhotoClick={[Function]}
-                                                    photoUrl=""
-                                                    username="test user"
-                                                    width="2rem"
-                                                  >
-                                                    <div
-                                                      className="UserProfilePhoto"
-                                                    >
-                                                      <div
-                                                        className="UserProfilePhoto-wrapper"
-                                                        style={
-                                                          Object {
-                                                            "height": "2rem",
-                                                            "width": "2rem",
-                                                          }
-                                                        }
-                                                      >
-                                                        <img
-                                                          alt="test user"
-                                                          onClick={[Function]}
-                                                          src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
-                                                        />
-                                                      </div>
-                                                    </div>
-                                                  </UserProfilePhoto>
                                                   test user
                                                 </a>
                                               </LinkAnchor>
@@ -540,7 +482,6 @@ exports[`BlogList should match snapshot 1`] = `
                                         Object {
                                           "author_id": 1,
                                           "author_name": "test user",
-                                          "author_photo": "",
                                           "body": "second test body",
                                           "created_at": "1/1/2020",
                                           "description": "second test description",
@@ -633,7 +574,6 @@ exports[`BlogList should match snapshot 1`] = `
                       Object {
                         "author_id": 1,
                         "author_name": "test user",
-                        "author_photo": "",
                         "body": "third test body",
                         "created_at": "1/1/2020",
                         "description": "third test description",
@@ -765,32 +705,6 @@ exports[`BlogList should match snapshot 1`] = `
                                                   href="/users/1/test-user"
                                                   onClick={[Function]}
                                                 >
-                                                  <UserProfilePhoto
-                                                    handlePhotoClick={[Function]}
-                                                    photoUrl=""
-                                                    username="test user"
-                                                    width="2rem"
-                                                  >
-                                                    <div
-                                                      className="UserProfilePhoto"
-                                                    >
-                                                      <div
-                                                        className="UserProfilePhoto-wrapper"
-                                                        style={
-                                                          Object {
-                                                            "height": "2rem",
-                                                            "width": "2rem",
-                                                          }
-                                                        }
-                                                      >
-                                                        <img
-                                                          alt="test user"
-                                                          onClick={[Function]}
-                                                          src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
-                                                        />
-                                                      </div>
-                                                    </div>
-                                                  </UserProfilePhoto>
                                                   test user
                                                 </a>
                                               </LinkAnchor>
@@ -811,7 +725,6 @@ exports[`BlogList should match snapshot 1`] = `
                                         Object {
                                           "author_id": 1,
                                           "author_name": "test user",
-                                          "author_photo": "",
                                           "body": "third test body",
                                           "created_at": "1/1/2020",
                                           "description": "third test description",

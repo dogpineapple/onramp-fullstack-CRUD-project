@@ -6,7 +6,6 @@ exports[`FavoriteButton should match snapshot 1`] = `
     Object {
       "author_id": 1,
       "author_name": "test user",
-      "author_photo": "",
       "body": "test body",
       "created_at": "1/1/2020",
       "description": "test description",
