@@ -184,7 +184,7 @@ function PostDetails() {
               </Row>
               <div className="text-muted">{post.description}</div>
               <div className="text-muted">
-                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}/favorites`}><span className="App-author">{post.author_name}</span></a> {moment(post.created_at).fromNow()}
+                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}`}><span className="App-author">{post.author_name}</span></a> {moment(post.created_at).fromNow()}
                 {post.last_updated_at !== post.created_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</div>
               <div className="PostDetails-body">{post.body}</div>
             </div>

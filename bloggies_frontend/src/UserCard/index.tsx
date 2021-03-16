@@ -19,7 +19,7 @@ function UserCard({ user }: IProp) {
     <Card className="UserCard text-left">
       <Card.Body>
         <Card.Text className="BlogCard-body">
-          <NavLink to={`/users/${user.id}/${changeToURLFriendly(user.display_name)}/favorites`}>
+          <NavLink to={`/users/${user.id}/${changeToURLFriendly(user.display_name)}`}>
             {user.display_name}
           </NavLink>
         </Card.Text>

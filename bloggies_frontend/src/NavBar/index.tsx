@@ -46,7 +46,7 @@ function NavBar() {
           {user.id ?
             <Fragment>
               <NavLink exact to={`/blogs/create`}>compose blog</NavLink>
-              <NavLink exact to={`/users/${user.id}/${urlDisplayName}/favorites`}>my profile</NavLink>
+              <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>my profile</NavLink>
               <Button variant="danger" className="NavBar-logout-btn" onClick={handleLogout}>logout</Button>
             </Fragment>
             : <Fragment>

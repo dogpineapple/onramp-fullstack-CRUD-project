@@ -34,7 +34,7 @@ function BlogCard({ post }: IProp) {
         </NavLink>
         <Container fluid>
           <Row className="d-flex align-items-baseline justify-content-between">
-            <Card.Subtitle className="BlogCard-author-date d-flex align-items-center">Posted by <NavLink className="d-flex align-items-center ml-1 mr-1" to={`/users/${post.author_id}/${authorNameForURL}/favorites`}>
+            <Card.Subtitle className="BlogCard-author-date d-flex align-items-center">Posted by <NavLink className="d-flex align-items-center ml-1 mr-1" to={`/users/${post.author_id}/${authorNameForURL}`}>
               {post.author_name}
               </NavLink>
              <span className="text-muted"> {moment(post.created_at).fromNow()}</span> {post.last_updated_at !== post.created_at && post.last_updated_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</Card.Subtitle>

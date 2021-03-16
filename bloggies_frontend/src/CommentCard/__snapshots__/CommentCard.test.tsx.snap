@@ -33,7 +33,7 @@ exports[`CommentCard should match snapshot 1`] = `
                 test user
               </span>
               commented 
-              2 months ago
+              3 months ago
             </span>
             <Button
               active={false}

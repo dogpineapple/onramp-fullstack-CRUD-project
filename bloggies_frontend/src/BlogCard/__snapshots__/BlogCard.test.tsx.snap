@@ -134,7 +134,7 @@ exports[`BlogCard should match snapshot 1`] = `
                             Posted by 
                             <NavLink
                               className="d-flex align-items-center ml-1 mr-1"
-                              to="/users/1/test-user/favorites"
+                              to="/users/1/test-user"
                             >
                               <Link
                                 aria-current={null}
@@ -142,7 +142,7 @@ exports[`BlogCard should match snapshot 1`] = `
                                 to={
                                   Object {
                                     "hash": "",
-                                    "pathname": "/users/1/test-user/favorites",
+                                    "pathname": "/users/1/test-user",
                                     "search": "",
                                     "state": null,
                                   }
@@ -151,13 +151,13 @@ exports[`BlogCard should match snapshot 1`] = `
                                 <LinkAnchor
                                   aria-current={null}
                                   className="d-flex align-items-center ml-1 mr-1"
-                                  href="/users/1/test-user/favorites"
+                                  href="/users/1/test-user"
                                   navigate={[Function]}
                                 >
                                   <a
                                     aria-current={null}
                                     className="d-flex align-items-center ml-1 mr-1"
-                                    href="/users/1/test-user/favorites"
+                                    href="/users/1/test-user"
                                     onClick={[Function]}
                                   >
                                     test user
