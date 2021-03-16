@@ -8,6 +8,7 @@ import { authenticateJWT } from "./middleware/auth";
 import { postsRouter } from "./routes/posts";
 import { favoritesRouter } from "./routes/favorites";
 import { commentsRouter } from "./routes/comments";
+import { stripeRouter } from "./routes/stripe";
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -32,7 +33,9 @@ app.use("/posts", postsRouter);
 
 app.use("/favorites", favoritesRouter);
 
-app.use("/comments", commentsRouter)
+app.use("/comments", commentsRouter);
+
+app.use("/checkout", stripeRouter);
 
 // Global Error Handler
 app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunction) {
