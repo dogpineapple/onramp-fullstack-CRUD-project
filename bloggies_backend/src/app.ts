@@ -9,6 +9,7 @@ import { postsRouter } from "./routes/posts";
 import { favoritesRouter } from "./routes/favorites";
 import { commentsRouter } from "./routes/comments";
 import { stripeRouter } from "./routes/stripe";
+import { sendgridRouter } from "./routes/sendgrid";
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -36,6 +37,8 @@ app.use("/favorites", favoritesRouter);
 app.use("/comments", commentsRouter);
 
 app.use("/checkout", stripeRouter);
+
+app.use("/email", sendgridRouter);
 
 // Global Error Handler
 app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunction) {
