@@ -6,13 +6,10 @@ export default class User {
   /** Create a new user */
   static async createUser(userId: number, displayName: string, membershipStatus: string) {
     try {
-      const res = await db.query(
+      await db.query(
         `INSERT INTO users (user_id, display_name, membership_status)
-        VALUES ($1, $2, $3)
-        RETURNING user_id, display_name`,
+        VALUES ($1, $2, $3)`,
         [userId, displayName, membershipStatus]);
-      const user = res.rows[0];
-      return user;
     } catch (err) {
       throw new ExpressError('Display name is already taken.', 400)
     }
@@ -21,7 +18,7 @@ export default class User {
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT user_id, display_name, membership_status, membership_start_date, membership_end_date, last_submission_date
+      `SELECT user_id AS id, display_name, membership_status, membership_start_date, membership_end_date, last_submission_date
         FROM users
         WHERE user_id = $1`,
       [userId]);
