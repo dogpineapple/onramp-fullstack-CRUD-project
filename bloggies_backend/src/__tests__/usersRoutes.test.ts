@@ -5,8 +5,8 @@ import db from "../db";
 // import User from "../models/user";
 import UserAuth from "../models/userAuth";
 import User from "../models/user";
+import { NONE } from "../membershipEligibility";
 
-const mMembershipStatus = 'pending'
 
 describe("Test User routes", function () {
   beforeEach(async function () {
@@ -14,11 +14,11 @@ describe("Test User routes", function () {
     await db.query("DELETE FROM user_auth");
 
     const userAuthRes = await UserAuth.register('GrahaTia@test.com', 'password');
-    await User.createUser(userAuthRes.user.id, 'grahatest', mMembershipStatus);
+    await User.createUser(userAuthRes.user.id, 'grahatest');
   });
 
-  /** POST /users/register => status 201, { user, token } */
-  test("POST /users/register - Create new user", async function () {
+  /** POST /user-auth/register => status 201, { user, token } */
+  test("POST /user-auth/register - Create new user", async function () {
     const resp = await request(app)
       .post(`/user-auth/register`)
       .send({
@@ -32,14 +32,15 @@ describe("Test User routes", function () {
       id: expect.any(Number),
       email: "userRouteTest@test.com",
       display_name: "thisistest",
-      membership_status: "pending",
+      membership_eligibility: NONE,
+      membership_active: false,
       membership_start_date: null,
       membership_end_date: null,
       last_submission_date: null
     });
   });
 
-  /** POST /users/register => status 400, { error } */
+  /** POST /user-auth/register => status 400, { error } */
   test("POST /user-auth/register - handle bad values to register", async function () {
     const resp = await request(app)
       .post(`/user-auth/register`)
@@ -81,7 +82,8 @@ describe("Test User routes", function () {
       id: expect.any(Number),
       email: "GrahaTia@test.com",
       display_name: "grahatest",
-      membership_status: "pending",
+      membership_eligibility: NONE,
+      membership_active: false,
       membership_start_date: null,
       membership_end_date: null,
       last_submission_date: null

@@ -1,5 +1,6 @@
 import User from "../models/user";
 import db from "../db";
+import { NONE } from "../membershipEligibility";
 
 let validUserId: number;
 
@@ -18,17 +19,18 @@ describe("Test User class", function () {
     validUserId = userAuthRes.rows[0].id;
 
     await db.query(
-      `INSERT INTO users (user_id, display_name, membership_status)
+      `INSERT INTO users (user_id, display_name, membership_active)
       VALUES ($1, $2, $3)`,
-      [validUserId, 'testdisplayname', 'pending']);
+      [validUserId, 'testdisplayname', false]);
   });
 
   test("can retrieve user", async function () {
     const user = await User.getUser(validUserId);
     expect(user).toEqual({
-      user_id: validUserId,
+      id: validUserId,
       display_name: "testdisplayname",
-      membership_status: "pending",
+      membership_eligibility: NONE,
+      membership_active: false,
       membership_start_date: null,
       membership_end_date: null,
       last_submission_date: null
@@ -38,9 +40,9 @@ describe("Test User class", function () {
   test("can search users", async function () {
     const users = await User.searchUsers("testdisplay");
     expect(users[0]).toEqual({
-      user_id: validUserId,
+      id: validUserId,
       display_name: "testdisplayname",
-      membership_status: "pending",
+      membership_active: false,
       last_submission_date: null
     });
   });
