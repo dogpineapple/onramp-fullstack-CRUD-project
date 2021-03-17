@@ -6,7 +6,7 @@ import CookieParser from 'cookie-parser';
 import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./middleware/auth";
 import { postsRouter } from "./routes/posts";
-import { favoritesRouter } from "./routes/favorites";
+import { bookmarksRouter } from "./routes/bookmarks";
 import { commentsRouter } from "./routes/comments";
 import { stripeRouter } from "./routes/stripe";
 import { userAuthRouter } from "./routes/userAuth";
@@ -35,7 +35,7 @@ app.use("/user-auth", userAuthRouter);
 
 app.use("/posts", postsRouter);
 
-app.use("/favorites", favoritesRouter);
+app.use("/bookmarks", bookmarksRouter);
 
 app.use("/comments", commentsRouter);
 
