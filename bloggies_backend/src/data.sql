@@ -11,7 +11,6 @@ CREATE DATABASE "learning_circle";
 
 \c "learning_circle"
 
-
 CREATE TABLE user_auth (
   id SERIAL PRIMARY KEY,
   email VARCHAR (25) UNIQUE NOT NULL,
@@ -22,7 +21,8 @@ CREATE TABLE user_auth (
 CREATE TABLE users ( 
   user_id INT NOT NULL PRIMARY KEY REFERENCES users ON DELETE CASCADE,
   display_name VARCHAR (30) UNIQUE NOT NULL,
-  membership_status VARCHAR(50) DEFAULT 'none',
+  membership_eligibility VARCHAR (50) NOT NULL DEFAULT 'none',
+  membership_active BOOLEAN NOT NULL DEFAULT false,
   membership_start_date TIMESTAMP WITH TIME ZONE,
   membership_end_date TIMESTAMP WITH TIME ZONE,
   last_submission_date TIMESTAMP WITH TIME ZONE
@@ -66,14 +66,14 @@ VALUES
     ('test@test.com', 'password'),
     ('strawberrybasil@test.com', 'password');
 
-INSERT INTO users(user_id, display_name, membership_status) 
+INSERT INTO users(user_id, display_name, membership_eligibility) 
 VALUES 
     (1, 'learningcircleuser', 'none'),
     (2, 'testuser', 'pending');
 
-INSERT INTO users(user_id, display_name, membership_status, membership_start_date, membership_end_date) 
+INSERT INTO users(user_id, display_name, membership_eligibility, membership_active, membership_start_date, membership_end_date) 
 VALUES 
-    (3, 'StrawberryBasilFan', 'accepted', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + interval '30 days');
+    (3, 'StrawberryBasilFan', 'accepted', false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + interval '30 days');
 
 INSERT INTO posts(title, description, body, author_id, is_premium) 
 VALUES
@@ -102,15 +102,15 @@ VALUES
 CREATE TABLE user_auth (
   id SERIAL PRIMARY KEY,
   email VARCHAR (25) UNIQUE NOT NULL,
-  hashed_pwd VARCHAR (100) NOT NULL
+  hashed_pwd VARCHAR (100) NOT NULL,
+  join_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE users ( 
   user_id INT NOT NULL PRIMARY KEY REFERENCES users ON DELETE CASCADE,
   display_name VARCHAR (30) UNIQUE NOT NULL,
-  join_date DATE NOT NULL DEFAULT CURRENT_DATE,
-  last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  membership_status VARCHAR(50) DEFAULT 'none',
+  membership_eligibility VARCHAR (50) NOT NULL DEFAULT 'none',
+  membership_active BOOLEAN NOT NULL,
   membership_start_date TIMESTAMP WITH TIME ZONE,
   membership_end_date TIMESTAMP WITH TIME ZONE,
   last_submission_date TIMESTAMP WITH TIME ZONE
