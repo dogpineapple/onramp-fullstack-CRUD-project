@@ -10,6 +10,7 @@ const {
   DB_PORT,
   BCRYPT_WORK_FACTOR,
   SECRET_KEY,
+  SENDGRID_API_KEY
 } = process.env;
 
 // const SECRET_KEY = "secret";
@@ -28,4 +29,5 @@ export {
   SECRET_KEY,
   JWT_OPTIONS,
   USER_UPDATE_COOLDOWN,
+  SENDGRID_API_KEY
 };
