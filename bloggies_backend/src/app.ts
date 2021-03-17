@@ -9,6 +9,7 @@ import { postsRouter } from "./routes/posts";
 import { favoritesRouter } from "./routes/favorites";
 import { commentsRouter } from "./routes/comments";
 import { stripeRouter } from "./routes/stripe";
+import { userAuthRouter } from "./routes/userAuth";
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -28,6 +29,8 @@ app.use(cors(corsOptions));
 app.use(authenticateJWT);
 
 app.use("/users", usersRouter);
+
+app.use("/user-auth", userAuthRouter);
 
 app.use("/posts", postsRouter);
 
