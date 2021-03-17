@@ -4,13 +4,13 @@ import ExpressError from "../expressError";
 export default class Post {
 
   /** Create a new post */
-  static async createPost(title: string, description: string, body: string, userId: number) {
+  static async createPost(title: string, description: string, body: string, userId: number, isPremium: boolean) {
     try {
       const res = await db.query(
-        `INSERT INTO posts ( title, description, body, author_id )
-          VALUES ($1, $2, $3, $4) 
-          RETURNING id, title, description, body, author_id, created_at, last_updated_at`,
-        [title, description, body, userId]);
+        `INSERT INTO posts ( title, description, body, author_id, is_premium )
+          VALUES ($1, $2, $3, $4, $5) 
+          RETURNING id, title, description, body, author_id, is_premium, created_at, last_updated_at`,
+        [title, description, body, userId, isPremium]);
       return res.rows[0];
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
@@ -21,13 +21,13 @@ export default class Post {
   static async getAllPosts() {
     try {
       const res = await db.query(
-        `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
         FROM posts AS p
         JOIN users AS u 
-        ON p.author_id = u.id
-        LEFT OUTER JOIN favorites AS f
-        ON p.id = f.post_id
-        GROUP BY f.post_id, p.id, u.display_name`);
+        ON p.author_id = u.user_id
+        LEFT OUTER JOIN bookmarks AS b
+        ON p.id = b.post_id
+        GROUP BY b.post_id, p.id, u.display_name`);
       return res.rows;
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
@@ -38,13 +38,13 @@ export default class Post {
   static async getPost(id: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, p.title, p.description, p.body, u.display_name AS author_name, p.author_id, p.created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, p.title, p.description, p.body, p.is_premium, u.display_name AS author_name, p.author_id, p.created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
         FROM posts AS p
         JOIN users AS u 
-          ON p.author_id = u.id
-        LEFT OUTER JOIN favorites AS f
-          ON p.id = f.post_id
-        GROUP BY f.post_id, p.id, u.display_name, p.title, p.description, p.body, p.author_id, p.created_at, p.last_updated_at
+          ON p.author_id = u.user_id
+        LEFT OUTER JOIN bookmarks AS b
+          ON p.id = b.post_id
+        GROUP BY b.post_id, p.id, u.display_name, p.title, p.description, p.body,  p.is_premium, p.author_id, p.created_at, p.last_updated_at
           HAVING p.id = $1`,
         [id]);
       return res.rows[0];
@@ -56,13 +56,13 @@ export default class Post {
   static async getPostByUserId(id: number) {
     try {
       const res = await db.query(
-        `SELECT p.id, p.title, p.description, u.display_name AS author_name, p.body, p.author_id, p.created_at, p.last_updated_at,  COUNT(f.post_id) AS favorite_count
+        `SELECT p.id, p.title, p.description, p.is_premium, u.display_name AS author_name, p.body, p.is_premium, p.author_id, p.created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
         FROM posts AS p
         JOIN users AS u
-          ON p.author_id = u.id
-        LEFT OUTER JOIN favorites AS f
-          ON f.post_id = p.id
-        GROUP BY f.post_id, p.id, p.title, p.description, u.display_name, p.body, p.author_id, p.created_at, p.last_updated_at
+          ON p.author_id = u.user_id
+        LEFT OUTER JOIN bookmarks AS b
+          ON b.post_id = p.id
+        GROUP BY b.post_id, p.id, p.title, p.description, u.display_name, p.body, p.author_id, p.created_at, p.last_updated_at, p.is_premium
           HAVING p.author_id = $1`,
         [id]);
       return res.rows;
@@ -111,13 +111,13 @@ export default class Post {
   static async searchPosts(term: string) {
     // if term is a date.. search posts by created_at dates
     const res = await db.query(
-      `SELECT p.id, title, description, body, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(f.post_id) AS favorite_count
+      `SELECT p.id, p.title, p.description, p.body, u.display_name AS author_name, author_id, p.is_premium, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
       FROM posts AS p
       JOIN users AS u 
-      ON p.author_id = u.id
-      LEFT OUTER JOIN favorites AS f
-      ON p.id = f.post_id
-      GROUP BY f.post_id, p.id, u.display_name
+      ON p.author_id = u.user_id
+      LEFT OUTER JOIN bookmarks AS b
+      ON p.id = b.post_id
+      GROUP BY b.post_id, p.id, u.display_name
       HAVING LOWER(p.title) LIKE LOWER('%' || $1 || '%') 
         OR LOWER(p.description) LIKE LOWER('%' || $1 || '%')
         OR LOWER(u.display_name) LIKE LOWER('%' || $1 || '%')`,
