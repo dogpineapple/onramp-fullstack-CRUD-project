@@ -65,7 +65,13 @@ function deletePost(postId: number) {
  */
 export function getPostsFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/posts`);
+    const res = await fetch(`${BASE_URL}/posts`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
     const postsRes = await res.json();
     if (res.status === 200) {
       dispatch(deleteServerErr());
