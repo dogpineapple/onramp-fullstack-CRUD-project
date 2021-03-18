@@ -23,9 +23,9 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
         // Increment the favorite count of the post
         if (p.id === action.payload.post.id) {
           // POST-SUBMISSION UPDATE: adding a "currentValue variable".
-          let currentValue = parseInt(p.favorite_count) || 0;
+          let currentValue = parseInt(p.bookmark_count) || 0;
           const newFavCount = currentValue + 1;
-          p.favorite_count = newFavCount.toString();
+          p.bookmark_count = newFavCount.toString();
         }
         return p;
       });
@@ -38,8 +38,8 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       // Decrement the favorite count of the posts
       const updateDelFavPosts = state.posts.map((p: Post) => {
         if (p.id === action.payload.postId) {
-          const newFavCount = parseInt(p.favorite_count) - 1;
-          p.favorite_count = newFavCount.toString();
+          const newFavCount = parseInt(p.bookmark_count) - 1;
+          p.bookmark_count = newFavCount.toString();
         }
         return p;
       });
@@ -57,7 +57,7 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       // add in the current user's information 
       newPost.author_name = state.user.display_name;
       newPost.author_id = state.user.id;
-      newPost.favorite_count = 0;
+      newPost.bookmark_count = 0;
 
       return { ...state, posts: [action.payload.post, ...state.posts] };
     case UPDATE_POST:

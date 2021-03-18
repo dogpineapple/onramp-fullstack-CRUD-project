@@ -2,9 +2,22 @@ import { Comment, Post, User } from "../custom";
 
 export const MOCK_USER: User = {
   id: 1,
-  username: "testusername",
+  email: "testusername",
   join_date: "jan 1, 2020",
-  display_name: "Test Username"
+  display_name: "Test Username",
+  membership_status: "none",
+  membership_start_date: null,
+  membership_end_date: null
+};
+
+export const MOCK_PREMIUM_USER: User = {
+  id: 1,
+  email: "testusername",
+  join_date: "jan 1, 2020",
+  display_name: "Test Username",
+  membership_status: "active",
+  membership_start_date: "2021-03-18T19:43:37Z",
+  membership_end_date: "2200-03-18T19:43:37Z"
 };
 
 export const MOCK_POST: Post = {
@@ -16,7 +29,8 @@ export const MOCK_POST: Post = {
   author_name: 'test user',
   created_at: '1/1/2020',
   last_updated_at: '1/1/2020',
-  favorite_count: '5'
+  bookmark_count: '5',
+  is_premium: false
 };
 
 export const MOCK_POSTS: Array<Post> = [
@@ -29,7 +43,8 @@ export const MOCK_POSTS: Array<Post> = [
     author_name: 'test user',
     created_at: '1/1/2020',
     last_updated_at: '1/1/2020',
-    favorite_count: '0'
+    bookmark_count: '0',
+    is_premium: true
   },
   {
     id: 2,
@@ -40,7 +55,8 @@ export const MOCK_POSTS: Array<Post> = [
     author_name: 'test user',
     created_at: '1/1/2020',
     last_updated_at: '1/1/2020',
-    favorite_count: '1'
+    bookmark_count: '1',
+    is_premium: false
   },
   {
     id: 3,
@@ -51,7 +67,8 @@ export const MOCK_POSTS: Array<Post> = [
     author_name: 'test user',
     created_at: '1/1/2020',
     last_updated_at: '1/1/2020',
-    favorite_count: '5'
+    bookmark_count: '5',
+    is_premium: false
   }
 ];
 

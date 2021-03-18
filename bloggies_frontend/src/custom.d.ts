@@ -49,6 +49,6 @@ export interface User {
   join_date: string,
   display_name: string
   membership_status: string,
-  membership_start_date: string,
-  membership_end_date: string
+  membership_start_date: string | null,
+  membership_end_date: string | null
 }
