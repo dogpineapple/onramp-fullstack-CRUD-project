@@ -1,12 +1,21 @@
 import React from "react";
-
-const UserQuestions = () => {
+import { Form } from "react-bootstrap";
+interface IProps {
+  question: {
+    question: string;
+    answers: (string | number)[];
+  };
+}
+const UserQuestions = ({ question }: IProps) => {
   return (
-    <div className="UserQuestions">
-      <h3>
-        Questions Displayed Here!
-      </h3>
-    </div>
+    <Form.Group className="UserQuestions">
+      <Form.Label>{question.question}</Form.Label>
+      <Form.Control as ="select">
+        {question.answers.map((answer) => (
+          <option value={answer}>{answer}</option>
+        ))}
+      </Form.Control>
+    </Form.Group>
   );
 };
 

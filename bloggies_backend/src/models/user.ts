@@ -9,14 +9,17 @@ export default class User {
 
   /** Registers a user */
   static async register(username: string, password: string, displayName: string) {
+    console.log(db)
     const hashedPwd = await bcrypt.hash(password, BCRYPT_WORK_FACTOR as unknown as number);
     try {
+      console.log('i was called!!!')
       const res = await db.query(
         `INSERT INTO users (username, display_name, hashed_pwd)
           VALUES ($1, $2, $3)
           RETURNING id, username, display_name, join_date`,
         [username, displayName, hashedPwd]);
       const user = res.rows[0];
+      console.log(user)
       // Generate a jwt token with payload of `username` and `user_id`.
       let token = jwt.sign({ username: user.username, user_id: user.id }, SECRET_KEY as string);
       return { user: user, token };

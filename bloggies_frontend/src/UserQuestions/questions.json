@@ -1,0 +1,51 @@
+{
+  "primary_questions": [
+    {
+      "question": "How much hours are you willing to commit in a week to the Learning Circle?",
+      "answers": [0.5, 1, 2, 3, 4]
+    },
+    {
+      "question": "Are you willing to learn and contribute to the Learning Circle?",
+      "answers": ["yes", "no"]
+    },
+    {
+      "question": "What do you hope to get out of your membership?",
+      "answers": [
+        "nothing!",
+        "to be honest, not sure!",
+        "make new friends",
+        "learn more about my field",
+        "learn more about another field"
+      ]
+    },
+    {
+      "question": "What type of content can you contribute to the learning circle?",
+      "answers": [
+        "technical",
+        "cooking",
+        "i have no idea",
+        "not sure, excited to join and explore!",
+        "community",
+        "mental health",
+        "work from home tips",
+        "fashion advice"
+      ]
+    }
+  ],
+  "alternate_questions": [
+    {
+      "question": "Have you contributed blog posts to other websites in the past?",
+      "answers": ["yes", "no"]
+    },
+    {
+      "question": "How did you hear about the Learning Circle?",
+      "answers": [
+        "referral from friend",
+        "Google Search",
+        "LinkedIn",
+        "Facebook",
+        "Instagram"
+      ]
+    }
+  ]
+}
