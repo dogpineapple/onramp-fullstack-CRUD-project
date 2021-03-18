@@ -12,7 +12,7 @@ export default class Comment {
           JOIN posts as p
             ON c.post_id = p.id
           JOIN users as u
-            ON c.author_id = u.id
+            ON c.author_id = u.user_id
           LEFT OUTER JOIN replies as r
             ON c.id = r.reply_to_comment_id
           GROUP BY r.reply_to_comment_id, c.id, c.body, c.author_id, c.created_at, u.display_name, c.post_id, c.is_reply
@@ -33,7 +33,7 @@ export default class Comment {
         `SELECT c.id, c.body, c.author_id, c.created_at, u.display_name as author_name, c.post_id, c.is_reply
           FROM replies as r
           JOIN comments as c ON r.comment_id = c.id
-          JOIN users as u ON u.id = c.author_id
+          JOIN users as u ON u.user_id = c.author_id
           WHERE r.reply_to_comment_id = $1`,
         [commentId]);
       const replies = res.rows;
