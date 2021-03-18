@@ -1,5 +1,5 @@
 import db from "../db";
-import Bookmark from "../models/bookmarks";
+import Bookmark from "../models/bookmark";
 
 let validPostId: number;
 let validUserId: number;
@@ -9,8 +9,8 @@ const validUserDisplayName = 'bookmarksuser';
 const validPostDescription = 'Made with Strawberry, Basil, Sparkling Water';
 const validPostTitle = 'Strawberry Basil Soda';
 
-/** Tests for Favorite model methods*/
-describe("Test favorite class model", function () {
+/** Tests for bookmark model methods*/
+describe("Test Bookmark class model", function () {
 
   beforeEach(async () => {
     await db.query("DELETE FROM bookmarks");
@@ -54,9 +54,9 @@ describe("Test favorite class model", function () {
         WHERE p.id = $1 AND u.user_id = $2`,
       [validPostId, validUserId]);
 
-    const favorite = expectedRes.rows[0];
-    expect(favorite.title).toBe(validPostTitle);
-    expect(favorite.display_name).toBe(validUserDisplayName);
+    const bookmark = expectedRes.rows[0];
+    expect(bookmark.title).toBe(validPostTitle);
+    expect(bookmark.display_name).toBe(validUserDisplayName);
   });
 
   test("can handle invalid user_id when adding a bookmark", async () => {

@@ -43,14 +43,14 @@ describe("Test Bookmarks routes", function () {
   });
 
   /** GET /bookmarks/:uid => status 200, { posts }.**/
-  test("GET /bookmarks/:uid - retrieve favorited posts for a user by user id", async function () {
+  test("GET /bookmarks/:uid - retrieve bookmarked posts for a user by user id", async function () {
     const resp = await request(app).get(`/bookmarks/${validUserId}`);
     expect(resp.status).toBe(200);
     expect(resp.body.posts.length).toBe(1);
   });
 
   /** POST /bookmarks => status 201, { message }.**/
-  test("POST /bookmarks - add a favorite post to a user", async function () {
+  test("POST /bookmarks - add a bookmark post to a user", async function () {
     const resp = await request(app).post(`/bookmarks`)
       .set('Cookie', [`token=${token}`])
       .send({ postId: validNotFavPostId });
@@ -60,13 +60,13 @@ describe("Test Bookmarks routes", function () {
   });
 
   /** POST /bookmarks => status 401, { message }.**/
-  test("POST /bookmarks - add a favorite post to a user", async function () {
+  test("POST /bookmarks - add a bookmark post to a user", async function () {
     const resp = await request(app).post(`/bookmarks`).send({ postId: validNotFavPostId });
     expect(resp.status).toBe(401);
   });
 
   /** DELETE /bookmarks => status 200, { posts }.**/
-  test("DELETE /bookmarks - remove a favorite post from a user", async function () {
+  test("DELETE /bookmarks - remove a bookmark post from a user", async function () {
     const resp = await request(app).delete(`/bookmarks`)
       .set('Cookie', [`token=${token}`])
       .send({ postId: validPostId });
@@ -79,6 +79,7 @@ describe("Test Bookmarks routes", function () {
     await db.query("DELETE FROM bookmarks");
     await db.query("DELETE FROM posts");
     await db.query("DELETE FROM users");
+    await db.query("DELETE FROM user_auth");
     await db.end();
   });
 });

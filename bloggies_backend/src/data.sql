@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS "users";
 DROP TABLE IF EXISTS "posts";
 DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "replies";
-DROP TABLE IF EXISTS "favorites";
+DROP TABLE IF EXISTS "bookmarks";
 
 CREATE DATABASE "learning_circle_test";
 CREATE DATABASE "learning_circle";
@@ -19,7 +19,7 @@ CREATE TABLE user_auth (
 );
 
 CREATE TABLE users ( 
-  user_id INT NOT NULL PRIMARY KEY REFERENCES users ON DELETE CASCADE,
+  user_id INT NOT NULL PRIMARY KEY REFERENCES user_auth ON DELETE CASCADE,
   display_name VARCHAR (30) UNIQUE NOT NULL,
   membership_eligibility VARCHAR (50) NOT NULL DEFAULT 'none',
   membership_active BOOLEAN NOT NULL DEFAULT false,
