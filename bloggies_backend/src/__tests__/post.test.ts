@@ -26,8 +26,8 @@ describe("Test post class", function () {
     validUserId = userAuthRes.rows[0].id;
 
     await db.query(
-      `INSERT INTO users (user_id, display_name, membership_active)
-        VALUES ($1, $2, false)`,
+      `INSERT INTO users (user_id, display_name)
+        VALUES ($1, $2)`,
       [validUserId, validUserDisplayName]);
 
     const postRes = await db.query(

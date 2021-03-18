@@ -31,8 +31,7 @@ describe("Test User routes", function () {
       id: expect.any(Number),
       email: "userRouteTest@test.com",
       display_name: "thisistest",
-      membership_eligibility: NONE,
-      membership_active: false,
+      membership_status: NONE,
       membership_start_date: null,
       membership_end_date: null,
       last_submission_date: null
@@ -81,8 +80,7 @@ describe("Test User routes", function () {
       id: expect.any(Number),
       email: "GrahaTia@test.com",
       display_name: "grahatest",
-      membership_eligibility: NONE,
-      membership_active: false,
+      membership_status: NONE,
       membership_start_date: null,
       membership_end_date: null,
       last_submission_date: null

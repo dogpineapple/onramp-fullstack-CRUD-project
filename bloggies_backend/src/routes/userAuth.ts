@@ -20,8 +20,7 @@ userAuthRouter.post("/register", async function (req: Request, res: Response, ne
         user: {
           ...authResult.user,
           display_name,
-          membership_eligibility: NONE,
-          membership_active: false,
+          membership_status: NONE,
           membership_start_date: null,
           membership_end_date: null,
           last_submission_date: null

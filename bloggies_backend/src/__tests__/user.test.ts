@@ -19,9 +19,9 @@ describe("Test User class", function () {
     validUserId = userAuthRes.rows[0].id;
 
     await db.query(
-      `INSERT INTO users (user_id, display_name, membership_active)
-      VALUES ($1, $2, $3)`,
-      [validUserId, 'testdisplayname', false]);
+      `INSERT INTO users (user_id, display_name)
+      VALUES ($1, $2)`,
+      [validUserId, 'testdisplayname']);
   });
 
   test("can retrieve user", async function () {
@@ -29,8 +29,7 @@ describe("Test User class", function () {
     expect(user).toEqual({
       id: validUserId,
       display_name: "testdisplayname",
-      membership_eligibility: NONE,
-      membership_active: false,
+      membership_status: NONE,
       membership_start_date: null,
       membership_end_date: null,
       last_submission_date: null
@@ -42,7 +41,6 @@ describe("Test User class", function () {
     expect(users[0]).toEqual({
       id: validUserId,
       display_name: "testdisplayname",
-      membership_active: false,
       last_submission_date: null
     });
   });
