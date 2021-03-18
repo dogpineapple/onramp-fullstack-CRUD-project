@@ -18,15 +18,13 @@ function BlogPage() {
   const [sortType, setSortType] = useState("mostRecent")
 
   useEffect(function handleLoadPosts() {
+
+
     if (postsList.length === 0) {
       dispatch(getPostsFromAPI());
     } else {
       setPosts(postsList);
     }
-    /*POST-SUBMIT BUG FIXED: Changing the favorites count on a post will reset the order to "most recent" 
-        WHY: because the dependency array had postsList, which causes `setPosts(postsList)` to run, resetting the order
-              to "most recent". 
-        FIX: Pass the current sort `sortType` to the sortSelection, which will re-sort when posts changes. */
   }, []);
 
   // invoked in `SortSelection` component when a user chooses a sort type in the dropdown.
