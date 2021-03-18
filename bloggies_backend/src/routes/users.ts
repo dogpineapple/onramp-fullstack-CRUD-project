@@ -5,36 +5,6 @@ import ExpressError from "../expressError";
 
 export const usersRouter = express.Router();
 
-/** POST /users/register - creates a new user. 
- * Returns user object & jwt */
-usersRouter.post("/register", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const { username, password, display_name } = req.body;
-    if (username && password && display_name) {
-      const result = await User.register(username, password, display_name);
-      res.cookie("token", result.token);
-      return res.status(201).json(result);
-    }
-    console.log("register event with: ", username, password, display_name);
-    throw new ExpressError("Invalid registration values. Check all fields.", 400);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** POST /users/login - authenticate credentials and login a user. 
- * Returns user object & jwt*/
-usersRouter.post("/login", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const { username, password } = req.body;
-    const result = await User.authenticate(username, password);
-    res.cookie("token", result.token);
-    return res.json(result);
-  } catch (err) {
-    return next(err);
-  }
-});
-
 /** SEARCH /users/search?term=[term] - get all users matching search term. 
  * Returns users */
 usersRouter.get("/search", async function (req: Request, res: Response, next: NextFunction) {
