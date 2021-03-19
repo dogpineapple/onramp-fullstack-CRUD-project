@@ -12,6 +12,9 @@ userAuthRouter.post("/register", async function (req: Request, res: Response, ne
     const { email, password, display_name } = req.body;
    
     if (email && password && display_name) {
+      const notUnique = await User.checkForUniqueDisplayName(display_name);
+      if(notUnique) throw new ExpressError("That Display Name is already taken. Please choose another one", 403);
+
       const authResult = await UserAuth.register(email, password);
       const userInfo = await User.createUser(authResult.user.id, display_name);
       console.log(userInfo)
@@ -52,6 +55,5 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
 userAuthRouter.post("/logout", async function (req: Request, res: Response, next: NextFunction) {
   res.cookie("token", null);
   const logout = 'user logged out'
-  console.log(logout);
   return res.send(logout);
 })

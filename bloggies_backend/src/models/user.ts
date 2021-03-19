@@ -75,4 +75,16 @@ export default class User {
         [appStatus, now, membershipExpiration, user_id]);
     return res.rows[0];
   }
+
+
+  //checks that the display_name given at registration doesn't already exist before adding it
+  static async checkForUniqueDisplayName(display_name: string) {
+      const res = await db.query(
+        `SELECT display_name
+        FROM users
+        WHERE display_name = $1`, 
+        [display_name]
+      );
+    return res.rows[0];
+  }
 }

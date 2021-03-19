@@ -66,7 +66,7 @@ export default class Post {
       if(!resRow) return undefined;
       if(membershipStatus === 'active' && resRow.is_premium) return res.rows[0];
       if(!resRow.is_premium) return res.rows[0];
-      return 'You do not have access to this post!'
+      throw new ExpressError('You do not have access to this post!', 403);
 
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);

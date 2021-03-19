@@ -42,13 +42,12 @@ describe("Test Bookmarks routes", function () {
     await db.query(`INSERT INTO bookmarks(post_id, user_id) VALUES (${validPostId}, ${validUserId})`);
   });
 
-  /** THIS TEST SHOULD BE UPDATED */
-  // /** GET /bookmarks/ => status 200, { posts }.**/
-  // test("GET /bookmarks/ - retrieve bookmarked posts for a user by user id", async function () {
-  //   const resp = await request(app).get(`/bookmarks/`);
-  //   expect(resp.status).toBe(200);
-  //   expect(resp.body.posts.length).toBe(1);
-  // });
+  /** GET /bookmarks/:uid => status 200, { posts }.**/
+  test("GET /bookmarks/:uid - retrieve bookmarked posts for a user by user id", async function () {
+    const resp = await request(app).get(`/bookmarks/${validUserId}`);
+    expect(resp.status).toBe(200);
+    expect(resp.body.posts.length).toBe(1);
+  });
 
   /** POST /bookmarks => status 201, { message }.**/
   test("POST /bookmarks - add a bookmark post to a user", async function () {
