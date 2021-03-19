@@ -7,6 +7,13 @@ interface IQuestions {
   question: string;
   answers: (string | number)[];
 }
+/**
+ * User Application Form Component, can be used to render Application form or Supplementary Application Form sent to users with a pending status
+
+  * data.primary_questions - contains questions rendered on the Application form
+
+  * data.alternate_questions - contains alternate questions rendered on the Supplementary Application form sent to pending users
+ */
 
 function UserApplicationForm() {
   const [questions, setQuestions] = useState<IQuestions[]>([]);
