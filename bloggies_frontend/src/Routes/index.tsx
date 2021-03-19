@@ -53,10 +53,9 @@ function Routes() {
           <PaymentPage />
         </div>
       </Route>
-      <Route exact path="/help">
-        <div className="">
+      <Route exact path="/register/membership-form">
+        <div>
           <UserApplicationPage />
-
         </div>
       </Route>
       <Route exact path="/users/register/membership-status">

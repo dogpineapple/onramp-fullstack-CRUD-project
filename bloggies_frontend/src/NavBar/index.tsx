@@ -49,7 +49,7 @@ function NavBar() {
           </NavLink>
           {user.id ? (
             <Fragment>
-              <NavLink exact to="/help">
+              <NavLink exact to="/register/membership-form">
                 get premium
               </NavLink>
               <NavLink exact to={`/blogs/create`}>

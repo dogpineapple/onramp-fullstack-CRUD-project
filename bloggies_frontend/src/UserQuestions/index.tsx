@@ -8,7 +8,7 @@ interface IProps {
 }
 const UserQuestions = ({ question }: IProps) => {
   return (
-    <Form.Group className="UserQuestions">
+    <Form.Group className="UserQuestions mt-5">
       <Form.Label>{question.question}</Form.Label>
       <Form.Control as ="select">
         {question.answers.map((answer) => (
