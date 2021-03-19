@@ -223,7 +223,8 @@ export function gotUserInfo(user: User) {
 export function getMembershipStatus(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
     // const res = await fetch(`${BASE_URL}/users/${userId}/check-membership`);
-    const res = { membership_status: "active" };
+    // TODO: backend integration
+    const res = { membership_status: "pending" };
     dispatch(gotMembershipStatus(res.membership_status));
   }
 }
