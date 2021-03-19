@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "../app";
 import db from "../db";
 import User from "../models/user";
+import UserAuth from "../models/userAuth";
 
 let token: string;
 let validUserId: number;
@@ -11,22 +12,28 @@ let secondToken: string;
 describe("Test Post routes", function () {
   beforeAll(async function () {
     await db.query("DELETE FROM users");
-    const userData = await User.register('GrahaTia', 'password', 'Crystal Exarch');
+
+    const userData = await UserAuth.register('GrahaTia', 'password');
     token = userData.token;
     validUserId = userData.user.id;
 
-    const anotherUserData = await User.register('Gaia', 'password', 'ff14');
+    await User.createUser(validUserId, 'Crystal Exarch')
+
+    const anotherUserData = await UserAuth.register('Gaia', 'password');
     secondToken = anotherUserData.token;
+
+    await User.createUser(anotherUserData.user.id, "ff14");
   })
 
   beforeEach(async function () {
     await db.query("DELETE FROM posts");
-    const postData = await db.query(`INSERT INTO posts(title, description, body, author_id) 
+    const postData = await db.query(`INSERT INTO posts(title, description, body, author_id, is_premium) 
                             VALUES
                                 ('Strawberry Basil Soda', 
                                 'initial description', 
                                 'initial body', 
-                                ${validUserId})
+                                ${validUserId},
+                                false)
                             RETURNING id`);
     validPostId = postData.rows[0].id;
   });
@@ -39,7 +46,8 @@ describe("Test Post routes", function () {
       .send({
         title: "test title",
         description: "test description",
-        body: "test body"
+        body: "test body",
+        is_premium: false
       });
     expect(resp.body.post.description).toBe("test description");
     expect(resp.status).toBe(201);
@@ -115,8 +123,9 @@ describe("Test Post routes", function () {
   });
 
   afterAll(async () => {
-    await db.query("DELETE FROM users");
     await db.query("DELETE FROM posts");
+    await db.query("DELETE FROM users");
+    await db.query("DELETE FROM user_auth");
     await db.end();
   })
 });

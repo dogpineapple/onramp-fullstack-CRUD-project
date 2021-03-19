@@ -11,8 +11,8 @@ export const postsRouter = express.Router();
 postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const user = req.user;
-    const { title, description, body } = req.body;
-    const post = await Post.createPost(title, description, body, user.user_id);
+    const { title, description, body, is_premium } = req.body;
+    const post = await Post.createPost(title, description, body, user.user_id, is_premium);
     return res.status(201).send({ post });
   } catch (err) {
     return next(err);

@@ -4,7 +4,7 @@ import Comment from "../models/comment";
 
 export const commentsRouter = express.Router();
 
-/** GET /comments/:postId - retrieve favorited posts for a user.
+/** GET /comments/:postId - retrieve bookmarked posts for a user.
  * Returns a list of comments */
 commentsRouter.get("/:postId", async function (req: Request, res: Response, next: NextFunction) {
   const postId = parseInt(req.params.postId);
