@@ -1,0 +1,8 @@
+.UserApplicationPage {
+  height: 100%;
+}
+
+.UserApplicationPage-title {
+  padding-top: 4rem;
+  color: white;
+}
