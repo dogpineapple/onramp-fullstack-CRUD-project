@@ -15,3 +15,13 @@ stripeRouter.post("/create-checkout-session", async function (req: Request, res:
     return next(err);
   }
 });
+
+/** DELETE cancels user's Stripe subscription */
+stripeRouter.delete("/cancel-subscription", async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const cancel = await Checkout.stripeSubscriptionCancel();
+    res.send(cancel);
+  } catch(err) {
+    return next(err);
+  }
+});

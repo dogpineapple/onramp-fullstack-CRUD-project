@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { ensureLoggedIn } from "../middleware/auth";
 import User from "../models/user";
 import ExpressError from "../expressError";
+import Email from "../models/sendgrid";
 
 export const usersRouter = express.Router();
 
@@ -27,3 +28,24 @@ usersRouter.get("/", ensureLoggedIn, async function (req: Request, res: Response
   const user = await User.getUser(parseInt(userId));
   return res.json({ user })
 });
+
+/** UPDATE membership status - user must be logged in, and status is updated based on body */
+/** this will also trigger the emails to send */
+/** returns update User object (user_id, status, membership_start_date, membership_end_date) */
+usersRouter.put("/status-update", ensureLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
+  const { appStatus } = req.body;
+  const { user_id, email } = req.user;
+  
+  //add some validation here?
+
+  try {
+    const updatedUser = await User.updateMembership(user_id, appStatus);
+
+    //send an email based on membership status
+    await Email.sendConfirmation(email, appStatus);
+    return res.json(updatedUser);
+
+  } catch(err) {
+    return next(err);
+  }
+})

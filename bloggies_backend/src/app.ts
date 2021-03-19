@@ -6,7 +6,7 @@ import CookieParser from 'cookie-parser';
 import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./middleware/auth";
 import { postsRouter } from "./routes/posts";
-import { bookmarksRouter } from "./routes/bookmarks";
+import { bookmarksRouter } from "./routes/bookmark";
 import { commentsRouter } from "./routes/comments";
 import { stripeRouter } from "./routes/stripe";
 import { userAuthRouter } from "./routes/userAuth";

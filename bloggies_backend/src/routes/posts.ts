@@ -3,6 +3,7 @@ import { ensureLoggedIn } from "../middleware/auth";
 import Post from "../models/post";
 import express from "express";
 import ExpressError from "../expressError";
+import User from "../models/user";
 
 export const postsRouter = express.Router();
 
@@ -10,20 +11,26 @@ export const postsRouter = express.Router();
  * Returns post object */
 postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
-    const user = req.user;
+    const { user_id } = req.user;
     const { title, description, body, is_premium } = req.body;
-    const post = await Post.createPost(title, description, body, user.user_id, is_premium);
+    const post = await Post.createPost(title, description, body, user_id, is_premium);
     return res.status(201).send({ post });
   } catch (err) {
     return next(err);
   }
 });
 
-/** GET /posts - get all posts. 
+/** GET /posts - get all free posts for regular users and all posts for premium users 
  * Returns posts */
 postsRouter.get("/", async function (req: Request, res: Response, next: NextFunction) {
+  const user_id = req.user ? req.user.user_id : null;
+  let status = null;
   try {
-    const posts = await Post.getAllPosts();
+    if(user_id !== null) {
+      const userInfo = await User.getUser(user_id);
+      if(userInfo) status = userInfo.membership_status; 
+    }
+    const posts = await Post.getAllPosts(status);
     return res.json({ posts });
   } catch (err) {
     return next(err);
@@ -48,10 +55,12 @@ postsRouter.get("/search", async function (req: Request, res: Response, next: Ne
 /** GET /posts/:postId - get a specific post by post id. 
  * Returns post */
 postsRouter.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
+  const postId = parseInt(req.params.id);
   try {
-    const postId = req.params.id;
-    const post = await Post.getPost(parseInt(postId));
-    return res.json({ post });
+    const memberStatus = await User.checkMembershipStatus(postId);
+    const post = await Post.getPost(postId, memberStatus);
+    if(post) return res.json({ post });
+    return res.send('The post you are looking for does not exist.')
   } catch (err) {
     return next(err);
   }

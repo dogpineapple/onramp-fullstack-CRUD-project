@@ -47,7 +47,7 @@ describe("Test post class", function () {
   });
 
   test("can get post by post id", async function () {
-    const post = await Post.getPost(validPostId);
+    const post = await Post.getPost(validPostId, 'active');
     expect(post.title).toBe(validPostTitle);
     expect(post.description).toBe(validPostDescription);
     expect(post.author_id).toBe(validUserId);

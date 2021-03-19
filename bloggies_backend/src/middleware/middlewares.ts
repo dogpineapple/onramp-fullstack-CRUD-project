@@ -5,7 +5,7 @@ import User from "../models/user";
 
 export async function ensureNoCooldown(req: Request, res: Response, next: NextFunction) {
   // check if the cooldown (1 minute) has passed to prevent spamming.
-  const lastUpdatedAt = await User.getLastUpdated(req.user.user_id);
+  const lastUpdatedAt = await User.getLastSubmissionDate(req.user.user_id);
   if (lastUpdatedAt) {
     let currentTime = new Date().getTime();
     let lastUpdatedTime = new Date(lastUpdatedAt).getTime();

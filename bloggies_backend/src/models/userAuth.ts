@@ -12,8 +12,8 @@ export default class UserAuth {
 		try {
 			const res = await db.query(
 				`INSERT INTO user_auth (email, hashed_pwd)
-          VALUES ($1, $2)
-          RETURNING id, email`,
+          		VALUES ($1, $2)
+          		RETURNING id, email`,
 				[email, hashedPwd]);
 			const user = res.rows[0];
 			// Generate a jwt token with payload of `email` and `user_id`.
