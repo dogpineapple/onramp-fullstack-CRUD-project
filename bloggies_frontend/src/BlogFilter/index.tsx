@@ -25,7 +25,6 @@ function BlogFilter({ posts, handlePostFilter }: IProp) {
         filteredPosts = posts.filter(p => {
           return !p.is_premium;
         });
-        handlePostFilter([], "all");
         break;
       default:
         setfilterType(DEFAULT_FILTER_SELECT);

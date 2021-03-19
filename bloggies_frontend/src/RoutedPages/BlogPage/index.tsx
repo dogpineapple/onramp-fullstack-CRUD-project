@@ -44,7 +44,6 @@ function BlogPage() {
     } else {
       setPosts(postsList);
     }
-    setSortType(newFilterType);
   }
 
   return (

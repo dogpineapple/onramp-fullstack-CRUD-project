@@ -7,10 +7,11 @@ exports[`FavoriteButton should match snapshot 1`] = `
       "author_id": 1,
       "author_name": "test user",
       "body": "test body",
+      "bookmark_count": "5",
       "created_at": "1/1/2020",
       "description": "test description",
-      "bookmark_count": "5",
       "id": 123,
+      "is_premium": false,
       "last_updated_at": "1/1/2020",
       "title": "test title",
     }
