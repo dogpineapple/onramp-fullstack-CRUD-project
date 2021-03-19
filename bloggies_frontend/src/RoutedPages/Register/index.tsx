@@ -8,7 +8,7 @@ import { gotUserInfo } from '../../redux/actionCreators';
 import './Register.css';
 
 interface SignUpFormData {
-  username: string,
+  email: string,
   password: string, 
   repeatPassword: string,
   display_name: string 
@@ -26,7 +26,7 @@ function Register() {
 
   const signUp = async (data: SignUpFormData) => {
     setServerErr("");
-    const res = await fetch(`${BASE_URL}/users/register`, {
+    const res = await fetch(`${BASE_URL}/user-auth/register`, {
       method: "POST",
       body: JSON.stringify(data),
       credentials: "include",
@@ -34,6 +34,7 @@ function Register() {
         "Content-type": "application/json"
       }
     });
+    console.log(data)
     const userRes = await res.json();
     // set the user's token into the localStorage.
     // Deprecated: No longer storing token in localStorage; Exists as cookie
