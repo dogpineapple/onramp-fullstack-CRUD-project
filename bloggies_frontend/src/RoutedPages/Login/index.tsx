@@ -24,33 +24,25 @@ function Login() {
   const history = useHistory();
 
   const loginUser = async (loginData: LoginFormData) => {
-    // const res = await fetch(`${BASE_URL}/users/login`, {
-    //   method: "POST",
-    //   body: JSON.stringify(loginData),
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-type": "application/json"
-    //   }
-    // });
-    // const loginRes = await res.json();
-    // // set the user's token into the localStorage. (Deprecated: No longer store token in localStorage)
-    // // localStorage.setItem("token", loginRes.token);
+    const res = await fetch(`${BASE_URL}/users/login`, {
+      method: "POST",
+      body: JSON.stringify(loginData),
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const loginRes = await res.json();
+    // set the user's token into the localStorage. (Deprecated: No longer store token in localStorage)
+    // localStorage.setItem("token", loginRes.token);
 
-    // if (res.status === 200) {
-    //   dispatch(gotUserInfo(loginRes.user));
-    //   dispatch(getUserFavoritesFromAPI(loginRes.user.id));
-    //   history.push("/");
-    // } else {
-    //   setServerErr(loginRes.error.message);
-    // }
-    dispatch(gotUserInfo({
-      id: 1,
-      username: 'testuser@fake.com',
-      join_date: '18/03/2021',
-      display_name: 'testuser'
-    }))
-      dispatch(getUserFavoritesFromAPI(1));
+    if (res.status === 200) {
+      dispatch(gotUserInfo(loginRes.user));
+      dispatch(getUserFavoritesFromAPI(loginRes.user.id));
       history.push("/");
+    } else {
+      setServerErr(loginRes.error.message);
+    }
   }
 
   return (

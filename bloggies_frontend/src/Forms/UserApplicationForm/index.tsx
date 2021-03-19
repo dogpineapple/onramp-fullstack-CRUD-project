@@ -21,7 +21,7 @@ function UserApplicationForm() {
         {questions.map((question, index) => {
           return <UserQuestions question={question} key={index} />;
         })}
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Submit Application</Button>
       </Form>
     </Container>
   );
