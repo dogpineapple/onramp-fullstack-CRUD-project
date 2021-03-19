@@ -23,14 +23,10 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
 /** GET /posts - get all free posts for regular users and all posts for premium users 
  * Returns posts */
 postsRouter.get("/", async function (req: Request, res: Response, next: NextFunction) {
-  const user_id = req.user ? req.user.user_id : null;
-  let status = null;
+  const userId = req.user ? req.user.user_id : null;
   try {
-    if(user_id !== null) {
-      const userInfo = await User.getUser(user_id);
-      if(userInfo) status = userInfo.membership_status; 
-    }
-    const posts = await Post.getAllPosts(status);
+    const { membership_status } = await User.checkMembershipStatus(userId);
+    const posts = await Post.getAllPosts(membership_status);
     return res.json({ posts });
   } catch (err) {
     return next(err);
@@ -56,9 +52,10 @@ postsRouter.get("/search", async function (req: Request, res: Response, next: Ne
  * Returns post */
 postsRouter.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
   const postId = parseInt(req.params.id);
+  const userId = req.user ? req.user.user_id : null;
   try {
-    const memberStatus = await User.checkMembershipStatus(postId);
-    const post = await Post.getPost(postId, memberStatus);
+    const { membership_status } = await User.checkMembershipStatus(userId);
+    const post = await Post.getPost(postId, membership_status);
     if(post) return res.json({ post });
     return res.send('The post you are looking for does not exist.')
   } catch (err) {

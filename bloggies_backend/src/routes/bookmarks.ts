@@ -5,16 +5,13 @@ import Bookmark from "../models/bookmark";
 
 export const bookmarksRouter = express.Router();
 
-/** GET /bookmarks/ - retrieve bookmarked posts for the current user.
+/** GET /bookmarks/:uid - retrieve bookmarked posts for the current user.
  * Returns a list of posts */
 bookmarksRouter.get("/:uid", async function (req: Request, res: Response, next: NextFunction) {
-  const userId = parseInt(req.params.uid)
+  const userId = parseInt(req.params.uid);
   try {
-    if(userId) {
       const posts = await Bookmark.getAllBookmarks(userId);
       return res.json({ posts });
-    }
-
   } catch (err) {
     return next(err);
   }
