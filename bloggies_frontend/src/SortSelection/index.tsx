@@ -50,7 +50,7 @@ function SortSelection({ posts, handlePostSort, currentSort }: IProp) {
 
   return (
     <div className="SortSelection d-flex align-items-center">
-      View by:
+      View:
       <Dropdown className="ml-2">
         <Dropdown.Toggle variant="primary" id="filter-dropdown">
           {sortType}

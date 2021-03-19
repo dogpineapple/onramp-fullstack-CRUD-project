@@ -10,7 +10,7 @@ import NavBar from './NavBar';
 import { CustomReduxState } from './custom';
 import { getCookie } from './helpers';
 import { ThemeProvider } from 'styled-components';
-import { defaultTheme, GlobalStyles, premiumTheme } from './theme';
+import { defaultAppTheme, GlobalStyles, premiumAppTheme } from './theme';
 
 function App() {
   const currentUser = useSelector((st: CustomReduxState) => st.user);
@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={currentUser.membership_status === "active" ? premiumTheme : defaultTheme}>
+    <ThemeProvider theme={currentUser.membership_status === "active" ? premiumAppTheme : defaultAppTheme}>
       <GlobalStyles />
       <div className="App">
         <BrowserRouter>

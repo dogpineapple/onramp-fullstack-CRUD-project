@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { ThemeProvider } from "styled-components";
+import BlogFilter from "../../BlogFilter";
 import BlogList from "../../BlogList";
 import { CustomReduxState, Post } from "../../custom";
 import { getMembershipStatus, getPostsFromAPI } from "../../redux/actionCreators";
 import SortSelection from "../../SortSelection";
-import { defaultTheme, GlobalStyles, premiumTheme } from "../../theme";
-
 /**
  * `BlogPage` renders `BlogList` and `SortSelection` components.
  * If posts do not exist in current redux store, it dispatches an action to
@@ -40,18 +38,32 @@ function BlogPage() {
     setSortType(newSortType);
   }
 
+  const handlePostFilter = (filteredPosts: Array<Post>, newFilterType: string) => {
+    if (newFilterType !== "all") {
+      setPosts(filteredPosts);
+    } else {
+      setPosts(postsList);
+    }
+    setSortType(newFilterType);
+  }
+
   return (
-      <div className="BlogPage">
-        <Container>
-          <Row className="mt-4">
-            <Col md={12} className="d-flex align-items-center justify-content-between">
-              <h1 className="text-left">Bloggies newsfeed</h1>
-              <SortSelection handlePostSort={handlePostSort} posts={postsList} currentSort={sortType} />
+    <div className="BlogPage">
+      <Container>
+        <Row className="mt-4 d-flex align-items-center justify-content-between">
+          <Col md={6}>
+            <h1 className="text-left">Bloggies newsfeed</h1>
+          </Col>
+          <Col md={3}>
+            <SortSelection handlePostSort={handlePostSort} posts={postsList} currentSort={sortType} />
+          </Col>
+          <Col md={3}>
+            {currentUser.membership_status === "active" && <BlogFilter posts={postsList} handlePostFilter={handlePostFilter} />}
             </Col>
-          </Row>
-          <BlogList key={sortType} posts={posts} />
-        </Container>
-      </div>
+        </Row>
+        <BlogList key={sortType} posts={posts} />
+      </Container>
+    </div>
   );
 };
 

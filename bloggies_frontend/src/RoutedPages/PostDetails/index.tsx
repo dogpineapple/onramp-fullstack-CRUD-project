@@ -14,6 +14,14 @@ import EditFormModal from "../../EditFormModal";
 import DeleteModal from "../../DeleteModal";
 import { deletePostFromAPI, updateCurrentPost } from "../../redux/actionCreators";
 import { changeToURLFriendly, getCookie } from "../../helpers";
+import { DEFAULT_COLOR } from "../../theme";
+import styled from "styled-components";
+
+
+const StyledAuthorSpan = styled("span")`
+  color: ${DEFAULT_COLOR.authorNamePostDetailText}
+`
+
 
 /**
  * `PostDetails` renders a post's data in full and a `FavoriteButton` and a
@@ -184,7 +192,7 @@ function PostDetails() {
               </Row>
               <div className="text-muted">{post.description}</div>
               <div className="text-muted">
-                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}`}><span className="App-author">{post.author_name}</span></a> {moment(post.created_at).fromNow()}
+                Posted by <a href={`/users/${post.author_id}/${changeToURLFriendly(post.author_name)}`}><StyledAuthorSpan className="App-author">{post.author_name}</StyledAuthorSpan></a> {moment(post.created_at).fromNow()}
                 {post.last_updated_at !== post.created_at && <span className="App-update"> (last updated {moment(post.last_updated_at).fromNow()})</span>}</div>
               <div className="PostDetails-body">{post.body}</div>
             </div>

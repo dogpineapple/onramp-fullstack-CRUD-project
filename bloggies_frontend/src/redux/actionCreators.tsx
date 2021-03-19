@@ -224,7 +224,7 @@ export function getMembershipStatus(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
     // const res = await fetch(`${BASE_URL}/users/${userId}/check-membership`);
     // TODO: backend integration
-    const res = { membership_status: "pending" };
+    const res = { membership_status: "active" }; // TEMP
     dispatch(gotMembershipStatus(res.membership_status));
   }
 }
