@@ -13,6 +13,7 @@ import PaymentCancelPage from "../RoutedPages/PaymentCancelPage";
 import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
 import PaymentPage from "../RoutedPages/PaymentPage";
 import "./Routes.css";
+import UserSubscriptionPayment from "../RoutedPages/UserSubscriptionPayment";
 
 function Routes() {
   return (
@@ -68,6 +69,9 @@ function Routes() {
         <div className="Routes-thin-container">
           <BlogPage />
         </div>
+      </Route>
+      <Route exact path="/payment/form">
+        <UserSubscriptionPayment/>
       </Route>
       <Redirect to="/" />
     </Switch>

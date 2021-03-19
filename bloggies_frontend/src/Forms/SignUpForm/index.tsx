@@ -56,7 +56,7 @@ function SignUpForm({ signUp, serverErr }: IProp) {
           <p className="SignUp-title text-center">Account Registration</p>
           <Form.Group controlId="validationCustom01">
             <Form.Label>Username</Form.Label>
-            <Form.Control name="email" value={formData.email} placeholder="Username" onChange={handleChange} isInvalid={Boolean(serverErr)} required></Form.Control >
+            <Form.Control name="email" value={formData.email} placeholder="Email" onChange={handleChange} isInvalid={Boolean(serverErr)} required></Form.Control >
             <Form.Text className="text-muted">This will be the username you login with.</Form.Text>
             <Form.Control.Feedback type="invalid">Must be at least 4 characters.</Form.Control.Feedback>
           </Form.Group>
