@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response } from "express";
 import ExpressError from "../expressError";
 import UserAuth from "../models/userAuth";
 import User from "../models/user";
-import { NONE } from "../membershipEligibility";
 
 export const userAuthRouter = express.Router();
 
@@ -13,17 +12,16 @@ userAuthRouter.post("/register", async function (req: Request, res: Response, ne
     const { email, password, display_name } = req.body;
    
     if (email && password && display_name) {
-      const authResult = await UserAuth.register(email, password);
-      await User.createUser(authResult.user.id, display_name);
+      const notUnique = await User.checkForUniqueDisplayName(display_name);
+      if(notUnique) throw new ExpressError("That Display Name is already taken. Please choose another one", 403);
 
+      const authResult = await UserAuth.register(email, password);
+      const userInfo = await User.createUser(authResult.user.id, display_name);
+      console.log(userInfo)
       const respObject = {
         user: {
           ...authResult.user,
-          display_name,
-          membership_status: NONE,
-          membership_start_date: null,
-          membership_end_date: null,
-          last_submission_date: null
+          ...userInfo
         }
       };
       res.cookie("token", authResult.token);
@@ -52,3 +50,10 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
     return next(err);
   }
 });
+
+/** gives us a way to test logging out on the back end */
+userAuthRouter.post("/logout", async function (req: Request, res: Response, next: NextFunction) {
+  res.cookie("token", null);
+  const logout = 'user logged out'
+  return res.send(logout);
+})

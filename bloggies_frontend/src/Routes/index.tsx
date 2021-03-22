@@ -13,6 +13,7 @@ import PaymentCancelPage from "../RoutedPages/PaymentCancelPage";
 import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
 import PaymentPage from "../RoutedPages/PaymentPage";
 import "./Routes.css";
+import UserApplicationPage from "../RoutedPages/UserApplicationPage";
 
 function Routes() {
   return (
@@ -50,6 +51,11 @@ function Routes() {
       <Route exact path="/payment/checkout">
         <div className="Routes-thin-container">
           <PaymentPage />
+        </div>
+      </Route>
+      <Route exact path="/register/membership-form">
+        <div>
+          <UserApplicationPage />
         </div>
       </Route>
       <Route exact path="/users/register/membership-status">

@@ -15,7 +15,7 @@ export default class Email {
         let text;
         let html;
         switch (type) {
-            case 'confirmed':
+            case 'accepted':
                 subject = 'Confirmation Email from Learning Circle';
                 text = 'Welcome to the Learning Circle!';
                 break;
@@ -28,7 +28,8 @@ export default class Email {
                 subject = 'Regrets from Learning Circle';
                 text = 'Thank you for your interest, but unfortunately we cannot grant you membership at this time.'
         }
-        console.log(subject)
+        console.log(sendTo)
+        console.log(text, subject)
         const msg:MailDataRequired =  {
             to: sendTo, // recipient
             from: 'mmcdevitt@blend.com', // verified sender
@@ -39,7 +40,8 @@ export default class Email {
         }
 
         try {
-            await sgMail.send(msg);
+            const emailRes = await sgMail.send(msg);
+            console.log(emailRes);
             console.log('Email sent')
         } catch(err) {
             throw new ExpressError(`Err: ${err}`, 400);
