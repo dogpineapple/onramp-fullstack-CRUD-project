@@ -20,9 +20,9 @@ function BlogPage() {
 
   useEffect(function handleLoadPosts() {
     // Fetch for updated membership status if logged in (FE handles UI theme btwn un/paid)
-    // if (currentUser.id) {
-    dispatch(getMembershipStatus(currentUser.id));
-    // }
+    if (currentUser.id) {
+      dispatch(getMembershipStatus(currentUser.id));
+    }
 
     // Fetch for posts if no posts are saved. (BE handles types of post to display)
     if (postsList.length === 0) {
@@ -58,7 +58,7 @@ function BlogPage() {
           </Col>
           <Col md={3}>
             {currentUser.membership_status === "active" && <BlogFilter posts={postsList} handlePostFilter={handlePostFilter} />}
-            </Col>
+          </Col>
         </Row>
         <BlogList key={sortType} posts={posts} />
       </Container>

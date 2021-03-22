@@ -19,7 +19,7 @@ import styled from "styled-components";
 
 
 const StyledAuthorSpan = styled("span")`
-  color: ${DEFAULT_COLOR.authorNamePostDetailText}
+  color: ${DEFAULT_COLOR.authorNameText}
 `
 
 

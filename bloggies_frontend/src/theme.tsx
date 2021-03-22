@@ -5,8 +5,7 @@ export const DEFAULT_COLOR = {
   linkText: "#020202",
   linkHoverText: "#a9a9a9",
   displayNameText: "#a9a9a9",
-  authorNameBlogCardText: "#020202",
-  authorNamePostDetailText: "#EFEFEF",
+  authorNameText: "#020202",
   commentBodyText: "#4A4A4A"
 }
 

@@ -29,12 +29,12 @@ const StyledBlogLink = styled(({ isPremium, ...rest }) => <NavLink {...rest} />)
   `
 
 const StyledAuthorLink = styled(NavLink)`
-    color: ${DEFAULT_COLOR.authorNameBlogCardText};
+    color: ${DEFAULT_COLOR.authorNameText};
     &:visited {
-      color: ${DEFAULT_COLOR.authorNameBlogCardText};
+      color: ${DEFAULT_COLOR.authorNameText};
     }
     &:hover {
-      color: ${DEFAULT_COLOR.authorNameBlogCardText};
+      color: ${DEFAULT_COLOR.authorNameText};
     }
   `
 
