@@ -36,7 +36,7 @@ export default class Email {
             subject,
             text,
             html,
-            templateId: '13b8f94f-bcae-4ec6-b752-70d6cb59f932' //temporary template!
+            templateId: 'd-20f55b9ef7544032b9a513dba0e20352'
         }
 
         try {
