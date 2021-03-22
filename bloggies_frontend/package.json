@@ -14,6 +14,8 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@stripe/react-stripe-js": "^1.4.0",
     "@stripe/stripe-js": "^1.13.1",
+
+    "@sendgrid/mail": "^7.4.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -22,8 +24,12 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.14.5",
     "@types/react-dom": "^16.9.11",
+
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-mock-store": "^1.0.2",
+    "@types/styled-components": "^5.1.9",
     "bootstrap": "^4.5.3",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",

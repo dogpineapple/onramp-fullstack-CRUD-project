@@ -13,8 +13,8 @@ interface LoginFormData {
 }
 
 /**
- * `Login` renders a page for the `LoginForm` and creates a 
- * POST request to login a user on `LoginForm` submit. 
+ * `Login` renders a page for the `LoginForm` and creates a
+ * POST request to login a user on `LoginForm` submit.
  *  - Dispatches `gotUserInfo` and `getUserFavoritesFromAPI` to update redux store.
  *  - Displays serverErr if any errors from logging in.
  */
@@ -35,7 +35,7 @@ function Login() {
     const loginRes = await res.json();
     // set the user's token into the localStorage. (Deprecated: No longer store token in localStorage)
     // localStorage.setItem("token", loginRes.token);
-    
+
     if (res.status === 200) {
       dispatch(gotUserInfo(loginRes.user));
       dispatch(getUserFavoritesFromAPI(loginRes.user.id));

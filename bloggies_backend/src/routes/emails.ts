@@ -1,4 +1,4 @@
-import Email from '../models/sendgrid';
+import Email from '../models/email';
 import express, {Request, Response, NextFunction} from "express";
 
 export const sendgridRouter = express.Router();
