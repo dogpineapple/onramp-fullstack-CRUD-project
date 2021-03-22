@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserQuestions from "../../UserQuestions";
 import data from "../../UserQuestions/questions.json";
-import { Form , Container, Button } from "react-bootstrap";
+import { Form, Container, Button } from "react-bootstrap";
 
 interface IQuestions {
   question: string;
@@ -9,7 +9,7 @@ interface IQuestions {
 }
 
 interface IAnswers {
-  [key: string]: (string|number)
+  [key: string]: string | number;
 }
 
 // interface IProps {
@@ -27,18 +27,41 @@ function UserApplicationForm() {
   const [questions, setQuestions] = useState<IQuestions[]>([]);
   /* setting form to default questions, still need to add logic to switch between primary and alternate questions*/
   const [answers, setAnswers] = useState<IAnswers>({});
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     setQuestions(data.primary_questions);
   }, []);
 
+  useEffect(() => {
+    validateForm()
+  }, [answers])
+
+  const validateForm = () => {
+    let data = Object.values(answers);
+    if (data.length === 5 && !data.includes('--')) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  };
+
   return (
     <Container className="UserApplicationForm">
       <Form>
         {questions.map((question, index) => {
-          return <UserQuestions question={question} key={index} questionNumber={index} setAnswers={setAnswers} answers={answers}/>;
+          return (
+            <UserQuestions
+              question={question}
+              key={index}
+              questionNumber={index}
+              setAnswers={setAnswers}
+            />
+          );
         })}
-        <Button type="submit">Submit Application</Button>
+        <Button type="submit" disabled={disabled}>
+          Submit Application
+        </Button>
       </Form>
     </Container>
   );

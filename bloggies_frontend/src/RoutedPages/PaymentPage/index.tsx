@@ -7,12 +7,12 @@ import "./PaymentPage.css"
 import styled from 'styled-components'
 
 const PaymentPage = ()  => {
-  
+
   const [paymentLoading, setPaymentLoading] = useState(false)
-  
-  
+
+
   return (
-    
+
     <div
       style={{
         maxWidth: "500px",
@@ -38,7 +38,7 @@ const PaymentPage = ()  => {
               style: {
                 base: {
                   backgroundColor: "white",
-                } 
+                }
               },
             }}
           />

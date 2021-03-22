@@ -9,7 +9,7 @@ import { getUserFavoritesFromAPI, getUserInfoFromAPI } from './redux/actionCreat
 import NavBar from './NavBar';
 import { CustomReduxState } from './custom';
 import { getCookie } from './helpers';
-import UserApplicationForm from './Forms/UserApplicationForm';
+
 
 function App() {
   const userId = useSelector((st: CustomReduxState) => st.user.id);
@@ -29,7 +29,6 @@ function App() {
 
   return (
     <div className="App">
-      <UserApplicationForm />
       <BrowserRouter>
         {serverErr && <div className="App-server-error">{serverErr}</div>}
         <NavBar />
