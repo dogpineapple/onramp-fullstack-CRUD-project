@@ -41,4 +41,16 @@ export default class Checkout {
   static async stripeSubscriptionCancel() {
     return 'User wants to delete subscription - logic not yet set up'
   }
+
+
+  static async stripeCreateCustomer(userId: number) {
+    const newCustomer = await stripe.customers.create({
+      description: userId.toString()
+    });
+    return newCustomer.id;
+  }
+
+  static async stripeCreateSubscription() {
+
+  }
 }
