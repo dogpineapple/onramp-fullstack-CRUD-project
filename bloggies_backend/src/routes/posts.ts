@@ -25,8 +25,9 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
 postsRouter.get("/", async function (req: Request, res: Response, next: NextFunction) {
   const userId = req.user ? req.user.user_id : null;
   try {
-    const { membership_status } = await User.checkMembershipStatus(userId);
-    const posts = await Post.getAllPosts(membership_status);
+    const status = await User.checkMembershipStatus(userId);
+    const membershipStatus = status ? status.membership_status : null;
+    const posts = await Post.getAllPosts(membershipStatus);
     return res.json({ posts });
   } catch (err) {
     return next(err);
@@ -54,8 +55,9 @@ postsRouter.get("/:id", async function (req: Request, res: Response, next: NextF
   const postId = parseInt(req.params.id);
   const userId = req.user ? req.user.user_id : null;
   try {
-    const { membership_status } = await User.checkMembershipStatus(userId);
-    const post = await Post.getPost(postId, membership_status);
+    const status = await User.checkMembershipStatus(userId);
+    const membershipStatus = status ? status.membership_status : null;
+    const post = await Post.getPost(postId, membershipStatus);
     if(post) return res.json({ post });
     return res.send('The post you are looking for does not exist.')
   } catch (err) {
