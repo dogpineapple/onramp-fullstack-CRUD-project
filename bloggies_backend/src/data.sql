@@ -24,7 +24,9 @@ CREATE TABLE users (
   membership_status VARCHAR (50) NOT NULL DEFAULT 'none',
   membership_start_date TIMESTAMP WITH TIME ZONE,
   membership_end_date TIMESTAMP WITH TIME ZONE,
-  last_submission_date TIMESTAMP WITH TIME ZONE
+  last_submission_date TIMESTAMP WITH TIME ZONE,
+  customer_id TEXT,
+  subscription_id TEXT
 );
 
 CREATE TABLE posts (
@@ -111,7 +113,9 @@ CREATE TABLE users (
   membership_status VARCHAR (50) NOT NULL DEFAULT 'none',
   membership_start_date TIMESTAMP WITH TIME ZONE,
   membership_end_date TIMESTAMP WITH TIME ZONE,
-  last_submission_date TIMESTAMP WITH TIME ZONE
+  last_submission_date TIMESTAMP WITH TIME ZONE,
+  customer_id TEXT,
+  subscription_id TEXT
 );
 
 CREATE TABLE posts (
