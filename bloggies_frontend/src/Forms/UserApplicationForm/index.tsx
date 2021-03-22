@@ -28,27 +28,48 @@ function UserApplicationForm() {
   /* setting form to default questions, still need to add logic to switch between primary and alternate questions*/
   const [answers, setAnswers] = useState<IAnswers>({});
   const [disabled, setDisabled] = useState(true);
-
   useEffect(() => {
     setQuestions(data.primary_questions);
   }, []);
 
   useEffect(() => {
-    validateForm()
-  }, [answers])
+    validateForm();
+  }, [answers]);
 
   const validateForm = () => {
     let data = Object.values(answers);
-    if (data.length === 5 && !data.includes('--')) {
+    if (data.length === 5 && !data.includes("--")) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
   };
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let data = Object.values(answers);
+    // rejected case
+    if (
+      data.includes("nope!") ||
+      (data.includes("nothing!") &&
+      data.includes("0.5"))
+    ) {
+      console.log("rejected case");
 
+    }
+    // pending case
+    else if (
+      data.includes("nothing!") ||
+      data.includes("0.5")
+    ) {
+      console.log("pending case");
+    }
+    else {
+      console.log("accepted case")
+    }
+  };
   return (
     <Container className="UserApplicationForm">
-      <Form>
+      <Form onSubmit={submitHandler}>
         {questions.map((question, index) => {
           return (
             <UserQuestions

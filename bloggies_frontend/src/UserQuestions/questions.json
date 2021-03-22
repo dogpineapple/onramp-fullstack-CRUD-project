@@ -35,7 +35,7 @@
     },
     {
       "question": "As a Learning Circle premuim member, we expect you to be engaged in the conversation! How many hours a week can you contribute to the Learning Circle?",
-      "answers": [ "--", 0.5, 1, 2, 3, 4, "5+"]
+      "answers": [ "--", "0.5", "1", "2", "3", "4", "5+"]
     }
   ],
   "alternate_questions": [
