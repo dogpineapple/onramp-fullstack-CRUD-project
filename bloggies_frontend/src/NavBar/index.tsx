@@ -4,14 +4,12 @@ import React, { Fragment } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
+import { ACTIVE } from "../config";
 import { CustomReduxState } from "../custom";
 import { changeToURLFriendly } from "../helpers";
 import { logoutUser } from "../redux/actionCreators";
 import SearchBar from "../SearchBar";
 import "./NavBar.css";
-
-
-const ACTIVE = "active";
 
 /**
  * `NavBar` renders a navigation bar that (depending on login status) directs to:
@@ -37,7 +35,7 @@ function NavBar() {
   };
 
 
-  const renderNavLinks = () => {
+  const renderLoggedInNavLinks = () => {
     if (user.membership_status === ACTIVE) {
       return (
         <>
@@ -55,14 +53,14 @@ function NavBar() {
     } else {
       return (
         <>
-          <NavLink exact to="/register/membership-form">
-            get premium
-          </NavLink>
           <NavLink exact to={`/blogs/create`}>
             compose blog
           </NavLink>
           <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>
             my profile
+          </NavLink>
+          <NavLink exact to="/register/membership-form">
+            get premium
           </NavLink>
         </>
       );
@@ -85,7 +83,7 @@ function NavBar() {
           </NavLink>
           {user.id ? (
             <Fragment>
-              { renderNavLinks() }
+              { renderLoggedInNavLinks()}
               <Button
                 variant="danger"
                 className="NavBar-logout-btn"
