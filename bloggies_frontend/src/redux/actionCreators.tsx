@@ -133,7 +133,7 @@ function gotSearchResults(posts: Array<Post>, users: Array<User>) {
  */
 export function addFavoriteToAPI(post: Post) {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/favorites`, {
+    const res = await fetch(`${BASE_URL}/bookmarks`, {
       method: "POST",
       credentials: "include",
       body: JSON.stringify({ postId: post.id }),
@@ -161,7 +161,7 @@ function addFavorite(post: Post) {
  */
 export function deleteFavoriteFromAPI(postId: number) {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/favorites`, {
+    const res = await fetch(`${BASE_URL}/bookmarks`, {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify({ postId }),
@@ -194,7 +194,7 @@ function deleteServerErr() {
  */
 export function getUserFavoritesFromAPI(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/favorites/${userId}`, {
+    const res = await fetch(`${BASE_URL}/bookmarks/${userId}`, {
       method: "GET"
     });
     const favoritesRes = await res.json();
@@ -222,10 +222,12 @@ export function gotUserInfo(user: User) {
 
 export function getMembershipStatus(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
-    // const res = await fetch(`${BASE_URL}/users/${userId}/check-membership`);
-    // TODO: backend integration
-    const res = { membership_status: "active" }; // TEMP
-    dispatch(gotMembershipStatus(res.membership_status));
+    const res = await fetch(`${BASE_URL}/users/membership-status`, {
+      method: "GET",
+      credentials: "include"
+    });
+    const resData = await res.json();
+    dispatch(gotMembershipStatus(resData.membership_status));
   }
 }
 
