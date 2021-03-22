@@ -12,7 +12,7 @@ interface IProp {
  * `SignUpForm` renders a form for registering a new user.
  */
 function SignUpForm({ signUp, serverErr }: IProp) {
-  const INITIAL_FORM_VALUES = { username: "", password: "", repeatPassword: "", display_name: "" };
+  const INITIAL_FORM_VALUES = { email: "", password: "", repeatPassword: "", display_name: "" };
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
   const [validated, setValidated] = useState(false);
   const [isPwdMatch, setisPwdMatch] = useState(true);
@@ -35,7 +35,7 @@ function SignUpForm({ signUp, serverErr }: IProp) {
     const valid = form.checkValidity();
     
     // check length requirements are met.
-    const formDataValid = checkSignUpDataValid(formData.username,
+    const formDataValid = checkSignUpDataValid(formData.email,
       formData.password,
       formData.repeatPassword,
       formData.display_name);
@@ -56,7 +56,7 @@ function SignUpForm({ signUp, serverErr }: IProp) {
           <p className="SignUp-title text-center">Account Registration</p>
           <Form.Group controlId="validationCustom01">
             <Form.Label>Username</Form.Label>
-            <Form.Control name="username" value={formData.username} placeholder="Username" onChange={handleChange} isInvalid={Boolean(serverErr)} required></Form.Control >
+            <Form.Control name="email" value={formData.email} placeholder="Email" onChange={handleChange} isInvalid={Boolean(serverErr)} required></Form.Control >
             <Form.Text className="text-muted">This will be the username you login with.</Form.Text>
             <Form.Control.Feedback type="invalid">Must be at least 4 characters.</Form.Control.Feedback>
           </Form.Group>
