@@ -1,5 +1,5 @@
 import { Post, CustomReduxState } from "../custom";
-import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS, ADD_POST, DELETE_POST, UPDATE_POST, DISPLAY_SERVER_ERR, REMOVE_SERVER_ERR } from "./actionTypes";
+import { ADD_FAVORITE, DELETE_FAVORITE, LOAD_FAVORITES, LOAD_POSTS, LOAD_USER, LOGOUT, LOAD_SEARCH_RESULTS, ADD_POST, DELETE_POST, UPDATE_POST, DISPLAY_SERVER_ERR, REMOVE_SERVER_ERR, UPDATE_USER_STATUS } from "./actionTypes";
 
 const INITIAL_STATE: CustomReduxState = { user: {}, posts: [], favorites: [], searchResults: { posts: [], users: [] }, serverErr: "" };
 
@@ -54,7 +54,7 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       return { ...state, posts: filteredPosts, favorites: newFavorites };
     case ADD_POST:
       const newPost = action.payload.post;
-      // add in the current user's information 
+      // add in the current user's information
       newPost.author_name = state.user.display_name;
       newPost.author_id = state.user.id;
       newPost.favorite_count = 0;
@@ -69,6 +69,14 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
         return p;
       })
       return { ...state, posts: updatedPostList }
+    case UPDATE_USER_STATUS:
+      const updatedUser = action.payload.user;
+      const stringifiedUser = JSON.stringify(state.user);
+      const copyOfUpdatedUser = JSON.parse(stringifiedUser);
+      const newUserInfo = {
+        ...copyOfUpdatedUser, ...updatedUser
+      }
+      return {...state, user: newUserInfo};
     case LOGOUT:
       // reset all states related to a current user.
       return { ...state, user: {}, favorites: [] };

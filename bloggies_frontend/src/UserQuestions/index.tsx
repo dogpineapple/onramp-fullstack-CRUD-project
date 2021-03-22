@@ -31,8 +31,8 @@ const UserQuestions = ({
     <Form.Group className="UserQuestions mt-5">
       <Form.Label>{question.question}</Form.Label>
       <Form.Control as="select" onChange={submitAnswersHandler}>
-        {question.answers.map((answer) => (
-          <option value={answer}>{answer}</option>
+        {question.answers.map((answer, index) => (
+          <option value={answer} key={index}>{answer}</option>
         ))}
       </Form.Control>
     </Form.Group>

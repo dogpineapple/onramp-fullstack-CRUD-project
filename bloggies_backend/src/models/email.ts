@@ -28,8 +28,8 @@ export default class Email {
                 subject = 'Regrets from Learning Circle';
                 text = 'Thank you for your interest, but unfortunately we cannot grant you membership at this time.'
         }
-        console.log(sendTo)
-        console.log(text, subject)
+        console.log( 'send To: ' , sendTo)
+        console.log('message: ', text, subject)
         const msg:MailDataRequired =  {
             to: sendTo, // recipient
             from: 'mmcdevitt@blend.com', // verified sender
@@ -41,7 +41,7 @@ export default class Email {
 
         try {
             const emailRes = await sgMail.send(msg);
-            console.log(emailRes);
+            console.log('email Res: ', emailRes);
             console.log('Email sent')
         } catch(err) {
             throw new ExpressError(`Err: ${err}`, 400);

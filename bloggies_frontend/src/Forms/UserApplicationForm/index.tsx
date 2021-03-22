@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import UserQuestions from "../../UserQuestions";
 import data from "../../UserQuestions/questions.json";
 import { Form, Container, Button } from "react-bootstrap";
+import { updateMembershipStatus } from "../../redux/actionCreators";
+import { useDispatch, useSelector } from 'react-redux';
 
 interface IQuestions {
   question: string;
@@ -28,6 +30,8 @@ function UserApplicationForm() {
   /* setting form to default questions, still need to add logic to switch between primary and alternate questions*/
   const [answers, setAnswers] = useState<IAnswers>({});
   const [disabled, setDisabled] = useState(true);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setQuestions(data.primary_questions);
   }, []);
@@ -47,13 +51,16 @@ function UserApplicationForm() {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let data = Object.values(answers);
+    let answer: string;
     // rejected case
     if (
       data.includes("nope!") ||
       (data.includes("nothing!") &&
       data.includes("0.5"))
     ) {
-      console.log("rejected case");
+      answer = 'rejected';
+      console.log('rejected')
+      dispatch(updateMembershipStatus(answer));
 
     }
     // pending case
@@ -61,10 +68,14 @@ function UserApplicationForm() {
       data.includes("nothing!") ||
       data.includes("0.5")
     ) {
-      console.log("pending case");
+      answer = 'pending';
+      console.log('pending')
+      dispatch(updateMembershipStatus(answer));
     }
     else {
-      console.log("accepted case")
+      answer = 'accepted';
+      console.log('accepted')
+      dispatch(updateMembershipStatus(answer));
     }
   };
   return (
