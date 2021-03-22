@@ -12,15 +12,17 @@ export default class UserAuth {
 		try {
 			const res = await db.query(
 				`INSERT INTO user_auth (email, hashed_pwd)
-          VALUES ($1, $2)
-          RETURNING id, email`,
+          		VALUES ($1, $2)
+          		RETURNING id, email`,
 				[email, hashedPwd]);
 			const user = res.rows[0];
 			// Generate a jwt token with payload of `email` and `user_id`.
 			let token = jwt.sign({ email: user.email, user_id: user.id }, SECRET_KEY as string);
 			return { user: user, token };
 		} catch (err) {
-			throw new ExpressError("Email already exists", 400);
+			// I changed "Email already exists" message to err.message because to get a more accurate error message getting different error as a result
+			throw new ExpressError(err.message, 400); 
+			
 		}
 	}
 

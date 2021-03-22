@@ -8,7 +8,7 @@ import { getUserFavoritesFromAPI, gotUserInfo } from "../../redux/actionCreators
 import "./Login.css";
 
 interface LoginFormData {
-  username: string,
+  email: string,
   password: string
 }
 
@@ -24,7 +24,7 @@ function Login() {
   const history = useHistory();
 
   const loginUser = async (loginData: LoginFormData) => {
-    const res = await fetch(`${BASE_URL}/users/login`, {
+    const res = await fetch(`${BASE_URL}/user-auth/login`, {
       method: "POST",
       body: JSON.stringify(loginData),
       credentials: "include",

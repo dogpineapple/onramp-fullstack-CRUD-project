@@ -17,25 +17,38 @@ export default class Post {
     }
   }
 
-  /** Get all existing posts */
-  static async getAllPosts() {
+  /** Get all existing posts for active users and only non-premium posts for all other users */
+  static async getAllPosts(status: string) {
     try {
+      if(status === 'active') {
+        const res = await db.query(
+          `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
+          FROM posts AS p
+          JOIN users AS u 
+          ON p.author_id = u.user_id
+          LEFT OUTER JOIN bookmarks AS b
+          ON p.id = b.post_id
+          GROUP BY b.post_id, p.id, u.display_name`);
+        return res.rows;
+      }
       const res = await db.query(
-        `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
-        FROM posts AS p
-        JOIN users AS u 
-        ON p.author_id = u.user_id
-        LEFT OUTER JOIN bookmarks AS b
-        ON p.id = b.post_id
-        GROUP BY b.post_id, p.id, u.display_name`);
-      return res.rows;
+        `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count 
+          FROM posts AS p
+          JOIN users AS u 
+          ON p.author_id = u.user_id
+          LEFT OUTER JOIN bookmarks AS b
+          ON p.id = b.post_id
+          WHERE is_premium = $1 
+          GROUP BY b.post_id, p.id, u.display_name`,
+          [false]);
+        return res.rows;
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
     }
   }
 
   /** Get a specific post by id */
-  static async getPost(id: number) {
+  static async getPost(id: number, membershipStatus: string) {
     try {
       const res = await db.query(
         `SELECT p.id, p.title, p.description, p.body, p.is_premium, u.display_name AS author_name, p.author_id, p.created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
@@ -47,7 +60,14 @@ export default class Post {
         GROUP BY b.post_id, p.id, u.display_name, p.title, p.description, p.body,  p.is_premium, p.author_id, p.created_at, p.last_updated_at
           HAVING p.id = $1`,
         [id]);
-      return res.rows[0];
+
+      //only active members can access premium posts
+      const resRow = res.rows[0];
+      if(!resRow) return undefined;
+      if(membershipStatus === 'active' && resRow.is_premium) return res.rows[0];
+      if(!resRow.is_premium) return res.rows[0];
+      throw new ExpressError('You do not have access to this post!', 403);
+
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
     }
@@ -73,7 +93,8 @@ export default class Post {
 
   /** Check if post belongs to the current user */
   static async checkIsAuthor(postId: number, currentUserId: number) {
-    const post = await this.getPost(postId);
+    //automatically allow users to see their own posts, even if they are not currently active
+    const post = await this.getPost(postId, 'active');
     return post.author_id === currentUserId;
   }
 

@@ -37,4 +37,8 @@ export default class Checkout {
       throw new ExpressError(`Err: ${err}`, 400);
     }
   }
+
+  static async stripeSubscriptionCancel() {
+    return 'User wants to delete subscription - logic not yet set up'
+  }
 }
