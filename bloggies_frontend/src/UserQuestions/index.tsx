@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Form } from "react-bootstrap";
 
 interface IProps {
@@ -14,10 +14,11 @@ interface IProps {
 }
 const UserQuestions = ({ question, questionNumber,setAnswers, answers }: IProps) => {
 
+
   const submitAnswersHandler = (e?: any) => {
-      let answersCopy = {...answers};
-      answersCopy[questionNumber] = e.target.value;
-      setAnswers(answersCopy);
+    let answersCopy = {...answers};
+    answersCopy[questionNumber] = e.target.value;
+    setAnswers(answersCopy);
   }
 
   return (

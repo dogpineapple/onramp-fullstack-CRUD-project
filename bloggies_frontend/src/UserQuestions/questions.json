@@ -2,15 +2,16 @@
   "primary_questions": [
     {
       "question": "To stay an active premium member of the Learning Circle, you must commit to writing at least one blog a week, can do you this?",
-      "answers": ["nope!","yes!"]
+      "answers": [ "--","nope!","yes!"]
     },
     {
       "question": "What kind of writing do you do most often?",
-      "answers": ["short form articles", "screenwriting", "prose", "novels", "long form articles"]
+      "answers": ["--", "short form articles", "screenwriting", "prose", "novels", "long form articles"]
     },
     {
       "question": "What do you hope to get out of your membership?",
       "answers": [
+        "--",
         "nothing!",
         "to be honest, not sure!",
         "make new friends",
@@ -21,6 +22,7 @@
     {
       "question": "What type of content can you contribute to the learning circle?",
       "answers": [
+        "--",
         "technical",
         "cooking",
         "i have no idea",
@@ -33,7 +35,7 @@
     },
     {
       "question": "As a Learning Circle premuim member, we expect you to be engaged in the conversation! How many hours a week can you contribute to the Learning Circle?",
-      "answers": [ 0.5, 1, 2, 3, 4, "5+"]
+      "answers": [ "--", 0.5, 1, 2, 3, 4, "5+"]
     }
   ],
   "alternate_questions": [
