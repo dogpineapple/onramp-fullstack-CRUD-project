@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import {Elements,CardElement,} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-
-
+import PaymentPage from "../PaymentPage";
 
 
 const UserSubscriptionPayment = () => {
@@ -12,7 +11,7 @@ const UserSubscriptionPayment = () => {
     return (
     <div>
         <Elements stripe={stripe}> 
-            
+            <PaymentPage/>
         </Elements>
     </div>
     )
