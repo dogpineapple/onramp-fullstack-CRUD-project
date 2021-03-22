@@ -18,7 +18,9 @@ export const PREMIUM_COLOR = {
 export const premiumAppTheme = {
   body: '#363537',
   text: '#FAFAFA',
-  cardText: '#363537'
+  cardText: '#363537',
+  navBarBgColor: "#3712C8",
+  navBarActiveLinkColor: "#A3C812"
 }
 
 export const defaultAppTheme = {
@@ -32,11 +34,21 @@ export type MyProps = {
 }
 
 export const GlobalStyles = createGlobalStyle<MyProps>`
-  body {
-    background: ${({ theme }) => theme.body};
-    color: ${({ theme }) => theme.text};
-  }
   & .BlogCard {
     color: ${({ theme }) => theme.cardText};
+  }
+  & .NavBar {
+    background-color: ${({ theme }) => theme.navBarBgColor};
+  }
+  & .NavBar-list a {
+    color: white;
+  }
+  & .NavBar-list a:hover,
+  .NavBar-list a.active,
+  .NavBar-logout-btn:hover {
+    color: ${({ theme }) => theme.navBarActiveLinkColor};
+  }
+  & .NavBar-list a.active {
+    font-weight: 600;
   }
 `

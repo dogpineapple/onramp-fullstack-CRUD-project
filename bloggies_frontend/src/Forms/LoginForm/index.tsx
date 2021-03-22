@@ -11,7 +11,7 @@ interface IProp {
  */
 function LoginForm({ loginUser }: IProp) {
 
-  const INITIAL_FORM_VALUES = { username: "", password: "" };
+  const INITIAL_FORM_VALUES = { email: "", password: "" };
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ function LoginForm({ loginUser }: IProp) {
       <div className="LoginForm-wrapper">
         <p className="LoginForm-title text-left">Welcome back!</p>
         <Form className="LoginForm-form" onSubmit={handleSubmit}>
-          <Form.Control className="form-input" name="username" value={formData.username} placeholder="Username" onChange={handleChange} required></Form.Control >
+          <Form.Control className="form-input" name="email" value={formData.email} placeholder="Email" onChange={handleChange} required></Form.Control >
           <Form.Control type="password" className="form-input" name="password" value={formData.password} placeholder="Password" onChange={handleChange} required></Form.Control >
           <Button className="form-button" type="submit">Login</Button>
         </Form>
