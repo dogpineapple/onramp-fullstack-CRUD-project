@@ -61,4 +61,16 @@ usersRouter.get("/membership-status", ensureLoggedIn, async (req: Request, res: 
   } catch(err) {
     return next(err);
   }
-})
+});
+
+
+//route for testing membership expiration check with Postman
+//set admin permissions?
+usersRouter.get("/all-memberships", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const expiring = await User.checkExpiringMemberships();
+    res.send(expiring);
+  } catch(err) {
+    return next(err);
+  }
+});
