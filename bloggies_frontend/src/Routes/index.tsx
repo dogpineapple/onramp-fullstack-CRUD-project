@@ -15,6 +15,7 @@ import PaymentPage from "../RoutedPages/PaymentPage";
 import "./Routes.css";
 import UserSubscriptionPayment from "../RoutedPages/UserSubscriptionPayment";
 import UserApplicationPage from "../RoutedPages/UserApplicationPage";
+import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalAppicationPage";
 
 function Routes() {
   return (
@@ -57,6 +58,11 @@ function Routes() {
       <Route exact path="/register/membership-form">
         <div>
           <UserApplicationPage />
+        </div>
+      </Route>
+      <Route exact path="/register/membership-additional-form">
+        <div>
+          <UserAddtionalApplicationPage />
         </div>
       </Route>
       <Route exact path="/register/membership-status">

@@ -41,11 +41,12 @@
   "alternate_questions": [
     {
       "question": "Have you contributed blog posts to other websites in the past?",
-      "answers": ["yes!", "no!"]
+      "answers": [ "--","yes!", "no!"]
     },
     {
       "question": "How did you hear about the Learning Circle?",
       "answers": [
+        "--",
         "referral from friend",
         "Google Search",
         "LinkedIn",

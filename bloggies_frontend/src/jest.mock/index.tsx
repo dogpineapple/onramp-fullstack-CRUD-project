@@ -5,6 +5,7 @@ export const MOCK_USER: User = {
   display_name :"test",
   membership_status: "none",
   membership_start_date:"2021-03-22T23:58:37.189Z",
+  join_date: '01/01/2021',
   membership_end_date: null,
   last_submission_date: '',
   email:"test@user.com"
