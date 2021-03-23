@@ -24,6 +24,8 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
           invoice PAID for: ${data.customer}, 
           email: ${data.customer_email}. 
           subscription: ${data.subscription}`);
+
+      await User.startSubscription(data.subscription);
       break;
     case 'invoice.payment_failed':
       data = event.data.object;
@@ -31,10 +33,12 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         invoice failed for: ${data.customer}, 
         email: ${data.customer_email}. 
         subscription: ${data.subscription}`);
+
       await User.cancelSubscription(data.subscription);
       break;
     case 'customer.subscription.deleted':
       console.log("subscription deleted");
+
       await User.cancelSubscription(data.subscription);
       break;
     case 'payment_intent.succeeded':
