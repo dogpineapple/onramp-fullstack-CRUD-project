@@ -1,5 +1,6 @@
 import db from "../db";
 import ExpressError from "../expressError";
+import { ACTIVE } from "../membershipStatuses";
 
 export default class User {
 
@@ -59,9 +60,9 @@ export default class User {
   }
 
   /** Update the membership status after the application is complete and front end sends the status */
-  /** If status has been changed to "accepted", update membership start date and end date */
+  /** If status has been changed to "active", update membership start date and end date */
   static async updateMembership(user_id: number, appStatus: string) {
-    const now = appStatus === 'accepted' ? new Date() : null;
+    const now = appStatus === ACTIVE ? new Date() : null;
     let membershipExpiration = null;
     if(now) {
       membershipExpiration = new Date();
@@ -76,6 +77,24 @@ export default class User {
     return res.rows[0];
   }
 
+  /** Update an existing user */
+  static async updateUser(id: number, updateData: any) {
+    try {
+      let query = "";
+
+      for (let key in updateData) {
+        query = query + ` ${key} = '${updateData[key]}', `;
+      }
+
+      await db.query(
+        `UPDATE users
+        SET ${query}  
+        WHERE user_id = $1`,
+        [id]);
+    } catch (err) {
+      throw new ExpressError(`Err: ${err}`, 400);
+    }
+  }
 
   //checks that the display_name given at registration doesn't already exist before adding it
   static async checkForUniqueDisplayName(display_name: string) {
