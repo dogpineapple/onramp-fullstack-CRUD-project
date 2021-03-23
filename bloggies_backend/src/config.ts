@@ -15,6 +15,7 @@ const {
 } = process.env;
 
 const BCRYPT_WORK_FACTOR = Number(process.env.BCRYPT_WORK_FACTOR);
+const FRONTEND_URL = NODE_ENV === "development" ? "http://localhost:3000/" : "http://localhost:3000/"; //change when hosted in production
 
 const JWT_OPTIONS = { expiresIn: 60 * 60 };
 // The cooldown time for updating a user is 1 minute
@@ -32,5 +33,6 @@ export {
   USER_UPDATE_COOLDOWN,
   SENDGRID_API_KEY,
   PRODUCT_ID,
-  MY_STRIPE_API_KEY
+  MY_STRIPE_API_KEY,
+  FRONTEND_URL
 };
