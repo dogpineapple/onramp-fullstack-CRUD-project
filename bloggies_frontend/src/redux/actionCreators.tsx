@@ -228,7 +228,7 @@ export function gotUserInfo(user: User) {
 export function updateMembershipStatus(status: string) {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/users/status-update`, {
-      method: "PUT",
+      method: "PATCH",
       credentials: "include",
       body: JSON.stringify({ appStatus: status }),
       headers: {
