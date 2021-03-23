@@ -2,9 +2,12 @@ import { Comment, Post, User } from "../custom";
 
 export const MOCK_USER: User = {
   id: 1,
-  username: "testusername",
-  join_date: "jan 1, 2020",
-  display_name: "Test Username"
+  display_name :"test",
+  membership_status: "none",
+  membership_start_date:"2021-03-22T23:58:37.189Z",
+  membership_end_date: null,
+  last_submission_date: '',
+  email:"test@user.com"
 };
 
 export const MOCK_POST: Post = {

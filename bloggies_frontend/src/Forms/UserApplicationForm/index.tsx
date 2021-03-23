@@ -3,7 +3,8 @@ import UserQuestions from "../../UserQuestions";
 import data from "../../UserQuestions/questions.json";
 import { Form, Container, Button } from "react-bootstrap";
 import { updateMembershipStatus } from "../../redux/actionCreators";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 interface IQuestions {
   question: string;
@@ -31,6 +32,7 @@ function UserApplicationForm() {
   const [answers, setAnswers] = useState<IAnswers>({});
   const [disabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     setQuestions(data.primary_questions);
@@ -55,27 +57,22 @@ function UserApplicationForm() {
     // rejected case
     if (
       data.includes("nope!") ||
-      (data.includes("nothing!") &&
-      data.includes("0.5"))
+      (data.includes("nothing!") && data.includes("0.5"))
     ) {
-      answer = 'rejected';
-      console.log('rejected')
+      answer = "rejected";
+      console.log("rejected");
       dispatch(updateMembershipStatus(answer));
-
+      // history.push('/users/register/membership-status');
     }
     // pending case
-    else if (
-      data.includes("nothing!") ||
-      data.includes("0.5")
-    ) {
-      answer = 'pending';
-      console.log('pending')
+    else if (data.includes("nothing!") || data.includes("0.5")) {
+      answer = "pending";
+      console.log("pending");
       dispatch(updateMembershipStatus(answer));
-    }
-    else {
-      answer = 'accepted';
-      console.log('accepted')
+    } else {
+      answer = "accepted";
       dispatch(updateMembershipStatus(answer));
+      history.push('/register/membership-status');
     }
   };
   return (

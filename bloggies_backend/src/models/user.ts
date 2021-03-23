@@ -71,7 +71,7 @@ export default class User {
       `UPDATE users
         SET membership_status = $1, membership_start_date = $2, membership_end_date = $3
         WHERE user_id = $4
-        RETURNING user_id, membership_status, membership_start_date, membership_end_date`,
+        RETURNING user_id AS id, membership_status, membership_start_date, membership_end_date`,
         [appStatus, now, membershipExpiration, user_id]);
     return res.rows[0];
   }
@@ -82,7 +82,7 @@ export default class User {
       const res = await db.query(
         `SELECT display_name
         FROM users
-        WHERE display_name = $1`, 
+        WHERE display_name = $1`,
         [display_name]
       );
     return res.rows[0];

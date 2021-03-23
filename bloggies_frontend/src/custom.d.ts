@@ -44,7 +44,10 @@ interface SearchResults {
 
 export interface User {
   id: number,
-  username: string,
-  join_date: string,
-  display_name: string
+  display_name: string,
+  membership_status: string,
+  membership_start_date: string,
+  membership_end_date: string | null,
+  last_submission_date: string | null,
+  email: string,
 }

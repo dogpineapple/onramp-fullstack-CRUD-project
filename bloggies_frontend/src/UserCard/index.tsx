@@ -23,7 +23,7 @@ function UserCard({ user }: IProp) {
             {user.display_name}
           </NavLink>
         </Card.Text>
-        <Card.Subtitle>Joined {moment(user.join_date).fromNow()}</Card.Subtitle>
+        <Card.Subtitle>Joined {moment(user.membership_start_date).fromNow()}</Card.Subtitle>
       </Card.Body>
     </Card>
   );
