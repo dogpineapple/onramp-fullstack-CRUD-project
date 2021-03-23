@@ -28,7 +28,7 @@ interface IProps {
   * data.alternate_questions - contains alternate questions rendered on the Supplementary Application form sent to pending users
  */
 
-function UserApplicationForm({show}: IProps) {
+function UserApplicationForm({ show }: IProps) {
   const checkStatus = useSelector(
     (st: CustomReduxState) => st.user.membership_status
   );
@@ -45,20 +45,22 @@ function UserApplicationForm({show}: IProps) {
     } else if (checkStatus === "pending") {
       setQuestions(data.alternate_questions);
     }
-  }, []);
+  }, [checkStatus]);
 
   useEffect(() => {
     validateForm();
   }, [answers]);
 
   useEffect(() => {
-    if ((checkStatus === 'pending' && !show) || checkStatus === 'accepted' || checkStatus === 'rejected' ||  checkStatus ==='inactive') {
-      history.push('/register/membership-status');
+    if (
+      (checkStatus === "pending" && !show) ||
+      checkStatus === "accepted" ||
+      checkStatus === "rejected" ||
+      checkStatus === "inactive"
+    ) {
+      history.push("/register/membership-status");
     }
-    // } else if (checkStatus === 'accepted' || checkStatus === '') {
-    //   history.push('/register/membership-status');
-    // }
-  }, [checkStatus])
+  }, [checkStatus, show, history]);
 
   const validateForm = () => {
     let data = Object.values(answers);
@@ -75,28 +77,31 @@ function UserApplicationForm({show}: IProps) {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let data = Object.values(answers);
-    let answer: string;
-    // rejected case
-    if (
-      data.includes("nope!") ||
-      (data.includes("nothing!") && data.includes("0.5"))
-    ) {
-      answer = "rejected";
-      console.log("rejected");
-      dispatch(updateMembershipStatus(answer));
-      history.push("/register/membership-status");
+    let answer: string = '';
+    if (checkStatus === "pending") {
+      if (data.includes("no!")) {
+        answer = "rejected";
+      } else {
+        answer = "accepted";
+      }
+    } else if (checkStatus === "none") {
+      if (
+        // rejected case
+        data.includes("nope!") ||
+        (data.includes("nothing!") && data.includes("0.5"))
+      ) {
+        answer = "rejected";
+      }
+      // pending case
+      else if (data.includes("nothing!") || data.includes("0.5")) {
+        answer = "pending";
+      } else {
+        // accepted case
+        answer = "accepted";
+      }
     }
-    // pending case
-    else if (data.includes("nothing!") || data.includes("0.5")) {
-      answer = "pending";
-      console.log("pending");
-      dispatch(updateMembershipStatus(answer));
-      history.push("/register/membership-status");
-    } else {
-      answer = "accepted";
-      dispatch(updateMembershipStatus(answer));
-      history.push("/register/membership-status");
-    }
+    dispatch(updateMembershipStatus(answer));
+    history.push("/register/membership-status");
   };
   return (
     <Container className="UserApplicationForm">

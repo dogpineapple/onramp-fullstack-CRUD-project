@@ -15,7 +15,7 @@ import PaymentPage from "../RoutedPages/PaymentPage";
 import "./Routes.css";
 import UserSubscriptionPayment from "../RoutedPages/UserSubscriptionPayment";
 import UserApplicationPage from "../RoutedPages/UserApplicationPage";
-import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalAppicationPage";
+import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalApplicationPage";
 
 function Routes() {
   return (

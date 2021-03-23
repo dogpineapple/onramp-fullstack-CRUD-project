@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { CustomReduxState, User } from "../../custom";
+import { CustomReduxState } from "../../custom";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 
@@ -23,10 +23,9 @@ const Paragraph = styled.p`
 /**
  * RegisterStatusPage renders a successful registration page and shows
  * the membership status of the newly registered user.
+ * renders a different message depending on the outcome of the application form
  */
-// interface IProps {
-//     user: User
-// }
+
 function RegisterStatusPage() {
   const history = useHistory();
   const checkStatus = useSelector(
@@ -34,24 +33,31 @@ function RegisterStatusPage() {
   );
 
   let text: string | null = null;
-  let buttonText: string | null = null;
-  let clickFunction = () => {}
+  let homeButton = (
+    <button onClick={() => history.push("/")}>
+      {"Take me back to the newsfeed!"}
+    </button>
+  );
+  let paymentButton = (
+    <button
+      onClick={() => history.push("/payment/form")}
+    >{`I'm Ready, Sign Me Up!`}</button>
+  );
 
   if (checkStatus === "none") {
     text = "";
   } else if (checkStatus === "rejected") {
     text =
       "We are sorry, we will not be able to grant you membership at this time. Please apply again at a later date, we would love for you to be a part of the the Learning Circle community!";
-    buttonText = "Take me back to the newsfeed!";
   } else if (checkStatus === "pending") {
     text =
       "We would love to have you as a member of the Learning Circle, but we are going to need a bit more information first! You have been sent a follow up email with an additional questionnaire, please fill out at your earliest convenience!";
-    buttonText = "Take me back to the newsfeed!";
-    clickFunction = () => (history.push('/register/membership-form'))
   } else if (checkStatus === "accepted") {
     text =
       "Congratulations! You have been approved to become a premium member of the Learning Circle! Click below to register for your subscription, we are excited to welcome you into the community!";
-    buttonText = "I'm Ready, Sign Me Up!";
+  } else if (checkStatus === "inactive") {
+    text =
+      "We see you have already filled out this application in the past and been approved We would love to have you back as a Premium Member of the Learning Circle, click below to re-activate your membership!";
   }
 
   return (
@@ -60,7 +66,8 @@ function RegisterStatusPage() {
         <Paragraph>{text}</Paragraph>
       </RegisterStatusItem>
       <RegisterStatusItem>
-        <button onClick={clickFunction}>{buttonText}</button>
+          {/* check to see status of member to see what button to render */}
+        {checkStatus === 'rejected' || checkStatus === 'pending' || checkStatus === 'none'? homeButton : paymentButton}
       </RegisterStatusItem>
     </RegisterStatusContainer>
   );
