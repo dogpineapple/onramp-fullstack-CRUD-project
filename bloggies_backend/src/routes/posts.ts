@@ -13,13 +13,13 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
   try {
     const { user_id } = req.user;
     const user = await User.getUser(user_id);
-
+    
     if (user.membership_status === "active") {
       const { title, description, body, is_premium } = req.body;
       const post = await Post.createPost(title, description, body, user_id, is_premium);
       return res.status(201).json({ post });
     }
-    
+
     return next(new ExpressError("A membership is required to publish a post.", 403));
   } catch (err) {
     return next(err);

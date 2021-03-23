@@ -39,7 +39,12 @@ describe("Test Post routes", function () {
   });
 
   /** POST /posts => status 201, { post } */
-  test("POST /posts - Create new post", async function () {
+  test("POST /posts - Create new post successfully as a paid member", async function () {
+    // Grant the mock user an active membership to allow post creation
+    await db.query(
+      `UPDATE users SET membership_status = 'active' WHERE user_id = $1`,
+      [validUserId]);
+
     const resp = await request(app)
       .post(`/posts`)
       .set('Cookie', [`token=${token}`])
@@ -49,8 +54,8 @@ describe("Test Post routes", function () {
         body: "test body",
         is_premium: false
       });
-    expect(resp.body.post.description).toBe("test description");
     expect(resp.status).toBe(201);
+    expect(resp.body.post.description).toBe("test description");
   });
 
   /** GET /posts  => status 200, { posts } */
@@ -120,6 +125,27 @@ describe("Test Post routes", function () {
 
     expect(resp.status).toBe(200);
     expect(resp.body.message).toBe("Successfully deleted.");
+  });
+
+  /** POST /posts => status 201, { post } */
+  test("POST /posts - prevents a non-active paid member from making a post", async function () {
+    // Grant the mock user an active membership to allow post creation
+    await db.query(
+      `UPDATE users SET membership_status = 'inactive' WHERE user_id = $1`,
+      [validUserId]);
+
+    const resp = await request(app)
+      .post(`/posts`)
+      .set('Cookie', [`token=${token}`])
+      .send({
+        title: "test title",
+        description: "test description",
+        body: "test body",
+        is_premium: false
+      });
+      
+    expect(resp.status).toBe(403);
+    expect(resp.body.error.message).toBe("A membership is required to publish a post.");
   });
 
   afterAll(async () => {
