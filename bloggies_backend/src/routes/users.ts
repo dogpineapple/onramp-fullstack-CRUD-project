@@ -36,7 +36,7 @@ usersRouter.get("/", ensureLoggedIn, async function (req: Request, res: Response
 /** UPDATE membership status - user must be logged in, and status is updated based on the "appStatus" parameter in req.body */
 /** this will also trigger an email */
 /** returns updated User object (user_id, status, membership_start_date, membership_end_date) */
-usersRouter.put("/status-update", ensureLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
+usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
   const { appStatus } = req.body;
   const { user_id, email } = req.user;
   
