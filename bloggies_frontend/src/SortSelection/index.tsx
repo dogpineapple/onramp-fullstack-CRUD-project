@@ -28,12 +28,12 @@ function SortSelection({ posts, handlePostSort, currentSort }: IProp) {
     switch (eventKey) {
       case "mostFavorite":
         setSortType("most favorited");
-        sortedPosts = posts.slice().sort((a, b) => parseInt(b.favorite_count) - parseInt(a.favorite_count));
+        sortedPosts = posts.slice().sort((a, b) => parseInt(b.bookmark_count) - parseInt(a.bookmark_count));
         handlePostSort(sortedPosts, eventKey);
         break;
       case "leastFavorite":
         setSortType("least favorited");
-        sortedPosts = posts.slice().sort((a, b) => parseInt(a.favorite_count) - parseInt(b.favorite_count));
+        sortedPosts = posts.slice().sort((a, b) => parseInt(a.bookmark_count) - parseInt(b.bookmark_count));
         handlePostSort(sortedPosts, eventKey);
         break;
       case "mostRecent":
@@ -50,7 +50,7 @@ function SortSelection({ posts, handlePostSort, currentSort }: IProp) {
 
   return (
     <div className="SortSelection d-flex align-items-center">
-      View by:
+      View:
       <Dropdown className="ml-2">
         <Dropdown.Toggle variant="primary" id="filter-dropdown">
           {sortType}

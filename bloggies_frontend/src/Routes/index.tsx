@@ -20,14 +20,14 @@ import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalApplicati
 function Routes() {
   return (
     <Switch>
-      <Route exact path="/users/:userId/:displayName">
-        <div className="Routes-thin-container">
-          <UserProfile />
-        </div>
-      </Route>
       <Route exact path="/users/:userId/settings">
         <div className="Routes-thin-container">
           <UserSettingsPage />
+        </div>
+      </Route>
+      <Route exact path="/users/:userId/:displayName">
+        <div className="Routes-thin-container">
+          <UserProfile />
         </div>
       </Route>
       <Route exact path="/blogs/:postId/:postTitle">

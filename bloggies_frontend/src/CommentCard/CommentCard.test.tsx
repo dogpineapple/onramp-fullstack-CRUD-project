@@ -25,7 +25,7 @@ describe('CommentCard', () => {
 
   it('should display comment', () => {
     const isCommentBody = wrapper.containsMatchingElement(
-      <p className="card-text">
+      <p className="sc-bdfBwQ dhWHrV card-text">
         test comment
       </p>
     );

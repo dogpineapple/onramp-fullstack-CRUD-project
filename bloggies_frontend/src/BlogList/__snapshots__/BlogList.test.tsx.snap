@@ -31,10 +31,11 @@ exports[`BlogList should match snapshot 1`] = `
             "author_id": 1,
             "author_name": "test user",
             "body": "first test body",
+            "bookmark_count": "0",
             "created_at": "1/1/2020",
             "description": "first test description",
-            "favorite_count": "0",
             "id": 1,
+            "is_premium": true,
             "last_updated_at": "1/1/2020",
             "title": "first post",
           },
@@ -42,10 +43,11 @@ exports[`BlogList should match snapshot 1`] = `
             "author_id": 1,
             "author_name": "test user",
             "body": "second test body",
+            "bookmark_count": "1",
             "created_at": "1/1/2020",
             "description": "second test description",
-            "favorite_count": "1",
             "id": 2,
+            "is_premium": false,
             "last_updated_at": "1/1/2020",
             "title": "second post",
           },
@@ -53,10 +55,11 @@ exports[`BlogList should match snapshot 1`] = `
             "author_id": 1,
             "author_name": "test user",
             "body": "third test body",
+            "bookmark_count": "5",
             "created_at": "1/1/2020",
             "description": "third test description",
-            "favorite_count": "5",
             "id": 3,
+            "is_premium": false,
             "last_updated_at": "1/1/2020",
             "title": "third post",
           },
@@ -89,10 +92,11 @@ exports[`BlogList should match snapshot 1`] = `
                         "author_id": 1,
                         "author_name": "test user",
                         "body": "first test body",
+                        "bookmark_count": "0",
                         "created_at": "1/1/2020",
                         "description": "first test description",
-                        "favorite_count": "0",
                         "id": 1,
+                        "is_premium": true,
                         "last_updated_at": "1/1/2020",
                         "title": "first post",
                       }
@@ -109,65 +113,80 @@ exports[`BlogList should match snapshot 1`] = `
                           <div
                             className="card-body"
                           >
-                            <NavLink
+                            <Styled(Component)
+                              isPremium={true}
                               to="/blogs/1/first-post"
                             >
-                              <Link
-                                aria-current={null}
-                                to={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/blogs/1/first-post",
-                                    "search": "",
-                                    "state": null,
-                                  }
-                                }
+                              <Component
+                                className="sc-bdfBwQ hDCawl"
+                                isPremium={true}
+                                to="/blogs/1/first-post"
                               >
-                                <LinkAnchor
-                                  aria-current={null}
-                                  href="/blogs/1/first-post"
-                                  navigate={[Function]}
+                                <NavLink
+                                  className="sc-bdfBwQ hDCawl"
+                                  to="/blogs/1/first-post"
                                 >
-                                  <a
+                                  <Link
                                     aria-current={null}
-                                    href="/blogs/1/first-post"
-                                    onClick={[Function]}
+                                    className="sc-bdfBwQ hDCawl"
+                                    to={
+                                      Object {
+                                        "hash": "",
+                                        "pathname": "/blogs/1/first-post",
+                                        "search": "",
+                                        "state": null,
+                                      }
+                                    }
                                   >
-                                    <CardTitle>
-                                      <ForwardRef
-                                        className="card-title"
-                                      >
-                                        <div
-                                          className="card-title h5"
-                                        >
-                                          first post
-                                        </div>
-                                      </ForwardRef>
-                                    </CardTitle>
-                                    <CardSubtitle>
-                                      <ForwardRef
-                                        className="card-subtitle"
-                                      >
-                                        <div
-                                          className="card-subtitle h6"
-                                        >
-                                          first test description
-                                        </div>
-                                      </ForwardRef>
-                                    </CardSubtitle>
-                                    <CardText
-                                      className="BlogCard-body"
+                                    <LinkAnchor
+                                      aria-current={null}
+                                      className="sc-bdfBwQ hDCawl"
+                                      href="/blogs/1/first-post"
+                                      navigate={[Function]}
                                     >
-                                      <p
-                                        className="BlogCard-body card-text"
+                                      <a
+                                        aria-current={null}
+                                        className="sc-bdfBwQ hDCawl"
+                                        href="/blogs/1/first-post"
+                                        onClick={[Function]}
                                       >
-                                        first test body
-                                      </p>
-                                    </CardText>
-                                  </a>
-                                </LinkAnchor>
-                              </Link>
-                            </NavLink>
+                                        <CardTitle>
+                                          <ForwardRef
+                                            className="card-title"
+                                          >
+                                            <div
+                                              className="card-title h5"
+                                            >
+                                              first post
+                                            </div>
+                                          </ForwardRef>
+                                        </CardTitle>
+                                        <CardSubtitle>
+                                          <ForwardRef
+                                            className="card-subtitle"
+                                          >
+                                            <div
+                                              className="card-subtitle h6"
+                                            >
+                                              first test description
+                                            </div>
+                                          </ForwardRef>
+                                        </CardSubtitle>
+                                        <CardText
+                                          className="BlogCard-body"
+                                        >
+                                          <p
+                                            className="BlogCard-body card-text"
+                                          >
+                                            first test body
+                                          </p>
+                                        </CardText>
+                                      </a>
+                                    </LinkAnchor>
+                                  </Link>
+                                </NavLink>
+                              </Component>
+                            </Styled(Component)>
                             <Container
                               fluid={true}
                             >
@@ -191,39 +210,44 @@ exports[`BlogList should match snapshot 1`] = `
                                           className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
-                                          <NavLink
+                                          <Styled(NavLink)
                                             className="d-flex align-items-center ml-1 mr-1"
                                             to="/users/1/test-user"
                                           >
-                                            <Link
-                                              aria-current={null}
-                                              className="d-flex align-items-center ml-1 mr-1"
-                                              to={
-                                                Object {
-                                                  "hash": "",
-                                                  "pathname": "/users/1/test-user",
-                                                  "search": "",
-                                                  "state": null,
-                                                }
-                                              }
+                                            <NavLink
+                                              className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                              to="/users/1/test-user"
                                             >
-                                              <LinkAnchor
+                                              <Link
                                                 aria-current={null}
-                                                className="d-flex align-items-center ml-1 mr-1"
-                                                href="/users/1/test-user"
-                                                navigate={[Function]}
+                                                className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                                to={
+                                                  Object {
+                                                    "hash": "",
+                                                    "pathname": "/users/1/test-user",
+                                                    "search": "",
+                                                    "state": null,
+                                                  }
+                                                }
                                               >
-                                                <a
+                                                <LinkAnchor
                                                   aria-current={null}
-                                                  className="d-flex align-items-center ml-1 mr-1"
+                                                  className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
                                                   href="/users/1/test-user"
-                                                  onClick={[Function]}
+                                                  navigate={[Function]}
                                                 >
-                                                  test user
-                                                </a>
-                                              </LinkAnchor>
-                                            </Link>
-                                          </NavLink>
+                                                  <a
+                                                    aria-current={null}
+                                                    className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                                    href="/users/1/test-user"
+                                                    onClick={[Function]}
+                                                  >
+                                                    test user
+                                                  </a>
+                                                </LinkAnchor>
+                                              </Link>
+                                            </NavLink>
+                                          </Styled(NavLink)>
                                           <span
                                             className="text-muted"
                                           >
@@ -240,10 +264,11 @@ exports[`BlogList should match snapshot 1`] = `
                                           "author_id": 1,
                                           "author_name": "test user",
                                           "body": "first test body",
+                                          "bookmark_count": "0",
                                           "created_at": "1/1/2020",
                                           "description": "first test description",
-                                          "favorite_count": "0",
                                           "id": 1,
+                                          "is_premium": true,
                                           "last_updated_at": "1/1/2020",
                                           "title": "first post",
                                         }
@@ -332,10 +357,11 @@ exports[`BlogList should match snapshot 1`] = `
                         "author_id": 1,
                         "author_name": "test user",
                         "body": "second test body",
+                        "bookmark_count": "1",
                         "created_at": "1/1/2020",
                         "description": "second test description",
-                        "favorite_count": "1",
                         "id": 2,
+                        "is_premium": false,
                         "last_updated_at": "1/1/2020",
                         "title": "second post",
                       }
@@ -352,65 +378,80 @@ exports[`BlogList should match snapshot 1`] = `
                           <div
                             className="card-body"
                           >
-                            <NavLink
+                            <Styled(Component)
+                              isPremium={false}
                               to="/blogs/2/second-post"
                             >
-                              <Link
-                                aria-current={null}
-                                to={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/blogs/2/second-post",
-                                    "search": "",
-                                    "state": null,
-                                  }
-                                }
+                              <Component
+                                className="sc-bdfBwQ lnRVtZ"
+                                isPremium={false}
+                                to="/blogs/2/second-post"
                               >
-                                <LinkAnchor
-                                  aria-current={null}
-                                  href="/blogs/2/second-post"
-                                  navigate={[Function]}
+                                <NavLink
+                                  className="sc-bdfBwQ lnRVtZ"
+                                  to="/blogs/2/second-post"
                                 >
-                                  <a
+                                  <Link
                                     aria-current={null}
-                                    href="/blogs/2/second-post"
-                                    onClick={[Function]}
+                                    className="sc-bdfBwQ lnRVtZ"
+                                    to={
+                                      Object {
+                                        "hash": "",
+                                        "pathname": "/blogs/2/second-post",
+                                        "search": "",
+                                        "state": null,
+                                      }
+                                    }
                                   >
-                                    <CardTitle>
-                                      <ForwardRef
-                                        className="card-title"
-                                      >
-                                        <div
-                                          className="card-title h5"
-                                        >
-                                          second post
-                                        </div>
-                                      </ForwardRef>
-                                    </CardTitle>
-                                    <CardSubtitle>
-                                      <ForwardRef
-                                        className="card-subtitle"
-                                      >
-                                        <div
-                                          className="card-subtitle h6"
-                                        >
-                                          second test description
-                                        </div>
-                                      </ForwardRef>
-                                    </CardSubtitle>
-                                    <CardText
-                                      className="BlogCard-body"
+                                    <LinkAnchor
+                                      aria-current={null}
+                                      className="sc-bdfBwQ lnRVtZ"
+                                      href="/blogs/2/second-post"
+                                      navigate={[Function]}
                                     >
-                                      <p
-                                        className="BlogCard-body card-text"
+                                      <a
+                                        aria-current={null}
+                                        className="sc-bdfBwQ lnRVtZ"
+                                        href="/blogs/2/second-post"
+                                        onClick={[Function]}
                                       >
-                                        second test body
-                                      </p>
-                                    </CardText>
-                                  </a>
-                                </LinkAnchor>
-                              </Link>
-                            </NavLink>
+                                        <CardTitle>
+                                          <ForwardRef
+                                            className="card-title"
+                                          >
+                                            <div
+                                              className="card-title h5"
+                                            >
+                                              second post
+                                            </div>
+                                          </ForwardRef>
+                                        </CardTitle>
+                                        <CardSubtitle>
+                                          <ForwardRef
+                                            className="card-subtitle"
+                                          >
+                                            <div
+                                              className="card-subtitle h6"
+                                            >
+                                              second test description
+                                            </div>
+                                          </ForwardRef>
+                                        </CardSubtitle>
+                                        <CardText
+                                          className="BlogCard-body"
+                                        >
+                                          <p
+                                            className="BlogCard-body card-text"
+                                          >
+                                            second test body
+                                          </p>
+                                        </CardText>
+                                      </a>
+                                    </LinkAnchor>
+                                  </Link>
+                                </NavLink>
+                              </Component>
+                            </Styled(Component)>
                             <Container
                               fluid={true}
                             >
@@ -434,39 +475,44 @@ exports[`BlogList should match snapshot 1`] = `
                                           className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
-                                          <NavLink
+                                          <Styled(NavLink)
                                             className="d-flex align-items-center ml-1 mr-1"
                                             to="/users/1/test-user"
                                           >
-                                            <Link
-                                              aria-current={null}
-                                              className="d-flex align-items-center ml-1 mr-1"
-                                              to={
-                                                Object {
-                                                  "hash": "",
-                                                  "pathname": "/users/1/test-user",
-                                                  "search": "",
-                                                  "state": null,
-                                                }
-                                              }
+                                            <NavLink
+                                              className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                              to="/users/1/test-user"
                                             >
-                                              <LinkAnchor
+                                              <Link
                                                 aria-current={null}
-                                                className="d-flex align-items-center ml-1 mr-1"
-                                                href="/users/1/test-user"
-                                                navigate={[Function]}
+                                                className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                                to={
+                                                  Object {
+                                                    "hash": "",
+                                                    "pathname": "/users/1/test-user",
+                                                    "search": "",
+                                                    "state": null,
+                                                  }
+                                                }
                                               >
-                                                <a
+                                                <LinkAnchor
                                                   aria-current={null}
-                                                  className="d-flex align-items-center ml-1 mr-1"
+                                                  className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
                                                   href="/users/1/test-user"
-                                                  onClick={[Function]}
+                                                  navigate={[Function]}
                                                 >
-                                                  test user
-                                                </a>
-                                              </LinkAnchor>
-                                            </Link>
-                                          </NavLink>
+                                                  <a
+                                                    aria-current={null}
+                                                    className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                                    href="/users/1/test-user"
+                                                    onClick={[Function]}
+                                                  >
+                                                    test user
+                                                  </a>
+                                                </LinkAnchor>
+                                              </Link>
+                                            </NavLink>
+                                          </Styled(NavLink)>
                                           <span
                                             className="text-muted"
                                           >
@@ -483,10 +529,11 @@ exports[`BlogList should match snapshot 1`] = `
                                           "author_id": 1,
                                           "author_name": "test user",
                                           "body": "second test body",
+                                          "bookmark_count": "1",
                                           "created_at": "1/1/2020",
                                           "description": "second test description",
-                                          "favorite_count": "1",
                                           "id": 2,
+                                          "is_premium": false,
                                           "last_updated_at": "1/1/2020",
                                           "title": "second post",
                                         }
@@ -575,10 +622,11 @@ exports[`BlogList should match snapshot 1`] = `
                         "author_id": 1,
                         "author_name": "test user",
                         "body": "third test body",
+                        "bookmark_count": "5",
                         "created_at": "1/1/2020",
                         "description": "third test description",
-                        "favorite_count": "5",
                         "id": 3,
+                        "is_premium": false,
                         "last_updated_at": "1/1/2020",
                         "title": "third post",
                       }
@@ -595,65 +643,80 @@ exports[`BlogList should match snapshot 1`] = `
                           <div
                             className="card-body"
                           >
-                            <NavLink
+                            <Styled(Component)
+                              isPremium={false}
                               to="/blogs/3/third-post"
                             >
-                              <Link
-                                aria-current={null}
-                                to={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/blogs/3/third-post",
-                                    "search": "",
-                                    "state": null,
-                                  }
-                                }
+                              <Component
+                                className="sc-bdfBwQ lnRVtZ"
+                                isPremium={false}
+                                to="/blogs/3/third-post"
                               >
-                                <LinkAnchor
-                                  aria-current={null}
-                                  href="/blogs/3/third-post"
-                                  navigate={[Function]}
+                                <NavLink
+                                  className="sc-bdfBwQ lnRVtZ"
+                                  to="/blogs/3/third-post"
                                 >
-                                  <a
+                                  <Link
                                     aria-current={null}
-                                    href="/blogs/3/third-post"
-                                    onClick={[Function]}
+                                    className="sc-bdfBwQ lnRVtZ"
+                                    to={
+                                      Object {
+                                        "hash": "",
+                                        "pathname": "/blogs/3/third-post",
+                                        "search": "",
+                                        "state": null,
+                                      }
+                                    }
                                   >
-                                    <CardTitle>
-                                      <ForwardRef
-                                        className="card-title"
-                                      >
-                                        <div
-                                          className="card-title h5"
-                                        >
-                                          third post
-                                        </div>
-                                      </ForwardRef>
-                                    </CardTitle>
-                                    <CardSubtitle>
-                                      <ForwardRef
-                                        className="card-subtitle"
-                                      >
-                                        <div
-                                          className="card-subtitle h6"
-                                        >
-                                          third test description
-                                        </div>
-                                      </ForwardRef>
-                                    </CardSubtitle>
-                                    <CardText
-                                      className="BlogCard-body"
+                                    <LinkAnchor
+                                      aria-current={null}
+                                      className="sc-bdfBwQ lnRVtZ"
+                                      href="/blogs/3/third-post"
+                                      navigate={[Function]}
                                     >
-                                      <p
-                                        className="BlogCard-body card-text"
+                                      <a
+                                        aria-current={null}
+                                        className="sc-bdfBwQ lnRVtZ"
+                                        href="/blogs/3/third-post"
+                                        onClick={[Function]}
                                       >
-                                        third test body
-                                      </p>
-                                    </CardText>
-                                  </a>
-                                </LinkAnchor>
-                              </Link>
-                            </NavLink>
+                                        <CardTitle>
+                                          <ForwardRef
+                                            className="card-title"
+                                          >
+                                            <div
+                                              className="card-title h5"
+                                            >
+                                              third post
+                                            </div>
+                                          </ForwardRef>
+                                        </CardTitle>
+                                        <CardSubtitle>
+                                          <ForwardRef
+                                            className="card-subtitle"
+                                          >
+                                            <div
+                                              className="card-subtitle h6"
+                                            >
+                                              third test description
+                                            </div>
+                                          </ForwardRef>
+                                        </CardSubtitle>
+                                        <CardText
+                                          className="BlogCard-body"
+                                        >
+                                          <p
+                                            className="BlogCard-body card-text"
+                                          >
+                                            third test body
+                                          </p>
+                                        </CardText>
+                                      </a>
+                                    </LinkAnchor>
+                                  </Link>
+                                </NavLink>
+                              </Component>
+                            </Styled(Component)>
                             <Container
                               fluid={true}
                             >
@@ -677,39 +740,44 @@ exports[`BlogList should match snapshot 1`] = `
                                           className="BlogCard-author-date d-flex align-items-center card-subtitle h6"
                                         >
                                           Posted by 
-                                          <NavLink
+                                          <Styled(NavLink)
                                             className="d-flex align-items-center ml-1 mr-1"
                                             to="/users/1/test-user"
                                           >
-                                            <Link
-                                              aria-current={null}
-                                              className="d-flex align-items-center ml-1 mr-1"
-                                              to={
-                                                Object {
-                                                  "hash": "",
-                                                  "pathname": "/users/1/test-user",
-                                                  "search": "",
-                                                  "state": null,
-                                                }
-                                              }
+                                            <NavLink
+                                              className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                              to="/users/1/test-user"
                                             >
-                                              <LinkAnchor
+                                              <Link
                                                 aria-current={null}
-                                                className="d-flex align-items-center ml-1 mr-1"
-                                                href="/users/1/test-user"
-                                                navigate={[Function]}
+                                                className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                                to={
+                                                  Object {
+                                                    "hash": "",
+                                                    "pathname": "/users/1/test-user",
+                                                    "search": "",
+                                                    "state": null,
+                                                  }
+                                                }
                                               >
-                                                <a
+                                                <LinkAnchor
                                                   aria-current={null}
-                                                  className="d-flex align-items-center ml-1 mr-1"
+                                                  className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
                                                   href="/users/1/test-user"
-                                                  onClick={[Function]}
+                                                  navigate={[Function]}
                                                 >
-                                                  test user
-                                                </a>
-                                              </LinkAnchor>
-                                            </Link>
-                                          </NavLink>
+                                                  <a
+                                                    aria-current={null}
+                                                    className="sc-gsTCUz kyRshY d-flex align-items-center ml-1 mr-1"
+                                                    href="/users/1/test-user"
+                                                    onClick={[Function]}
+                                                  >
+                                                    test user
+                                                  </a>
+                                                </LinkAnchor>
+                                              </Link>
+                                            </NavLink>
+                                          </Styled(NavLink)>
                                           <span
                                             className="text-muted"
                                           >
@@ -726,10 +794,11 @@ exports[`BlogList should match snapshot 1`] = `
                                           "author_id": 1,
                                           "author_name": "test user",
                                           "body": "third test body",
+                                          "bookmark_count": "5",
                                           "created_at": "1/1/2020",
                                           "description": "third test description",
-                                          "favorite_count": "5",
                                           "id": 3,
+                                          "is_premium": false,
                                           "last_updated_at": "1/1/2020",
                                           "title": "third post",
                                         }

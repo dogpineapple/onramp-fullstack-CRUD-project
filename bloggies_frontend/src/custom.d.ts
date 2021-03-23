@@ -20,7 +20,8 @@ export interface Post {
   author_name: string,
   created_at: string,
   last_updated_at: string,
-  favorite_count: string
+  bookmark_count: string,
+  is_premium: boolean
 }
 
 export interface PostFormData {
@@ -44,11 +45,13 @@ interface SearchResults {
 
 export interface User {
   id: number,
-  display_name: string,
+  email: string,
   join_date: string,
+  display_name: string
   membership_status: string,
-  membership_start_date: string,
+  membership_start_date: string | null,
   membership_end_date: string | null,
   last_submission_date: string | null,
-  email: string,
+  customer_id: string | null,
+  subscription_id: string | null
 }

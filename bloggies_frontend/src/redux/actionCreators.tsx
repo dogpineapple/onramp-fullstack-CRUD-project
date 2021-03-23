@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { Action } from "redux";
 import { BASE_URL } from "../config";
 import { Post, PostFormData, User } from "../custom";
-import { ADD_FAVORITE, ADD_POST, DELETE_FAVORITE, DELETE_POST, DISPLAY_SERVER_ERR, LOAD_FAVORITES, LOAD_POSTS, LOAD_SEARCH_RESULTS, LOAD_USER, LOGOUT, REMOVE_SERVER_ERR, UPDATE_POST, UPDATE_USER_STATUS } from "./actionTypes";
+import * as t from "./actionTypes";
 
 /**
  * POST request to add a post to backend and dispatches
@@ -29,7 +29,7 @@ export function addPostToAPI(postData: PostFormData) {
 }
 
 function addPost(post: Post) {
-  return { type: ADD_POST, payload: { post } };
+  return { type: t.ADD_POST, payload: { post } };
 }
 
 /**
@@ -56,7 +56,7 @@ export function deletePostFromAPI(postId: number) {
 }
 
 function deletePost(postId: number) {
-  return { type: DELETE_POST, payload: { postId } };
+  return { type: t.DELETE_POST, payload: { postId } };
 }
 
 /**
@@ -65,7 +65,13 @@ function deletePost(postId: number) {
  */
 export function getPostsFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/posts`);
+    const res = await fetch(`${BASE_URL}/posts`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
     const postsRes = await res.json();
     if (res.status === 200) {
       dispatch(deleteServerErr());
@@ -96,7 +102,7 @@ export function getUserInfoFromAPI() {
  * returns UPDATE_POST action object to update redux store.
  */
 export function updateCurrentPost(post: Post) {
-  return { type: UPDATE_POST, payload: { post } };
+  return { type: t.UPDATE_POST, payload: { post } };
 }
 
 /**
@@ -119,7 +125,7 @@ export function getSearchResultsFromAPI(term: string) {
 }
 
 function gotSearchResults(posts: Array<Post>, users: Array<User>) {
-  return { type: LOAD_SEARCH_RESULTS, payload: { posts, users } };
+  return { type: t.LOAD_SEARCH_RESULTS, payload: { posts, users } };
 }
 
 /**
@@ -128,7 +134,7 @@ function gotSearchResults(posts: Array<Post>, users: Array<User>) {
  */
 export function addFavoriteToAPI(post: Post) {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/favorites`, {
+    const res = await fetch(`${BASE_URL}/bookmarks`, {
       method: "POST",
       credentials: "include",
       body: JSON.stringify({ postId: post.id }),
@@ -147,7 +153,7 @@ export function addFavoriteToAPI(post: Post) {
 }
 
 function addFavorite(post: Post) {
-  return { type: ADD_FAVORITE, payload: { post } };
+  return { type: t.ADD_FAVORITE, payload: { post } };
 }
 
 /**
@@ -156,7 +162,7 @@ function addFavorite(post: Post) {
  */
 export function deleteFavoriteFromAPI(postId: number) {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/favorites`, {
+    const res = await fetch(`${BASE_URL}/bookmarks`, {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify({ postId }),
@@ -172,15 +178,15 @@ export function deleteFavoriteFromAPI(postId: number) {
 }
 
 function deleteFavorite(postId: number) {
-  return { type: DELETE_FAVORITE, payload: { postId } };
+  return { type: t.DELETE_FAVORITE, payload: { postId } };
 }
 
 function gotServerErr(err: string) {
-  return { type: DISPLAY_SERVER_ERR, payload: { err } };
+  return { type: t.DISPLAY_SERVER_ERR, payload: { err } };
 }
 
 function deleteServerErr() {
-  return { type: REMOVE_SERVER_ERR };
+  return { type: t.REMOVE_SERVER_ERR };
 }
 
 /**
@@ -189,7 +195,7 @@ function deleteServerErr() {
  */
 export function getUserFavoritesFromAPI(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
-    const res = await fetch(`${BASE_URL}/favorites/${userId}`, {
+    const res = await fetch(`${BASE_URL}/bookmarks/${userId}`, {
       method: "GET"
     });
     const favoritesRes = await res.json();
@@ -198,21 +204,21 @@ export function getUserFavoritesFromAPI(userId: number) {
 }
 
 function gotFavorites(favorites: Array<any>) {
-  return { type: LOAD_FAVORITES, payload: { favorites } };
+  return { type: t.LOAD_FAVORITES, payload: { favorites } };
 }
 
 function gotPosts(posts: Array<any>) {
-  return { type: LOAD_POSTS, payload: { posts } };
+  return { type: t.LOAD_POSTS, payload: { posts } };
 }
 
 /**Returns an action object for type LOGOUT*/
 export function logoutUser() {
-  return { type: LOGOUT };
+  return { type: t.LOGOUT };
 }
 
 /**Returns an action object for type LOAD_USER*/
 export function gotUserInfo(user: User) {
-  return { type: LOAD_USER, payload: { user } };
+  return { type: t.LOAD_USER, payload: { user } };
 }
 
 /**
@@ -235,5 +241,20 @@ export function updateMembershipStatus(status: string) {
 }
 
 function updateUserStatus(user: User) {
-  return { type: UPDATE_USER_STATUS, payload: { user }}
+  return { type: t.UPDATE_USER_STATUS, payload: { user }}
+}
+
+export function getMembershipStatus(userId: number) {
+  return async function (dispatch: Dispatch<Action>) {
+    const res = await fetch(`${BASE_URL}/users/membership-status`, {
+      method: "GET",
+      credentials: "include"
+    });
+    const resData = await res.json();
+    dispatch(gotMembershipStatus(resData.membership_status));
+  }
+}
+
+function gotMembershipStatus(membStatus: string) {
+  return { type: t.UPDATE_MEMBERSHIP_STATUS, payload: { membership_status: membStatus } }
 }
