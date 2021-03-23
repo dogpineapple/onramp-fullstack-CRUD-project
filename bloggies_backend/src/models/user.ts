@@ -1,6 +1,6 @@
 import db from "../db";
 import ExpressError from "../expressError";
-import { ACTIVE } from "../membershipStatuses";
+import { ACTIVE, INACTIVE } from "../membershipStatuses";
 
 export default class User {
 
@@ -94,6 +94,16 @@ export default class User {
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
     }
+  }
+
+  /** Sets membership_status to INACTIVE. Sets membership_end_date 
+   * to CURRENT_TIMESTAMP. via subscription id */
+  static async cancelSubscription(subscriptionId: string) {
+    await db.query(
+      `UPDATE users 
+      SET membership_status = $2, membership_end_date = $3
+      WHERE subscription_id = $1`,
+      [subscriptionId, INACTIVE, Date.now()]);
   }
 
   //checks that the display_name given at registration doesn't already exist before adding it

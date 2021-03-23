@@ -3,38 +3,42 @@ import express, { Request, Response, NextFunction } from "express";
 import Stripe from 'stripe';
 import User from '../models/user';
 import { ensureLoggedIn } from "../middleware/auth";
-import { TEST_STRIPE_API_KEY } from '../config';
+import { MY_STRIPE_API_KEY } from '../config';
 import ExpressError from '../expressError';
-
 export const stripeRouter = express.Router();
 
-export const stripe = new Stripe(TEST_STRIPE_API_KEY as string, {
+/* create new Stripe instance to facilitate interactions with Stripe API*/
+export const stripe = new Stripe(MY_STRIPE_API_KEY as string, {
   apiVersion: "2020-08-27",
 });
 
 /** GET handles events that occur over a stripe session via webhook */
 stripeRouter.post("/webhook", async function (req: Request, res: Response, next: NextFunction) {
   let event = req.body;
+  let data: any;
 
   switch (event.type) {
     case 'invoice.paid':
-      const invoice = event.data.object;
-      console.log(
-        `invoice paid for: ${invoice.customer}, 
-          email: ${invoice.customer_email}. 
-          subscription: ${invoice.subscription}`);
+      data = event.data.object;
+      console.log(`
+          invoice PAID for: ${data.customer}, 
+          email: ${data.customer_email}. 
+          subscription: ${data.subscription}`);
       break;
     case 'invoice.payment_failed':
-      console.log("invoice failed");
+      data = event.data.object;
+      console.log(`
+        invoice failed for: ${data.customer}, 
+        email: ${data.customer_email}. 
+        subscription: ${data.subscription}`);
+      await User.cancelSubscription(data.subscription);
       break;
     case 'customer.subscription.deleted':
       console.log("subscription deleted");
+      await User.cancelSubscription(data.subscription);
       break;
     case 'payment_intent.succeeded':
       console.log(`PaymentIntent success for ${event.data.object.amount}`);
-      break;
-    case 'payment_method.attached':
-      console.log("attached");
       break;
     default:
       console.log("web hook default, unhandled event", event.type);
@@ -80,7 +84,6 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
     const expressErr = new ExpressError(err, 402);
     return next(expressErr);
   }
-
   // update the customer with the payment method
   await stripe.customers.update(customerId, {
     invoice_settings: {
@@ -98,9 +101,36 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
 /** DELETE cancels user's Stripe subscription */
 stripeRouter.delete("/cancel-subscription", async function (req: Request, res: Response, next: NextFunction) {
   try {
-    const cancel = await Checkout.stripeSubscriptionCancel();
-    res.send(cancel);
+    const cancelledSubscription = await Checkout.stripeSubscriptionCancel(req.body.subscription_id);
+    res.send(cancelledSubscription);
   } catch (err) {
     return next(err);
+  }
+});
+
+/** POST update the customer with new payment method and assign it as the new default payment for subscription invoices */
+stripeRouter.post("/retry-invoice", async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const { customer_id, paymentMethodId, invoiceId } = req.body;
+
+    await stripe.paymentMethods.attach(paymentMethodId, {
+      customer: customer_id
+    });
+    // update the customer with the payment method
+    await stripe.customers.update(customer_id, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId
+      }
+    });
+
+    const invoice = await stripe.invoices.retrieve(invoiceId, {
+      expand: ['payment_intent']
+    });
+
+    res.json(invoice);
+  } catch (err) {
+    const expressErr = new ExpressError(err, 402);
+    // card_decline error
+    return next(expressErr);
   }
 });
