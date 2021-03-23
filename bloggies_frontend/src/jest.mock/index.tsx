@@ -7,7 +7,10 @@ export const MOCK_USER: User = {
   display_name: "Test Username",
   membership_status: "none",
   membership_start_date: null,
-  membership_end_date: null
+  membership_end_date: null,
+  last_submission_date: null,
+  customer_id: null,
+  subscription_id: null
 };
 
 export const MOCK_PREMIUM_USER: User = {
@@ -17,7 +20,10 @@ export const MOCK_PREMIUM_USER: User = {
   display_name: "Test Username",
   membership_status: "active",
   membership_start_date: "2021-03-18T19:43:37Z",
-  membership_end_date: "2200-03-18T19:43:37Z"
+  membership_end_date: "2200-03-18T19:43:37Z",
+  last_submission_date: null,
+  customer_id: null,
+  subscription_id: null
 };
 
 export const MOCK_POST: Post = {

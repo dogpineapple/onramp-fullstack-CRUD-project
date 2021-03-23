@@ -50,5 +50,8 @@ export interface User {
   display_name: string
   membership_status: string,
   membership_start_date: string | null,
-  membership_end_date: string | null
+  membership_end_date: string | null,
+  last_submission_date: string | null,
+  customer_id: string | null,
+  subscription_id: string | null
 }
