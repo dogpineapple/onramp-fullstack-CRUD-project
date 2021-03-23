@@ -44,11 +44,6 @@ app.use("/checkout", stripeRouter);
 
 app.use("/email", sendgridRouter);
 
-//check the database every day at noon for expiring memberships and send email reminders
-cron.schedule('0 0 12 * * ', () => {
-  console.log('It\s noon and emails are sending!')
-})
-
 // Global Error Handler
 app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunction) {
   let status = err.status || 500;
