@@ -40,6 +40,7 @@ function UserApplicationForm({ show }: IProps) {
   const history = useHistory();
 
   useEffect(() => {
+    // checks user status and will render primary questions or alternate questions
     if (checkStatus === "none") {
       setQuestions(data.primary_questions);
     } else if (checkStatus === "pending") {
@@ -48,11 +49,14 @@ function UserApplicationForm({ show }: IProps) {
   }, [checkStatus]);
 
   useEffect(() => {
+    // validates if user has answered all questions with valid input, will enable submission button if so
     validateForm();
   }, [answers]);
 
   useEffect(() => {
+    // will render membership status form if user has filled out form in the past
     if (
+      // prop show will determine whether to display the membership status page or the additional questions to the pending user
       (checkStatus === "pending" && !show) ||
       checkStatus === "accepted" ||
       checkStatus === "rejected" ||
@@ -78,13 +82,17 @@ function UserApplicationForm({ show }: IProps) {
     e.preventDefault();
     let data = Object.values(answers);
     let answer: string = '';
+    // determines membership status for user filling out additional application
     if (checkStatus === "pending") {
       if (data.includes("no!")) {
+        // rejected case
         answer = "rejected";
       } else {
+        // accepted case
         answer = "accepted";
       }
     } else if (checkStatus === "none") {
+      // determines membership status for user filling out primary application
       if (
         // rejected case
         data.includes("nope!") ||
@@ -100,7 +108,9 @@ function UserApplicationForm({ show }: IProps) {
         answer = "accepted";
       }
     }
+    // dispatches action to update redux store with membership status
     dispatch(updateMembershipStatus(answer));
+    // sends user to membership status form
     history.push("/register/membership-status");
   };
   return (

@@ -4,21 +4,64 @@ import { CustomReduxState } from "../../custom";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 
+// styled components, later could possibly extact to once cetralized style sheet
 const RegisterStatusContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 `;
 
 const RegisterStatusItem = styled.div`
   text-align: center;
   margin: 0 auto;
-  width: 70%;
+  width: 60%;
+  min-height: 300px;
 `;
 const Paragraph = styled.p`
   font-size: 30px;
+  margin-top: 50px;
 `;
+
+const Button = styled.button`
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+`;
+
+const NewsFeedButton = styled(Button)`
+  background-color: #ffc107;
+  &:hover{
+      background-color: #e0a800;
+      border-color: #d39e00;
+  }
+  &:active {
+      background-color: #d39e00;
+      border-color: #c69500;
+  }
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgb(255 193 7 / 50%);
+    outline: none;
+  }
+`
+const PaymentButton = styled(Button)`
+  background-color: #28a745;
+  border-color: #28a745;
+  &:hover{
+      background-color: #218838;
+      border-color: #1e7e34;
+  }
+  &:active {
+      background-color: #1e7e34;
+      border-color: #1c7430;
+  }
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%);
+    outline: none;
+  }
+`
 
 /**
  * RegisterStatusPage renders a successful registration page and shows
@@ -28,22 +71,26 @@ const Paragraph = styled.p`
 
 function RegisterStatusPage() {
   const history = useHistory();
+  // pulls membership status from redux store
   const checkStatus = useSelector(
     (st: CustomReduxState) => st.user.membership_status
   );
 
   let text: string | null = null;
+  // home buttone redirects user to newfeed page
   let homeButton = (
-    <button onClick={() => history.push("/")}>
+    <NewsFeedButton onClick={() => history.push("/")}>
       {"Take me back to the newsfeed!"}
-    </button>
+    </NewsFeedButton>
   );
+  // payment button directs user to stripe success form
   let paymentButton = (
-    <button
+    <PaymentButton
       onClick={() => history.push("/payment/form")}
-    >{`I'm Ready, Sign Me Up!`}</button>
+    >{`I'm Ready, Sign Me Up!`}</PaymentButton>
   );
 
+  // if block below determines what to render as the message as a result of the user status
   if (checkStatus === "none") {
     text = "";
   } else if (checkStatus === "rejected") {
@@ -67,7 +114,7 @@ function RegisterStatusPage() {
       </RegisterStatusItem>
       <RegisterStatusItem>
           {/* check to see status of member to see what button to render */}
-        {checkStatus === 'rejected' || checkStatus === 'pending' || checkStatus === 'none'? homeButton : paymentButton}
+        {checkStatus === 'rejected' || checkStatus === 'pending' || checkStatus === 'none' || checkStatus === 'inactive'? homeButton : paymentButton}
       </RegisterStatusItem>
     </RegisterStatusContainer>
   );
