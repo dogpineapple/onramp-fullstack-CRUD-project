@@ -13,30 +13,33 @@ export default class Email {
     static async sendConfirmation(sendTo: string, type: string): Promise<void> {
         let subject;
         let text;
-        let html;
+        let buttonText;
+        //add buttonUrl
         switch (type) {
             case 'accepted':
                 subject = 'Confirmation Email from Learning Circle';
                 text = 'Welcome to the Learning Circle!';
+                buttonText = 'Log in to your account';
                 break;
             case 'pending':
                 subject = 'We need more information';
                 text = 'Before we can confirm your membership, please follow the link to answer questions';
-                html = '<a href="/">Click here to answer questions</a>'
+                buttonText = 'Click here to answer questions';
                 break;
             case 'rejected':
                 subject = 'Regrets from Learning Circle';
-                text = 'Thank you for your interest, but unfortunately we cannot grant you membership at this time.'
+                text = 'Thank you for your interest, but unfortunately we cannot grant you membership at this time.';
+                buttonText = 'View our free blogs';
         }
-        console.log(sendTo)
-        console.log(text, subject)
         const msg:MailDataRequired =  {
             to: sendTo, // recipient
             from: 'mmcdevitt@blend.com', // verified sender
-            subject,
-            text,
-            html,
-            templateId: '13b8f94f-bcae-4ec6-b752-70d6cb59f932' //temporary template!
+            templateId: 'd-20f55b9ef7544032b9a513dba0e20352',
+            dynamicTemplateData: {
+                subject,
+                text,
+                buttonText
+            }
         }
 
         try {
