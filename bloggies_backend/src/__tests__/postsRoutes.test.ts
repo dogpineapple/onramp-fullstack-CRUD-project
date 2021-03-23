@@ -128,7 +128,7 @@ describe("Test Post routes", function () {
   });
 
   /** POST /posts => status 201, { post } */
-  test("POST /posts - prevents a non-active paid member from making a post", async function () {
+  test("POST /posts - prevents a non-active member from making a post", async function () {
     // Grant the mock user an active membership to allow post creation
     await db.query(
       `UPDATE users SET membership_status = 'inactive' WHERE user_id = $1`,
