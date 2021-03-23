@@ -104,4 +104,19 @@ export default class User {
     )
     return res.rows;
 }
+  static async checkLastSubmissionDateLapse() {
+    const lastDate = new Date();
+    const date = lastDate.getDate() - 4;
+    lastDate.setDate(date);
+    const res = await db.query(
+      `SELECT ua.email, u.last_submission_date
+      FROM users as u
+      JOIN user_auth as ua
+      ON u.user_id = ua.id
+      WHERE u.membership_status = $1
+      AND u.last_submission_date <= $2`,
+      ['active', lastDate]
+    )
+    return res.rows;
+  }
 }

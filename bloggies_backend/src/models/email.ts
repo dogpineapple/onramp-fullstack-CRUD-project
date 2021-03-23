@@ -4,11 +4,24 @@ import ExpressError from "../expressError";
 import { SENDGRID_API_KEY } from '../config';
 
 const frontendUrl = "http://localhost:3000/"; //use env variables to move this to hosted site when applicable
+const verifiedSender = "mmcdevitt@blend.com";
 
 if(SENDGRID_API_KEY) {
     sgMail.setApiKey(SENDGRID_API_KEY);
 } else {
     console.error('Sendgrid API key is undefined');
+}
+
+//type for return values of User.checkExpiringMemberships()
+interface UserEndDate {
+    email: string;
+    membership_end_date: Date;
+}
+
+//type for return values of User.checkLastSubmissionDateLapse()
+interface UserLastSubmission {
+    email: string;
+    last_submission_date: Date;
 }
 
 export default class Email {
@@ -38,10 +51,10 @@ export default class Email {
                 throw new ExpressError('Invalid application status type', 422); 
         }
 
-        const msg:MailDataRequired =  {
+        const msg: MailDataRequired =  {
             to: sendTo, // recipient
-            from: 'mmcdevitt@blend.com', // verified sender
-            templateId: 'd-20f55b9ef7544032b9a513dba0e20352',
+            from: verifiedSender,
+            templateId: 'd-20f55b9ef7544032b9a513dba0e20352', //Confirmation Template
             dynamicTemplateData: {
                 subject,
                 text,
@@ -57,5 +70,54 @@ export default class Email {
         } catch(err) {
             throw new ExpressError(`Err: ${err}`, 400);
         }
+    }
+
+    static async sendEndDateWarning(userArray: UserEndDate[]): Promise<void> {
+        userArray.forEach(async (user) => {
+            const msg: MailDataRequired = {
+                to: user.email,
+                from: verifiedSender,
+                templateId: 'd-c8a1b226ee0d41c286ce8b2ce373f62c', //Warning Template
+                dynamicTemplateData: {
+                    subject: `Your membership to Learning Circle expires soon!`,
+                    body: `Your monthly membership is coming to an end on ${user.membership_end_date}. If you would like to renew it for another month, go to your account to make a payment.`,
+                    renewText: 'Come back for another month.',
+                    buttonUrl: frontendUrl
+                }
+            }
+
+            try {
+                const emailRes = await sgMail.send(msg);
+                console.log(emailRes);
+                console.log('Email sent')
+            } catch(err) {
+                throw new ExpressError(`Err: ${err}`, 400);
+            }
+        })
+    }
+
+    static async sendNoContentWarning(userArray: UserLastSubmission[]): Promise<void> {
+        userArray.forEach(async (user) => {
+            const dueDate = null; //calculate due date
+            const msg: MailDataRequired = {
+                to: user.email,
+                from: verifiedSender,
+                templateId: 'd-c8a1b226ee0d41c286ce8b2ce373f62c', //Warning Template
+                dynamicTemplateData: {
+                    subject: `Your may lose your membership to Learning Circle soon!`,
+                    body: `The last time you submitted a post was ${user.last_submission_date}. If you don\'t want your membership to lapse, please submit a post by ${dueDate}.`,
+                    renewText: 'Post now',
+                    buttonUrl: frontendUrl + 'blogs/create'
+                }
+            }
+
+            try {
+                const emailRes = await sgMail.send(msg);
+                console.log(emailRes);
+                console.log('Email sent')
+            } catch(err) {
+                throw new ExpressError(`Err: ${err}`, 400);
+            }
+        })
     }
 }
