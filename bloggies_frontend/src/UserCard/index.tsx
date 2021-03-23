@@ -7,7 +7,7 @@ import moment from "moment";
 import "./UserCard.css";
 
 interface IProp {
-  user: User
+  user: User;
 }
 
 /**
@@ -19,14 +19,20 @@ function UserCard({ user }: IProp) {
     <Card className="UserCard text-left">
       <Card.Body>
         <Card.Text className="BlogCard-body">
-          <NavLink to={`/users/${user.id}/${changeToURLFriendly(user.display_name)}`}>
+          <NavLink
+            to={`/users/${user.id}/${changeToURLFriendly(user.display_name)}`}
+          >
             {user.display_name}
           </NavLink>
         </Card.Text>
-        <Card.Subtitle>Joined {moment(user.membership_start_date).fromNow()}</Card.Subtitle>
+        {user.membership_start_date !== null ? (
+          <Card.Subtitle>
+            Premium Member Since {moment(user.membership_start_date).fromNow()}
+          </Card.Subtitle>
+        ) : null}
       </Card.Body>
     </Card>
   );
-};
+}
 
 export default UserCard;
