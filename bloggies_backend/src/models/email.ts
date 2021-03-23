@@ -18,18 +18,21 @@ export default class Email {
         switch (type) {
             case 'accepted':
                 subject = 'Confirmation Email from Learning Circle';
-                text = 'Welcome to the Learning Circle!';
+                text = 'Congratulations! You are invited to join the Learning Circle. Log in to your account to pay for your membership and reap the benefits. Welcome to our community of bloggers!';
                 buttonText = 'Log in to your account';
                 break;
             case 'pending':
                 subject = 'We need more information';
-                text = 'Before we can confirm your membership, please follow the link to answer questions';
-                buttonText = 'Click here to answer questions';
+                text = 'Before we can confirm your membership, we need more information from you. Please follow the link to answer questions.';
+                buttonText = 'Click here to answer more questions';
                 break;
             case 'rejected':
                 subject = 'Regrets from Learning Circle';
-                text = 'Thank you for your interest, but unfortunately we cannot grant you membership at this time.';
+                text = 'We appreciate your interest, but unfortunately we cannot grant you membership at this time.';
                 buttonText = 'View our free blogs';
+                break;
+            default:
+                throw new ExpressError('Invalid application status type', 422); 
         }
         const msg:MailDataRequired =  {
             to: sendTo, // recipient

@@ -2,7 +2,6 @@ import { Express, Request, Response, NextFunction } from "express";
 import ExpressError from "./expressError";
 import express from "express";
 import cors from "cors";
-import cron from "node-cron";
 import CookieParser from 'cookie-parser';
 import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./middleware/auth";
