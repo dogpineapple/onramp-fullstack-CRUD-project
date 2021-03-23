@@ -87,20 +87,4 @@ export default class User {
       );
     return res.rows[0];
   }
-
-  static async checkExpiringMemberships() {
-      const dueDate = new Date();
-      const date = dueDate.getDate() + 3;
-      dueDate.setDate(date);
-      const res = await db.query(
-        `SELECT ua.email, u.membership_end_date
-        FROM users as u
-        JOIN user_auth as ua
-        ON u.user_id = ua.id
-        WHERE u.membership_status = $1
-        AND u.membership_end_date <= $2`,
-        ['active', dueDate]
-      )
-      return res.rows;
-  }
 }
