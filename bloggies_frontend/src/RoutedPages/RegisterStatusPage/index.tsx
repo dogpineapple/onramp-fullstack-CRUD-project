@@ -1,5 +1,6 @@
-import React from "react";
-import { User } from "../../custom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { CustomReduxState, User } from "../../custom";
 
 /**
  * RegisterStatusPage renders a successful registration page and shows
@@ -9,16 +10,29 @@ import { User } from "../../custom";
 //     user: User
 // }
 function RegisterStatusPage() {
-    // if (user.membership_status === 'accepted') {
+  const checkStatus = useSelector(
+    (st: CustomReduxState) => st.user.membership_status
+  );
+  const [status, setStatus] = useState("");
 
-    // }
-    return (
-        <div className="RegisterStatusPage">
-            Registration completed.
-            Either membership approved or pending membership will show here
-        </div>
-    )
+  let text: string | null = null;
+
+    useEffect(() => {
+    setStatus(checkStatus);
+
+  }, [status]);
+
+    if (status === "none") {
+      text = "";
+    } else if (status === "rejected") {
+      text = "rejected";
+    } else if (status === "pending") {
+      text = "pending";
+    } else if (status === "accepted") {
+      text = "accepted";
+    }
+    
+  return <div className="RegisterStatusPage">{text}</div>;
 }
 
 export default RegisterStatusPage;
-
