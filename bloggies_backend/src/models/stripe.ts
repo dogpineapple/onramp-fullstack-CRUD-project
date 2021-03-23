@@ -1,11 +1,11 @@
-import Stripe from "stripe";
 import ExpressError from "../expressError";
-import {STRIPE_API_KEY} from '../config';
+import {TEST_PRODUCT_ID} from '../config';
+import { stripe } from '../routes/stripe';
 
 /* create new Stripe instance to facilitate interactions with Stripe API*/
-const stripe = new Stripe(STRIPE_API_KEY as string, {
-  apiVersion: "2020-08-27",
-});
+// const stripe = new Stripe(STRIPE_API_KEY as string, {
+//   apiVersion: "2020-08-27",
+// });
 
 export default class Checkout {
   /** create a new checkout session
@@ -43,14 +43,27 @@ export default class Checkout {
   }
 
 
-  static async stripeCreateCustomer(userId: number) {
+  static async stripeCreateCustomer(userId: number, email: string, paymentMethodId?: string) {
     const newCustomer = await stripe.customers.create({
-      description: userId.toString()
+      payment_method: paymentMethodId,
+      email: email,
+      description: userId.toString(),
+      invoice_settings: {
+        default_payment_method: paymentMethodId
+      }
     });
-    return newCustomer.id;
+    return newCustomer;
   }
 
-  static async stripeCreateSubscription() {
-
+  static async stripeCreateSubscription(customerId: string) {
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{
+        plan: TEST_PRODUCT_ID,
+      }],
+      expand: ["latest_invoice.payment_intent"]
+    });
+    return subscription;
   }
+
 }
