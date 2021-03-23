@@ -7,11 +7,17 @@ import "./CommentCard.css";
 import CommentForm from "../Forms/CommentForm";
 import { useHistory } from "react-router";
 import { changeToURLFriendly } from "./../helpers";
+import styled from "styled-components";
+import { DEFAULT_COLOR } from "../theme";
 
 interface IProp {
   comment: Comment,
   handlePostReply: Function | undefined
 }
+
+const StyledCardText = styled(Card.Text)`
+  color: ${DEFAULT_COLOR.commentBodyText};
+`
 
 /** 
  * `CommentCard` renders a Comment object as a Card UI item.
@@ -51,7 +57,7 @@ function CommentCard({ comment, handlePostReply }: IProp) {
     <div className="CommentCard text-left">
       <Card>
         <Card.Body>
-          <Card.Text>{comment.body}</Card.Text>
+          <StyledCardText>{comment.body}</StyledCardText>
           <div className="text-muted d-flex justify-content-between">
             <span className="d-flex flex-row align-items-center">
               <span className="App-author ml-2 mr-1">{comment.author_name}</span>
