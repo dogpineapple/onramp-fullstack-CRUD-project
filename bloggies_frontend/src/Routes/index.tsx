@@ -14,6 +14,7 @@ import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
 import "./Routes.css";
 import UserSubscriptionPayment from "../RoutedPages/UserSubscriptionPayment";
 import UserApplicationPage from "../RoutedPages/UserApplicationPage";
+import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalApplicationPage";
 
 function Routes() {
   return (
@@ -58,7 +59,12 @@ function Routes() {
           <UserApplicationPage />
         </div>
       </Route>
-      <Route exact path="/users/register/membership-status">
+      <Route exact path="/register/membership-additional-form">
+        <div>
+          <UserAddtionalApplicationPage />
+        </div>
+      </Route>
+      <Route exact path="/register/membership-status">
         <RegisterStatusPage />
       </Route>
       <Route exact path="/users/register">

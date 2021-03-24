@@ -9,15 +9,15 @@ import './Register.css';
 
 interface SignUpFormData {
   email: string,
-  password: string, 
+  password: string,
   repeatPassword: string,
-  display_name: string 
+  display_name: string
 }
 
 /**
  * `Register` renders the page for user registration, the `SignUpForm`.
  * This component holds the function to create an API call to sign up a
- * user by a POST request with the sign up form data. 
+ * user by a POST request with the sign up form data.
  */
 function Register() {
   const dispatch = useDispatch();
@@ -34,19 +34,19 @@ function Register() {
         "Content-type": "application/json"
       }
     });
-    console.log(data)
+    console.log('user data: ', data)
     const userRes = await res.json();
     // set the user's token into the localStorage.
     // Deprecated: No longer storing token in localStorage; Exists as cookie
     // localStorage.setItem("token", userRes.token);
-    
+
     if (res.status === 201) {
       // update the redux store state with user information.
       dispatch(gotUserInfo(userRes.user));
       history.push("/");
     } else {
       setServerErr(userRes.error.message);
-    }; 
+    };
   }
 
   // POST-SUBMIT CSS FIX: Replace the `row` under Container to be a regular div. (Caused 15px spacing on side)

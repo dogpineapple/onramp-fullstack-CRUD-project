@@ -9,7 +9,7 @@ import Stripe from "stripe";
 
 export const usersRouter = express.Router();
 
-/** SEARCH /users/search?term=[term] - get all users matching search term. 
+/** SEARCH /users/search?term=[term] - get all users matching search term.
  * Returns users */
 usersRouter.get("/search", async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -24,7 +24,7 @@ usersRouter.get("/search", async function (req: Request, res: Response, next: Ne
   }
 });
 
-/** GET /users - get the currently logged in user. Requires logged in. 
+/** GET /users - get the currently logged in user. Requires logged in.
  * Return a user object */
 usersRouter.get("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -42,6 +42,7 @@ usersRouter.get("/", ensureLoggedIn, async function (req: Request, res: Response
 usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
   const { appStatus } = req.body;
   const { user_id, email } = req.user;
+
   let sub: Stripe.Subscription;
   let updatedUser;
 
