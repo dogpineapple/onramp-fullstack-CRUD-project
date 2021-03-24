@@ -16,23 +16,29 @@ export const stripe = new Stripe(MY_STRIPE_API_KEY as string, {
 stripeRouter.post("/webhook", async function (req: Request, res: Response, next: NextFunction) {
   let event = req.body;
   let data: any;
+  let sub: Stripe.Subscription;
 
   switch (event.type) {
+    case 'invoice.upcoming':
+      data = event.data.object;
+      console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
     case 'invoice.paid':
       data = event.data.object;
       console.log(`invoice PAID for: ${data.customer}`);
-      const sub = await stripe.subscriptions.retrieve(data.subscription);
+      sub = await stripe.subscriptions.retrieve(data.subscription);
       await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
       break;
     case 'invoice.payment_failed':
       data = event.data.object;
       console.log(`invoice failed for: ${data.customer}`);
-      await User.cancelSubscription(data.subscription);
+      sub = await stripe.subscriptions.retrieve(data.subscription);
+      await User.cancelSubscription(data.subscription, sub.current_period_end);
       break;
     case 'customer.subscription.deleted':
       console.log("subscription deleted");
-
-      await User.cancelSubscription(data.subscription);
+      data = event.data.object;
+      sub = await stripe.subscriptions.retrieve(data.subscription);
+      await User.cancelSubscription(data.subscription, sub.current_period_end);
       break;
     case 'payment_intent.succeeded':
       console.log(`PaymentIntent success for ${event.data.object.amount}`);
