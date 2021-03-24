@@ -22,7 +22,8 @@ export default class User {
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT user_id AS id, display_name, membership_status, membership_start_date, membership_end_date, last_submission_date
+      `SELECT user_id AS id, display_name, membership_status, membership_start_date, 
+      membership_end_date, last_submission_date, subscription_id, customer_id
         FROM users
         WHERE user_id = $1`,
       [userId]);
@@ -59,21 +60,15 @@ export default class User {
     return res.rows[0];
   }
 
-  /** Update the membership status after the application is complete and front end sends the status */
-  /** If status has been changed to "active", update membership start date and end date */
-  static async updateMembership(user_id: number, appStatus: string) {
-    const now = appStatus === ACTIVE ? new Date() : null;
-    let membershipExpiration = null;
-    if(now) {
-      membershipExpiration = new Date();
-      membershipExpiration.setMonth(now.getMonth() + 1);
-    }
+  /** Update the membership status after the application is complete and front end sends the status.
+   * If status has been changed to "active", update membership start date and end date */
+  static async updateMembership(userId: number, appStatus: string, startDate?: number, endDate?: number) {
     const res = await db.query(
       `UPDATE users
         SET membership_status = $1, membership_start_date = $2, membership_end_date = $3
         WHERE user_id = $4
         RETURNING user_id, membership_status, membership_start_date, membership_end_date`,
-        [appStatus, now, membershipExpiration, user_id]);
+        [appStatus, startDate, endDate, userId]);
     return res.rows[0];
   }
 
