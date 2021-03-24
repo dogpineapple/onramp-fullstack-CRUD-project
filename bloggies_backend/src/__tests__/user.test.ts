@@ -1,6 +1,6 @@
 import User from "../models/user";
 import db from "../db";
-import { NONE } from "../membershipEligibility";
+import { NONE } from "../membershipStatuses";
 
 let validUserId: number;
 

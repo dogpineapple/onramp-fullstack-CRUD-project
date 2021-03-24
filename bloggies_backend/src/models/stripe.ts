@@ -1,11 +1,7 @@
-import Stripe from "stripe";
 import ExpressError from "../expressError";
-import {STRIPE_API_KEY} from '../config';
+import {PRODUCT_ID} from '../config';
+import { stripe } from '../routes/stripe';
 
-/* create new Stripe instance to facilitate interactions with Stripe API*/
-const stripe = new Stripe(STRIPE_API_KEY as string, {
-  apiVersion: "2020-08-27",
-});
 
 export default class Checkout {
   /** create a new checkout session
@@ -38,7 +34,32 @@ export default class Checkout {
     }
   }
 
-  static async stripeSubscriptionCancel() {
-    return 'User wants to delete subscription - logic not yet set up'
+  static async stripeSubscriptionCancel(subscriptionId: string) {
+    const deletedSubscription = await stripe.subscriptions.del(subscriptionId);
+    return deletedSubscription;
   }
+
+  static async stripeCreateCustomer(userId: number, email: string, paymentMethodId?: string) {
+    const newCustomer = await stripe.customers.create({
+      payment_method: paymentMethodId,
+      email: email,
+      description: userId.toString(),
+      invoice_settings: {
+        default_payment_method: paymentMethodId
+      }
+    });
+    return newCustomer;
+  }
+
+  static async stripeCreateSubscription(customerId: string) {
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{
+        plan: PRODUCT_ID,
+      }],
+      expand: ["latest_invoice.payment_intent"]
+    });
+    return subscription;
+  }
+
 }

@@ -56,7 +56,7 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
       return { ...state, posts: filteredPosts, favorites: newFavorites };
     case t.ADD_POST:
       const newPost = action.payload.post;
-      // add in the current user's information 
+      // add in the current user's information
       newPost.author_name = state.user.display_name;
       newPost.author_id = state.user.id;
       newPost.bookmark_count = 0;
@@ -71,6 +71,14 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
         return p;
       })
       return { ...state, posts: updatedPostList }
+    case t.UPDATE_USER_STATUS:
+      const updatedUser = action.payload.user;
+      const stringifiedUser = JSON.stringify(state.user);
+      const copyOfUpdatedUser = JSON.parse(stringifiedUser);
+      const newUserInfo = {
+        ...copyOfUpdatedUser, ...updatedUser
+      }
+      return {...state, user: newUserInfo};
     case t.LOGOUT:
       // reset all states related to a current user.
       return { ...state, user: {}, favorites: [] };

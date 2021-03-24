@@ -35,7 +35,6 @@ export default class Email {
             default:
                 throw new ExpressError('Invalid application status type', 422); 
         }
-
         const msg:MailDataRequired =  {
             to: sendTo, // recipient
             from: 'mmcdevitt@blend.com', // verified sender
@@ -50,7 +49,7 @@ export default class Email {
 
         try {
             const emailRes = await sgMail.send(msg);
-            console.log(emailRes);
+            console.log('email Res: ', emailRes);
             console.log('Email sent')
         } catch(err) {
             throw new ExpressError(`Err: ${err}`, 400);
