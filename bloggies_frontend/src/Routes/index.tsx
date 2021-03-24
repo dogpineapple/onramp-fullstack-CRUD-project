@@ -20,7 +20,7 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/users/:userId/settings">
-        <div className="Routes-thin-container">
+        <div>
           <UserSettingsPage />
         </div>
       </Route>
