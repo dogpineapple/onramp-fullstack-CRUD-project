@@ -74,7 +74,7 @@ VALUES
 
 INSERT INTO users(user_id, display_name, membership_status, membership_start_date, membership_end_date) 
 VALUES 
-    (3, 'StrawberryBasilFan', 'accepted', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + interval '30 days');
+    (3, 'StrawberryBasilFan', 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + interval '30 days');
 
 INSERT INTO posts(title, description, body, author_id, is_premium) 
 VALUES

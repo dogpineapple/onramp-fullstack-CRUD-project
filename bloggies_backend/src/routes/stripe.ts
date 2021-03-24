@@ -20,20 +20,13 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
   switch (event.type) {
     case 'invoice.paid':
       data = event.data.object;
-      console.log(`
-          invoice PAID for: ${data.customer}, 
-          email: ${data.customer_email}. 
-          subscription: ${data.subscription}`);
-
-      await User.startSubscription(data.subscription);
+      console.log(`invoice PAID for: ${data.customer}`);
+      const sub = await stripe.subscriptions.retrieve(data.subscription);
+      await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
       break;
     case 'invoice.payment_failed':
       data = event.data.object;
-      console.log(`
-        invoice failed for: ${data.customer}, 
-        email: ${data.customer_email}. 
-        subscription: ${data.subscription}`);
-
+      console.log(`invoice failed for: ${data.customer}`);
       await User.cancelSubscription(data.subscription);
       break;
     case 'customer.subscription.deleted':
