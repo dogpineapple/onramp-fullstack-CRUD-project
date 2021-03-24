@@ -1,9 +1,8 @@
 import sgMail from '@sendgrid/mail';
 import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 import ExpressError from "../expressError";
-import { SENDGRID_API_KEY } from '../config';
+import { SENDGRID_API_KEY, FRONTEND_URL } from '../config';
 
-const frontendUrl = "http://localhost:3000/"; //use env variables to move this to hosted site when applicable
 const verifiedSender = "mmcdevitt@blend.com";
 
 if(SENDGRID_API_KEY) {
@@ -29,7 +28,7 @@ export default class Email {
         let subject;
         let text;
         let buttonText;
-        let buttonUrl = frontendUrl;
+        let buttonUrl = FRONTEND_URL;
         switch (type) {
             case 'accepted':
                 subject = 'Confirmation Email from Learning Circle';
@@ -40,7 +39,7 @@ export default class Email {
                 subject = 'We need more information';
                 text = 'Before we can confirm your membership, we need more information from you. Please follow the link to answer questions.';
                 buttonText = 'Click here to answer more questions';
-                buttonUrl = frontendUrl + 'register/membership-form';
+                buttonUrl = FRONTEND_URL + 'register/membership-form';
                 break;
             case 'rejected':
                 subject = 'Regrets from Learning Circle';
@@ -82,7 +81,7 @@ export default class Email {
                     subject: `Your membership to Learning Circle expires soon!`,
                     body: `Your monthly membership is coming to an end on ${user.membership_end_date}. If you would like to renew it for another month, go to your account to make a payment.`,
                     renewText: 'Come back for another month.',
-                    buttonUrl: frontendUrl
+                    buttonUrl: FRONTEND_URL
                 }
             }
 
@@ -107,7 +106,7 @@ export default class Email {
                     subject: `Your may lose your membership to Learning Circle soon!`,
                     body: `The last time you submitted a post was ${user.last_submission_date}. If you don\'t want your membership to lapse, please submit a post by ${dueDate}.`,
                     renewText: 'Post now',
-                    buttonUrl: frontendUrl + 'blogs/create'
+                    buttonUrl: FRONTEND_URL + 'blogs/create'
                 }
             }
 

@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
+import { ACTIVE } from "../config";
 import { CustomReduxState } from "../custom";
 import { changeToURLFriendly } from "../helpers";
 import { logoutUser } from "../redux/actionCreators";
@@ -33,6 +34,36 @@ function NavBar() {
     history.push("/");
   };
 
+
+  const renderLoggedInNavLinks = () => {
+    if (user.membership_status === ACTIVE) {
+      return (
+        <>
+          <NavLink exact to={`/blogs/create`}>
+            compose blog
+          </NavLink>
+          <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>
+            my profile
+          </NavLink>
+          <NavLink exact to={`/users/${user.id}/settings`}>
+            premium settings
+          </NavLink>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>
+            my profile
+          </NavLink>
+          <NavLink exact to="/register/membership-form">
+            get premium
+          </NavLink>
+        </>
+      );
+    }
+  }
+
   return (
     <Navbar className="NavBar" variant="dark" expand="lg">
       <NavLink to="/">
@@ -49,15 +80,7 @@ function NavBar() {
           </NavLink>
           {user.id ? (
             <Fragment>
-              <NavLink exact to="/register/membership-form">
-                get premium
-              </NavLink>
-              <NavLink exact to={`/blogs/create`}>
-                compose blog
-              </NavLink>
-              <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>
-                my profile
-              </NavLink>
+              { renderLoggedInNavLinks()}
               <Button
                 variant="danger"
                 className="NavBar-logout-btn"
@@ -65,17 +88,17 @@ function NavBar() {
               >
                 logout
               </Button>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <NavLink exact to="/users/login">
-                login
+            </Fragment>)
+            : (
+              <Fragment>
+                <NavLink exact to="/users/login">
+                  login
               </NavLink>
-              <NavLink exact to="/users/register">
-                sign up
+                <NavLink exact to="/users/register">
+                  sign up
               </NavLink>
-            </Fragment>
-          )}
+              </Fragment>
+            )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
