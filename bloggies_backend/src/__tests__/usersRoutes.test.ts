@@ -4,7 +4,7 @@ import app from "../app";
 import db from "../db";
 import UserAuth from "../models/userAuth";
 import User from "../models/user";
-import { NONE } from "../membershipEligibility";
+import { NONE } from "../membershipStatuses";
 
 
 describe("Test User routes", function () {

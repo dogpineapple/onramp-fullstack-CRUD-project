@@ -1,7 +1,7 @@
 import sgMail from '@sendgrid/mail';
 import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 import ExpressError from "../expressError";
-import { SENDGRID_API_KEY } from '../config';
+import { SENDGRID_API_KEY, FRONTEND_URL } from '../config';
 
 if(SENDGRID_API_KEY) {
     sgMail.setApiKey(SENDGRID_API_KEY);
@@ -13,30 +13,38 @@ export default class Email {
     static async sendConfirmation(sendTo: string, type: string): Promise<void> {
         let subject;
         let text;
-        let html;
+        let buttonText;
+        let buttonUrl = FRONTEND_URL;
         switch (type) {
             case 'accepted':
                 subject = 'Confirmation Email from Learning Circle';
-                text = 'Welcome to the Learning Circle!';
+                text = 'Congratulations! You are invited to join the Learning Circle. Log in to your account to pay for your membership and reap the benefits. Welcome to our community of bloggers!';
+                buttonText = 'Log in to your account';
                 break;
             case 'pending':
                 subject = 'We need more information';
-                text = 'Before we can confirm your membership, please follow the link to answer questions';
-                html = '<a href="/">Click here to answer questions</a>'
+                text = 'Before we can confirm your membership, we need more information from you. Please follow the link to answer questions.';
+                buttonText = 'Click here to answer more questions';
+                buttonUrl = FRONTEND_URL + 'register/membership-form';
                 break;
             case 'rejected':
                 subject = 'Regrets from Learning Circle';
-                text = 'Thank you for your interest, but unfortunately we cannot grant you membership at this time.'
+                text = 'We appreciate your interest, but unfortunately we cannot grant you membership at this time.';
+                buttonText = 'View our free blogs';
+                break;
+            default:
+                throw new ExpressError('Invalid application status type', 422); 
         }
-        console.log( 'send To: ' , sendTo)
-        console.log('message: ', text, subject)
         const msg:MailDataRequired =  {
             to: sendTo, // recipient
             from: 'mmcdevitt@blend.com', // verified sender
-            subject,
-            text,
-            html,
-            templateId: '13b8f94f-bcae-4ec6-b752-70d6cb59f932' //temporary template!
+            templateId: 'd-20f55b9ef7544032b9a513dba0e20352',
+            dynamicTemplateData: {
+                subject,
+                text,
+                buttonText,
+                buttonUrl
+            }
         }
 
         try {
