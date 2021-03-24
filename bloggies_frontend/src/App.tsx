@@ -9,9 +9,12 @@ import { getUserFavoritesFromAPI, getUserInfoFromAPI } from './redux/actionCreat
 import NavBar from './NavBar';
 import { CustomReduxState } from './custom';
 import { getCookie } from './helpers';
+import { ThemeProvider } from 'styled-components';
+import { defaultAppTheme, GlobalStyles, premiumAppTheme } from './theme';
+
 
 function App() {
-  const userId = useSelector((st: CustomReduxState) => st.user.id);
+  const currentUser = useSelector((st: CustomReduxState) => st.user);
   const serverErr = useSelector((st: CustomReduxState) => st.serverErr);
   const dispatch = useDispatch();
 
@@ -20,20 +23,23 @@ function App() {
     // if the user has not signed out from previous session and
     // still has a token, retrieve the user's information by
     // id upon App mount.
-    if (token && !userId) {
+    if (token && !currentUser.id) {
       dispatch(getUserInfoFromAPI());
-      dispatch(getUserFavoritesFromAPI(userId));
+      dispatch(getUserFavoritesFromAPI(currentUser.id));
     }
   }, []);
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        {serverErr && <div className="App-server-error">{serverErr}</div>}
-        <NavBar />
-        <Routes />
-      </BrowserRouter>
-    </div >
+    <ThemeProvider theme={currentUser.membership_status === "active" ? premiumAppTheme : defaultAppTheme}>
+      <GlobalStyles />
+      <div className="App">
+        <BrowserRouter>
+          {serverErr && <div className="App-server-error">{serverErr}</div>}
+          <NavBar />
+          <Routes />
+        </BrowserRouter>
+      </div >
+    </ThemeProvider>
   );
 }
 

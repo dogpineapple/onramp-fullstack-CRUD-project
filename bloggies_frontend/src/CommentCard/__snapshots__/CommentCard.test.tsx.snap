@@ -14,13 +14,17 @@ exports[`CommentCard should match snapshot 1`] = `
         <div
           className="card-body"
         >
-          <CardText>
-            <p
-              className="card-text"
+          <Styled(CardText)>
+            <CardText
+              className="sc-bdfBwQ dhWHrV"
             >
-              test comment
-            </p>
-          </CardText>
+              <p
+                className="sc-bdfBwQ dhWHrV card-text"
+              >
+                test comment
+              </p>
+            </CardText>
+          </Styled(CardText)>
           <div
             className="text-muted d-flex justify-content-between"
           >

@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
+import { ACTIVE } from "../config";
 import { CustomReduxState } from "../custom";
 import { changeToURLFriendly } from "../helpers";
 import { logoutUser } from "../redux/actionCreators";
@@ -31,32 +32,77 @@ function NavBar() {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     dispatch(logoutUser());
     history.push("/");
+  };
+
+
+  const renderLoggedInNavLinks = () => {
+    if (user.membership_status === ACTIVE) {
+      return (
+        <>
+          <NavLink exact to={`/blogs/create`}>
+            compose blog
+          </NavLink>
+          <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>
+            my profile
+          </NavLink>
+          <NavLink exact to={`/users/${user.id}/settings`}>
+            premium settings
+          </NavLink>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>
+            my profile
+          </NavLink>
+          <NavLink exact to="/register/membership-form">
+            get premium
+          </NavLink>
+        </>
+      );
+    }
   }
 
   return (
     <Navbar className="NavBar" variant="dark" expand="lg">
       <NavLink to="/">
-        <span className="NavBar-title"><FontAwesomeIcon icon={faBlog}/> bloggies.</span>
+        <span className="NavBar-title">
+          <FontAwesomeIcon icon={faBlog} /> bloggies.
+        </span>
       </NavLink>
       <SearchBar />
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto NavBar-list">
-          <NavLink exact to="/">newsfeed</NavLink>
-          {user.id ?
+          <NavLink exact to="/">
+            newsfeed
+          </NavLink>
+          {user.id ? (
             <Fragment>
-              <NavLink exact to={`/blogs/create`}>compose blog</NavLink>
-              <NavLink exact to={`/users/${user.id}/${urlDisplayName}`}>my profile</NavLink>
-              <Button variant="danger" className="NavBar-logout-btn" onClick={handleLogout}>logout</Button>
-            </Fragment>
-            : <Fragment>
-              <NavLink exact to="/users/login">login</NavLink>
-              <NavLink exact to="/users/register">sign up</NavLink>
-            </Fragment>}
+              { renderLoggedInNavLinks()}
+              <Button
+                variant="danger"
+                className="NavBar-logout-btn"
+                onClick={handleLogout}
+              >
+                logout
+              </Button>
+            </Fragment>)
+            : (
+              <Fragment>
+                <NavLink exact to="/users/login">
+                  login
+              </NavLink>
+                <NavLink exact to="/users/register">
+                  sign up
+              </NavLink>
+              </Fragment>
+            )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
-};
+}
 
 export default NavBar;

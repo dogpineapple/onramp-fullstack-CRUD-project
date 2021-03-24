@@ -34,10 +34,10 @@ describe('CommentList', () => {
   it('should display comments', () => {
     const commentCards = wrapper.find(CommentCard);
     const firstComment = wrapper.containsMatchingElement(
-      <p className="card-text">
+      <p className="sc-bdfBwQ dhWHrV card-text">
         first test comment
       </p>
-    )
+    );
 
     expect(commentCards).toHaveLength(2);
     expect(firstComment).toBeTruthy();

@@ -48,7 +48,7 @@ function FavoriteButton({ post }: IProp) {
     if (!getCookie("token")) {
       alert("Must be signed in to favorite.");
     } else {
-      let currFavCount = parseInt(post.favorite_count);
+      let currFavCount = parseInt(post.bookmark_count);
       switch (type) {
         case "ADD":
           setFavorited(true);
@@ -56,14 +56,14 @@ function FavoriteButton({ post }: IProp) {
           // if the redux store's `posts` state is empty, 
           //    the component need to manually update the favCount to display.
           if (posts.length === 0) {
-            post.favorite_count = (currFavCount + 1).toString();
+            post.bookmark_count = (currFavCount + 1).toString();
           }
           break;
         case "DELETE":
           setFavorited(false);
           dispatch(deleteFavoriteFromAPI(post.id));
           if (posts.length === 0) {
-            post.favorite_count = (currFavCount - 1).toString();
+            post.bookmark_count = (currFavCount - 1).toString();
           }
           break;
         default:
@@ -79,7 +79,7 @@ function FavoriteButton({ post }: IProp) {
         :
         <FontAwesomeIcon className="FavoriteButton-btn" icon={farHeart} size="1x" onClick={() => handleFavorites("ADD")} />
       }
-      <span>{post.favorite_count}</span>
+      <span>{post.bookmark_count}</span>
     </div>
   );
 };

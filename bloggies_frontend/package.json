@@ -12,6 +12,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@sendgrid/mail": "^7.4.2",
     "@stripe/react-stripe-js": "^1.4.0",
     "@stripe/stripe-js": "^1.13.1",
     "@testing-library/jest-dom": "^5.11.4",
@@ -20,10 +21,11 @@
     "@types/enzyme": "^3.10.8",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.0.0",
-    "@types/react": "^16.14.5",
-    "@types/react-dom": "^16.9.11",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-mock-store": "^1.0.2",
+    "@types/styled-components": "^5.1.9",
     "bootstrap": "^4.5.3",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
@@ -43,7 +45,8 @@
     "stripe": "^8.138.0",
     "styled-components": "^5.2.1",
     "typescript": "^4.0.3",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "yarn.lock": "^0.0.1-security"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -73,6 +76,7 @@
     "@types/react-redux": "^7.1.15",
     "@types/react-stripe-elements": "^6.0.4",
     "@types/redux-persist": "^4.3.1",
+    "@types/styled-components": "^5.1.9",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "redux-devtools-extension": "^2.13.8"
   }

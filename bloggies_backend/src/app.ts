@@ -9,8 +9,8 @@ import { postsRouter } from "./routes/posts";
 import { bookmarksRouter } from "./routes/bookmarks";
 import { commentsRouter } from "./routes/comments";
 import { stripeRouter } from "./routes/stripe";
-import { userAuthRouter } from "./routes/userAuth";
-import { sendgridRouter } from "./routes/sendgrid";
+import { userAuthRouter } from "./routes/userAuths";
+import { sendgridRouter } from "./routes/emails";
 
 const corsOptions = {
   origin: "http://localhost:3000",

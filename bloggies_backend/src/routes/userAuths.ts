@@ -2,28 +2,26 @@ import express, { NextFunction, Request, Response } from "express";
 import ExpressError from "../expressError";
 import UserAuth from "../models/userAuth";
 import User from "../models/user";
-import { NONE } from "../membershipEligibility";
 
 export const userAuthRouter = express.Router();
 
-/** POST /user-auth/register - creates a new user. 
+/** POST /user-auth/register - creates a new user.
  * Returns user object & a jwt cookie */
 userAuthRouter.post("/register", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { email, password, display_name } = req.body;
-   
-    if (email && password && display_name) {
-      const authResult = await UserAuth.register(email, password);
-      await User.createUser(authResult.user.id, display_name);
 
+    if (email && password && display_name) {
+      const notUnique = await User.checkForUniqueDisplayName(display_name);
+      if(notUnique) throw new ExpressError("That Display Name is already taken. Please choose another one", 403);
+
+      const authResult = await UserAuth.register(email, password);
+      const userInfo = await User.createUser(authResult.user.id, display_name);
+      console.log('User Info: ', userInfo)
       const respObject = {
         user: {
           ...authResult.user,
-          display_name,
-          membership_status: NONE,
-          membership_start_date: null,
-          membership_end_date: null,
-          last_submission_date: null
+          ...userInfo
         }
       };
       res.cookie("token", authResult.token);
@@ -37,7 +35,7 @@ userAuthRouter.post("/register", async function (req: Request, res: Response, ne
   }
 });
 
-/** POST /user-auth/login - authenticate credentials and login a user. 
+/** POST /user-auth/login - authenticate credentials and login a user.
  * Returns user object & a jwt cookie*/
 userAuthRouter.post("/login", async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -46,9 +44,16 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
     const user = await User.getUser(authResult.user.id);
 
     res.cookie("token", authResult.token);
-    
+
     return res.json({ user: { ...user, email } });
   } catch (err) {
     return next(err);
   }
 });
+
+/** gives us a way to test logging out on the back end */
+userAuthRouter.post("/logout", async function (req: Request, res: Response, next: NextFunction) {
+  res.cookie("token", null);
+  const logout = 'user logged out'
+  return res.send(logout);
+})
