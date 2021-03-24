@@ -1,58 +1,29 @@
-import React, { useState } from "react";
-import {
-  Elements,
-  CardElement,
-} from "@stripe/react-stripe-js";
+import React, { ReactEventHandler, useState } from "react";
 import "./PaymentPage.css"
 import styled from 'styled-components'
+import { CardElement, useStripe, useElements} from "@stripe/react-stripe-js"; 
+import {CreateTokenCardData} from '@stripe/stripe-js';
+
 
 const PaymentPage = ()  => {
-  
-  const [paymentLoading, setPaymentLoading] = useState(false)
-  
-  
+
   return (
-    
-    <div
-      style={{
-        maxWidth: "500px",
-        margin: "0 auto",
-      }}
-    >
-      <form
-        style={{
-          display: "block",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <CardElement
-            className="card"
-            options={{
-              style: {
-                base: {
-                  backgroundColor: "white",
-                } 
-              },
-            }}
-          />
-          <button
-            className="pay-button"
-            disabled={paymentLoading}
-          >
-            {paymentLoading ? "Loading..." : "Pay"}
-          </button>
+       
+    <div>
+      <form id="payment-form">
+        <div id="card-element">
+          {/* <!-- Elements will create input elements here --> */}
         </div>
+
+        {/* <!-- We'll put the error messages in this element --> */}
+        <div id="card-element-errors" role="alert"></div>
+        <button type="submit">Subscribe</button>
       </form>
-    </div>
+  </div>
+
   )
 }
 
-
 export default PaymentPage;
+
+

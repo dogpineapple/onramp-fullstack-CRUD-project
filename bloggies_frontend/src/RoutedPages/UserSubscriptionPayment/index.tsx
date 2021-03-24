@@ -1,22 +1,25 @@
 import React, { useState } from "react";
-import {Elements, CardElement} from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentPage from "../PaymentPage";
+import { Elements, CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 
-
-const UserSubscriptionPayment = () => {
-    const stripe = loadStripe(
-        "pk_test_HhZvywQBKlQhmxjtLZPFI0JB00VLQoBMBe" ) 
-
-    return (
-    <div>
-        <Elements stripe={stripe}> 
-            <PaymentPage/>
-        </Elements>
-    </div>
-    )
+interface IUserFormProps {
+    message: string;
 }
 
+const UserSubscriptionPayment = () => {
+ 
 
+
+
+    
+    return (
+        <div>
+            <PaymentPage/>
+        </div>
+        )
+    }
+
+    
 export default UserSubscriptionPayment
