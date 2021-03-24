@@ -68,17 +68,21 @@ stripeRouter.post("/create-checkout-session", async function (req: Request, res:
 /** POST create a customer for a user */
 stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const { user_id, email } = req.user;
-  const customer = await Checkout.stripeCreateCustomer(user_id, email);
+  const user = await User.getUser(user_id);
 
-  await User.updateUser(user_id, { customer_id: customer.id });
+  if (!user.customer_id) {
+    const customer = await Checkout.stripeCreateCustomer(user_id, email);
 
-  return res.json({ customer });
+    await User.updateUser(user_id, { customer_id: customer.id });
+    return res.status(201).json({ customer });
+  }
+
+  return next(new ExpressError("Customer id already exists for this user.", 400));
 });
 
 /** POST create a subscription for a customer and save payment method  */
 stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
-  const { paymentMethodId, customerId } = req.body
-
+  const { paymentMethodId, customerId } = req.body;
   try {
     // save payment method info for a customer
     await stripe.paymentMethods.attach(paymentMethodId, {
@@ -99,7 +103,7 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
 
   await User.updateUser(req.user.user_id, { subscription_id: subscription.id });
 
-  return res.json({ subscription });
+  return res.status(201).json({ subscription });
 });
 
 /** DELETE cancels user's Stripe subscription */
@@ -131,7 +135,7 @@ stripeRouter.post("/retry-invoice", async function (req: Request, res: Response,
       expand: ['payment_intent']
     });
 
-    res.json(invoice);
+    res.status(201).json(invoice);
   } catch (err) {
     const expressErr = new ExpressError(err, 402);
     // card_decline error

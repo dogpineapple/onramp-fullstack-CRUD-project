@@ -101,9 +101,9 @@ export default class User {
   static async cancelSubscription(subscriptionId: string) {
     await db.query(
       `UPDATE users 
-      SET membership_status = $2, membership_end_date = $3
+      SET membership_status = $2, membership_end_date = $3, subscription_id = $4
       WHERE subscription_id = $1`,
-      [subscriptionId, INACTIVE, Date.now()]);
+      [subscriptionId, INACTIVE, Date.now(), null]);
   }
 
   /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
@@ -118,7 +118,7 @@ export default class User {
       `UPDATE users 
       SET membership_status = $2, membership_start_date = $3, membership_end_date = $4
       WHERE subscription_id = $1`,
-      [subscriptionId, ACTIVE, startTimestamp, endTimestamp ]);
+      [subscriptionId, ACTIVE, startTimestamp, endTimestamp]);
   }
 
   //checks that the display_name given at registration doesn't already exist before adding it
