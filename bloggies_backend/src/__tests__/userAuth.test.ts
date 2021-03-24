@@ -28,8 +28,8 @@ describe("Test UserAuth class", function () {
       await UserAuth.register("email", "password");
       fail("user was created with a duplicate email");
     } catch (err) {
-      expect(err.message).toBe("Email already exists");
       expect(err.status).toBe(400);
+      expect(err.message).toBe("Email already exists");
     }
   });
 
@@ -42,8 +42,8 @@ describe("Test UserAuth class", function () {
     try {
       await UserAuth.authenticate("idontexist", "password");
     } catch (err) {
-      expect(err.message).toBe("User does not exist, please try again");
       expect(err.status).toBe(400);
+      expect(err.message).toBe("User does not exist, please try again");
     }
   });
 
@@ -51,8 +51,8 @@ describe("Test UserAuth class", function () {
     try {
       await UserAuth.authenticate("email", "thispasswordiswrong");
     } catch (err) {
-      expect(err.message).toBe("Credentials do not match, please try again");
       expect(err.status).toBe(400);
+      expect(err.message).toBe("Credentials do not match, please try again");
     }
   });
 
