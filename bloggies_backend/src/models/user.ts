@@ -1,5 +1,6 @@
 import db from "../db";
 import ExpressError from "../expressError";
+import { ACTIVE, INACTIVE } from "../membershipStatuses";
 
 export default class User {
 
@@ -21,7 +22,8 @@ export default class User {
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT user_id AS id, display_name, membership_status, membership_start_date, membership_end_date, last_submission_date
+      `SELECT user_id AS id, display_name, membership_status, membership_start_date, 
+      membership_end_date, last_submission_date, subscription_id, customer_id
         FROM users
         WHERE user_id = $1`,
       [userId]);
@@ -58,24 +60,56 @@ export default class User {
     return res.rows[0];
   }
 
-  /** Update the membership status after the application is complete and front end sends the status */
-  /** If status has been changed to "accepted", update membership start date and end date */
-  static async updateMembership(user_id: number, appStatus: string) {
-    const now = appStatus === 'accepted' ? new Date() : null;
-    let membershipExpiration = null;
-    if(now) {
-      membershipExpiration = new Date();
-      membershipExpiration.setMonth(now.getMonth() + 1);
-    }
+  /** Update the membership status after the application is complete and front end sends the status.
+   * If status has been changed to "active", update membership start date and end date */
+  static async updateMembership(userId: number, appStatus: string, startDate?: number, endDate?: number) {
     const res = await db.query(
       `UPDATE users
         SET membership_status = $1, membership_start_date = $2, membership_end_date = $3
         WHERE user_id = $4
         RETURNING user_id, membership_status, membership_start_date, membership_end_date`,
-        [appStatus, now, membershipExpiration, user_id]);
+        [appStatus, startDate || null, endDate || null, userId]);
     return res.rows[0];
   }
 
+  /** Update an existing user */
+  static async updateUser(id: number, updateData: any) {
+    try {
+      let query = "";
+
+      for (let key in updateData) {
+        query = query + ` ${key} = '${updateData[key]}', `;
+      }
+
+      await db.query(
+        `UPDATE users
+        SET ${query}  
+        WHERE user_id = $1`,
+        [id]);
+    } catch (err) {
+      throw new ExpressError(`Err: ${err}`, 400);
+    }
+  }
+
+  /** Sets membership_status to INACTIVE. Sets membership_end_date 
+   * to CURRENT_TIMESTAMP. via subscription id */
+  static async cancelSubscription(subscriptionId: string, end_date: number) {
+    await db.query(
+      `UPDATE users 
+      SET membership_status = $2, membership_end_date = $3
+      WHERE subscription_id = $1`,
+      [subscriptionId, INACTIVE, end_date]);
+  }
+
+  /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
+   * Sets membership_end_date to one month from CURRENT_TIMESTAMP. via subscription id */
+   static async startSubscription(subscriptionId: string, startTime: number, endTime: number) {
+    await db.query(
+      `UPDATE users 
+      SET membership_status = $2, membership_start_date = $3, membership_end_date = $4
+      WHERE subscription_id = $1`,
+      [subscriptionId, ACTIVE, startTime, endTime]);
+  }
 
   //checks that the display_name given at registration doesn't already exist before adding it
   static async checkForUniqueDisplayName(display_name: string) {
