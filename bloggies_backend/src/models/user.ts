@@ -68,7 +68,7 @@ export default class User {
         SET membership_status = $1, membership_start_date = $2, membership_end_date = $3
         WHERE user_id = $4
         RETURNING user_id, membership_status, membership_start_date, membership_end_date`,
-        [appStatus, startDate, endDate, userId]);
+        [appStatus, startDate || null, endDate || null, userId]);
     return res.rows[0];
   }
 

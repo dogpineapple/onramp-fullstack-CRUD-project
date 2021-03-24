@@ -53,7 +53,7 @@ usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Re
       sub = await stripe.subscriptions.retrieve(currUser.subscription_id);
       updatedUser = await User.updateMembership(user_id, appStatus, sub.current_period_start, sub.current_period_end);
     } else {
-      updatedUser = await User.updateMembership(user_id, appStatus, null, null);
+      updatedUser = await User.updateMembership(user_id, appStatus);
     }
     await Email.sendConfirmation(email, appStatus);
     return res.json(updatedUser);
