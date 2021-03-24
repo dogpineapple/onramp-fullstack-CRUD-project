@@ -61,7 +61,7 @@ export default class User {
   /** Update the membership status after the application is complete and front end sends the status */
   /** If status has been changed to "accepted", update membership start date and end date */
   static async updateMembership(user_id: number, appStatus: string) {
-    const now = appStatus === 'accepted' ? new Date() : null;
+    const now = appStatus === 'active' ? new Date() : null;
     let membershipExpiration = null;
     if(now) {
       membershipExpiration = new Date();
@@ -87,7 +87,6 @@ export default class User {
       );
     return res.rows[0];
   }
-
 
   static async checkExpiringMemberships() {
     const dueDate = new Date();

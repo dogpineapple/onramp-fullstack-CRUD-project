@@ -44,6 +44,12 @@ usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Re
 
   try {
     const updatedUser = await User.updateMembership(user_id, appStatus);
+    if(appStatus === "inactive") {
+      // await Email.sendCancelation(email);
+      return res.json(updatedUser);
+    }
+    if(appStatus === "active") return res.json(updatedUser);
+
     await Email.sendConfirmation(email, appStatus);
     return res.json(updatedUser);
 
@@ -77,7 +83,7 @@ usersRouter.get("/all-memberships", async (req: Request, res: Response, next: Ne
   }
 });
 
-//route for testing learning check with Postman and sending email to results
+//route for testing last submission date check with Postman and sending email to results
 //set admin permissions?
 usersRouter.get("/all-last-submission-dates", async (req: Request, res: Response, next: NextFunction) => {
   try {

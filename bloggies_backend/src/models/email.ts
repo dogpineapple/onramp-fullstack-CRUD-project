@@ -71,18 +71,32 @@ export default class Email {
         }
     }
 
+    /** Sends a warning email to users who have not updated their subscription and an expiration email to those whose subscriptions have expired */
     static async sendEndDateWarning(userArray: UserEndDate[]): Promise<void> {
         userArray.forEach(async (user) => {
-            const msg: MailDataRequired = {
-                to: user.email,
-                from: verifiedSender,
-                templateId: 'd-c8a1b226ee0d41c286ce8b2ce373f62c', //Warning Template
-                dynamicTemplateData: {
+            let dynamicTemplateData;
+            const now = new Date();
+            //expired case
+            if(now <= user.membership_end_date) {
+                dynamicTemplateData = {
+                    subject: `Your membership to Learning Circle has expired.`,
+                    body: `Because you didn't renew your payment, your monthly membership to the Learning Circle has expired. If you would like to sign up again, please click below.`,
+                    renewText: 'Make a payment to come back!',
+                    buttonUrl: FRONTEND_URL 
+                }
+            } else { //nearing expiration case
+                dynamicTemplateData = {
                     subject: `Your membership to Learning Circle expires soon!`,
                     body: `Your monthly membership is coming to an end on ${user.membership_end_date}. If you would like to renew it for another month, go to your account to make a payment.`,
                     renewText: 'Come back for another month.',
                     buttonUrl: FRONTEND_URL
                 }
+            }
+            const msg: MailDataRequired = {
+                to: user.email,
+                from: verifiedSender,
+                templateId: 'd-c8a1b226ee0d41c286ce8b2ce373f62c', //Warning Template
+                dynamicTemplateData
             }
 
             try {
