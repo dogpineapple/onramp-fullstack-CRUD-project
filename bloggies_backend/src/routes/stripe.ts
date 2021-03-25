@@ -5,6 +5,7 @@ import User from '../models/user';
 import { ensureLoggedIn } from "../middleware/auth";
 import { MY_STRIPE_API_KEY } from '../config';
 import ExpressError from '../expressError';
+import Email from '../models/email';
 export const stripeRouter = express.Router();
 
 /* create new Stripe instance to facilitate interactions with Stripe API*/
@@ -21,6 +22,9 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
   switch (event.type) {
     case 'invoice.upcoming':
       data = event.data.object;
+      const user = await User.getUserBySubscriptionId(data.id);
+      console.log(user);
+      await Email.sendEndDateWarning(user);
       console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
     case 'invoice.paid':
       data = event.data.object;
@@ -37,8 +41,11 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
     case 'customer.subscription.deleted':
       console.log("subscription deleted");
       data = event.data.object;
+      console.log(data)
       sub = await stripe.subscriptions.retrieve(data.subscription);
       await User.cancelSubscription(data.subscription, sub.current_period_end);
+      const userInfo = await User.getUserBySubscriptionId(data.id);
+      await Email.sendExpiredNotification(userInfo.email);
       break;
     case 'payment_intent.succeeded':
       console.log(`PaymentIntent success for ${event.data.object.amount}`);
@@ -83,26 +90,28 @@ stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Reque
 stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const { paymentMethodId, customerId } = req.body;
   try {
+    if(paymentMethodId){
     // save payment method info for a customer
     await stripe.paymentMethods.attach(paymentMethodId, {
       customer: customerId
     });
+    }
+  // update the customer with the payment method
+    await stripe.customers.update(customerId, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId
+      }
+    });
+
+    const subscription = await Checkout.stripeCreateSubscription(customerId);
+
+    await User.updateUser(req.user.user_id, { subscription_id: subscription.id });
+
+    return res.status(201).json({ subscription });
   } catch (err) {
     const expressErr = new ExpressError(err, 402);
     return next(expressErr);
   }
-  // update the customer with the payment method
-  await stripe.customers.update(customerId, {
-    invoice_settings: {
-      default_payment_method: paymentMethodId
-    }
-  });
-
-  const subscription = await Checkout.stripeCreateSubscription(customerId);
-
-  await User.updateUser(req.user.user_id, { subscription_id: subscription.id });
-
-  return res.status(201).json({ subscription });
 });
 
 /** DELETE cancels user's Stripe subscription */

@@ -1,5 +1,5 @@
 import ExpressError from "../expressError";
-import {PRODUCT_ID} from '../config';
+import {PRICE_ID} from '../config';
 import { stripe } from '../routes/stripe';
 
 
@@ -55,7 +55,7 @@ export default class Checkout {
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
       items: [{
-        plan: PRODUCT_ID,
+        plan: PRICE_ID,
       }],
       expand: ["latest_invoice.payment_intent"]
     });

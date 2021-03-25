@@ -30,6 +30,18 @@ export default class User {
     return res.rows[0];
   }
 
+  static async getUserBySubscriptionId(subscriptionId: string) {
+    const res = await db.query(
+      `SELECT ua.email, u.membership_end_date
+      FROM users as u
+      JOIN user_auth as ua
+      ON u.user_id = ua.id
+      WHERE u.subscription_id = $1`,
+      [subscriptionId]
+    )
+    return res.rows[0];
+  }
+
   /** Get the last_submission_date for specific user from database */
   static async getLastSubmissionDate(userId: number) {
     const res = await db.query(
@@ -83,7 +95,7 @@ export default class User {
       }
 
       //remove final comma
-      query = query.slice(0, query.length - 1);
+      query = query.slice(0, query.length - 2);
 
       await db.query(
         `UPDATE users

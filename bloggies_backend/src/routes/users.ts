@@ -76,12 +76,14 @@ usersRouter.get("/membership-status", ensureLoggedIn, async (req: Request, res: 
 
 
 //route for testing membership expiration check with Postman and sending email to results
-//set admin permissions?
+//this is not currently needed
 usersRouter.get("/all-memberships", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const expiring = await User.checkExpiringMemberships();
-    const resp = await Email.sendEndDateWarning(expiring);
-    console.log(resp);
+    expiring.forEach(async (user) => {
+      const resp = await Email.sendEndDateWarning(user);
+      console.log(resp);
+    })
     res.send(expiring);
   } catch(err) {
     return next(err);
@@ -93,8 +95,10 @@ usersRouter.get("/all-memberships", async (req: Request, res: Response, next: Ne
 usersRouter.get("/all-last-submission-dates", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const expiring = await User.checkLastSubmissionDateLapse();
-    const resp = await Email.sendNoContentWarning(expiring);
-    console.log(resp);
+    expiring.forEach(async (user) => {
+      const resp = await Email.sendNoContentWarning(user);
+      console.log(resp);
+    })
     res.send(expiring);
   } catch(err) {
     return next(err);
