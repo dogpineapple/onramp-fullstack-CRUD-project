@@ -258,3 +258,21 @@ export function getMembershipStatus(userId: number) {
 function gotMembershipStatus(membStatus: string) {
   return { type: t.UPDATE_MEMBERSHIP_STATUS, payload: { membership_status: membStatus } }
 }
+
+/**
+ * DELETE request to cancel premium subscription via Stripe upon submission
+ * and dispatches action to update redux store.
+ */
+export function cancelPremiumUserMembership(subscriptionId: string) {
+  return async function (dispatch: Dispatch<Action>) {
+    const res = await fetch(`${BASE_URL}/checkout/cancel-subscription`, {
+      method: 'DELETE',
+      body: JSON.stringify({subscription_id: subscriptionId}),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const resData = await res.json();
+    dispatch(updateUserStatus(resData))
+  }
+}
