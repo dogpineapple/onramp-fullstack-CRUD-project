@@ -54,6 +54,7 @@ export default class Checkout {
   static async stripeCreateSubscription(customerId: string) {
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
+      cancel_at: Date.now(),
       items: [{
         plan: PRODUCT_ID,
       }],
