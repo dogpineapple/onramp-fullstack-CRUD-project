@@ -10,13 +10,13 @@ import { useDispatch } from "react-redux";
 /**
  * `SearchBar` renders a form for entering a search term
  * to search for posts and users matching the term.
- * Dispatches an action for `getSearchResultsFromAPI` upon submission. 
+ * Dispatches an action for `getSearchResultsFromAPI` upon submission.
  */
 function SearchBar() {
   const [ formData, setFormData ] = useState({ searchTerm: "" });
   const history = useHistory();
   const dispatch = useDispatch();
-  
+
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(getSearchResultsFromAPI(formData.searchTerm));
