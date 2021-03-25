@@ -79,7 +79,7 @@ export default class User {
       let query = "";
 
       for (let key in updateData) {
-        query = query + ` ${key} = '${updateData[key]}', `;
+        query = query + ` ${key} = '${updateData[key]}'`;
       }
 
       await db.query(
