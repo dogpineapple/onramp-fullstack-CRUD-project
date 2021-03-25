@@ -86,7 +86,14 @@ describe("Test Stripe class methods", function () {
     }
   });
 
-
+  test("Handles invalid subscription id to cancel a subscription", async function () {
+    try { 
+     await Checkout.stripeCreateSubscription(invalidCustomerId);
+    } catch (err) {
+     expect(err.message).toBe(`Customer ${invalidCustomerId} does not exist`);
+     expect(err.status).toBe(400);
+    }
+  });
 
   afterAll(async function () {
     await stripe.customers.del(testCustomer.id);
