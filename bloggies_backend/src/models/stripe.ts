@@ -63,4 +63,8 @@ export default class Checkout {
     return subscription;
   }
 
+  static async stripeUpdateSubscription(customerId: string) {
+    
+  }
+
 }

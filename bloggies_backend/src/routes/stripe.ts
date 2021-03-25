@@ -100,7 +100,7 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
 
   const subscription = await Checkout.stripeCreateSubscription(customerId);
 
-  await User.updateUser(req.user.user_id, { subscription_id: subscription.id });
+  await User.updateUser(req.user.user_id, { subscription_id: subscription.id, cancel_at: subscription.cancel_at });
 
   return res.status(201).json({ subscription });
 });
