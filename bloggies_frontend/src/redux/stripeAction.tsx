@@ -48,7 +48,6 @@ import { BASE_URL } from "../config";
 
 
 
-
 // export const createCustomer = () => {
 //     let billingEmail = document.querySelector('#email').value;
 //     return fetch('/create-customer', {
