@@ -268,15 +268,15 @@ function gotMembershipStatus(membStatus: string) {
  */
 export function cancelPremiumUserMembership(subscriptionId: string) {
   return async function (dispatch: Dispatch<Action>) {
-    // const res = await fetch(`${BASE_URL}/checkout/cancel-subscription`, {
-    //   method: 'DELETE',
-    //   body: JSON.stringify({subscription_id: subscriptionId}),
-    //   headers: {
-    //     "Content-type": "application/json"
-    //   }
-    // });
-    // const resData = await res.json();
-    // resData.current_period_end
+    const res = await fetch(`${BASE_URL}/checkout/cancel-subscription`, {
+      method: 'DELETE',
+      body: JSON.stringify({subscription_id: subscriptionId}),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const resData = await res.json();
+    resData.current_period_end
     const updatedMembershipData = {
       membership_end_date: new Date(),
       membership_status: "inactive",
