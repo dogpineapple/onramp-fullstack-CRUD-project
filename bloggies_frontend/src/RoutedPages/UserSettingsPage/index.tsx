@@ -7,24 +7,30 @@ import CancelModal from "../../CancelModal";
 
 const ContentContainers = styled.div`
   grid-column: 1 / 2;
+  margin-top: 80px;
 `;
 
 const VariableContainers = styled.div`
   grid-column: 2 / 3;
+  margin-top: 80px;
 `;
 const Headers = styled.h2`
-  margin-top: 50px;
 `;
 
 const UserSettingsPageContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  margin-top: 100px;
 `;
 
 const CancelButton = styled.button`
-  margin-top: 50px;
+  margin-top: 0px;
 `;
+
+const SettingsHeader = styled.h1`
+  grid-column: 1 / 3;
+`
 
 /**
  * UserSettingsPage renders the settings page for
@@ -35,6 +41,9 @@ function UserSettingsPage() {
   let userInfo = useSelector((st: CustomReduxState) => st.user);
   return (
     <UserSettingsPageContainer className="UserSettingsPage">
+      <SettingsHeader>
+        {`${userInfo.display_name}'s Settings` }
+      </SettingsHeader>
       <ContentContainers>
         <Headers>My subscription will end on date:</Headers>
       </ContentContainers>

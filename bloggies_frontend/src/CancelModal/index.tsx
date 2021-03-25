@@ -7,8 +7,8 @@ import { useHistory } from "react-router";
 import { CustomReduxState } from "../custom";
 
 const ButtonWrapper = styled.div`
-  margin-top: 50px;
 `;
+
 function CancelModal() {
   const subscriptionId = useSelector(
     (st: CustomReduxState) => st.user.subscription_id
