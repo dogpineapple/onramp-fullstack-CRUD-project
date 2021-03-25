@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import moment from 'moment';
+import moment from "moment";
 import { useSelector } from "react-redux";
 import { CustomReduxState } from "../../custom";
+import CancelModal from "../../CancelModal";
 
 const ContentContainers = styled.div`
   grid-column: 1 / 2;
@@ -21,29 +22,39 @@ const UserSettingsPageContainer = styled.div`
   grid-template-rows: repeat(3, 1fr);
 `;
 
+const CancelButton = styled.button`
+  margin-top: 50px;
+`;
+
 /**
  * UserSettingsPage renders the settings page for
  * user membership settings.
  */
 
 function UserSettingsPage() {
-  let userInfo = useSelector((st: CustomReduxState) => {
-    st.user
-  })
+  let userInfo = useSelector((st: CustomReduxState) => st.user);
   return (
     <UserSettingsPageContainer className="UserSettingsPage">
       <ContentContainers>
         <Headers>My subscription will end on date:</Headers>
       </ContentContainers>
       <VariableContainers>
-        {/* <Headers>{moment(userInfo.last_updated_at).fromNow()}</Headers> */}
+        <Headers>
+          {moment(userInfo.membership_end_date).format("MMMM Do, YYYY")}
+        </Headers>
       </VariableContainers>
       <ContentContainers>
         <Headers>Date to contribute content by:</Headers>
       </ContentContainers>
+      <VariableContainers>
+        <Headers>placeholder</Headers>
+      </VariableContainers>
       <ContentContainers>
         <Headers>Cancel Premium Subscription?</Headers>
       </ContentContainers>
+      <VariableContainers>
+        <CancelModal />
+      </VariableContainers>
     </UserSettingsPageContainer>
   );
 }
