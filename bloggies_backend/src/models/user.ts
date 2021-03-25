@@ -82,6 +82,9 @@ export default class User {
         query = query + ` ${key} = '${updateData[key]}', `;
       }
 
+      //remove final comma
+      query = query.slice(0, query.length - 1);
+
       await db.query(
         `UPDATE users
         SET ${query}  
