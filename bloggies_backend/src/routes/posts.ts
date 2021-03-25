@@ -4,6 +4,7 @@ import Post from "../models/post";
 import express from "express";
 import ExpressError from "../expressError";
 import User from "../models/user";
+import { ACTIVE } from "../membershipStatuses";
 
 export const postsRouter = express.Router();
 
@@ -14,7 +15,7 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
     const { user_id } = req.user;
     const user = await User.getUser(user_id);
     
-    if (user.membership_status === "active") {
+    if (user.membership_status === ACTIVE) {
       const { title, description, body, is_premium } = req.body;
       const post = await Post.createPost(title, description, body, user_id, is_premium);
       return res.status(201).json({ post });
