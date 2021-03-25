@@ -14,7 +14,6 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
   try {
     const { user_id } = req.user;
     const user = await User.getUser(user_id);
-
     if (user.membership_status === ACTIVE) {
       const { title, description, body, is_premium } = req.body;
       const post = await Post.createPost(title, description, body, user_id, is_premium);
@@ -64,7 +63,7 @@ postsRouter.get("/:id", async function (req: Request, res: Response, next: NextF
     const status = await User.checkMembershipStatus(userId);
     const membershipStatus = status ? status.membership_status : null;
     const post = await Post.getPost(postId, membershipStatus);
-    if(post) return res.json({ post });
+    if (post) return res.json({ post });
     return res.send('The post you are looking for does not exist.')
   } catch (err) {
     return next(err);
@@ -97,7 +96,7 @@ postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Res
       return res.json(lastUpdatedDate);
     }
 
-    throw new ExpressError("Update failed: token does not belong to the post author." , 401);
+    throw new ExpressError("Update failed: token does not belong to the post author.", 401);
   } catch (err) {
     return next(err)
   }
