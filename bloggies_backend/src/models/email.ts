@@ -2,6 +2,7 @@ import sgMail from '@sendgrid/mail';
 import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 import ExpressError from "../expressError";
 import { SENDGRID_API_KEY, FRONTEND_URL } from '../config';
+import { ACTIVE, INACTIVE, ACCEPTED, PENDING, REJECTED } from '../membershipStatuses';
 
 const verifiedSender = "mmcdevitt@blend.com";
 
@@ -30,22 +31,26 @@ export default class Email {
         let buttonText;
         let buttonUrl = FRONTEND_URL;
         switch (type) {
-            case 'accepted':
+            case ACCEPTED:
                 subject = 'Confirmation Email from Learning Circle';
                 text = 'Congratulations! You are invited to join the Learning Circle. Log in to your account to pay for your membership and reap the benefits. Welcome to our community of bloggers!';
                 buttonText = 'Log in to your account';
                 break;
-            case 'pending':
+            case PENDING:
                 subject = 'We need more information';
                 text = 'Before we can confirm your membership, we need more information from you. Please follow the link to answer questions.';
                 buttonText = 'Click here to answer more questions';
                 buttonUrl = FRONTEND_URL + 'register/membership-form';
                 break;
-            case 'rejected':
+            case REJECTED:
                 subject = 'Regrets from Learning Circle';
                 text = 'We appreciate your interest, but unfortunately we cannot grant you membership at this time.';
                 buttonText = 'View our free blogs';
                 break;
+            case ACTIVE:
+                subject = 'You are now a Learning Circle Member!';
+                text = 'Welcome to official Learning Circle Membership where you can contribute posts and get premium content.';
+                buttonText = 'Log in to your account';
             default:
                 throw new ExpressError('Invalid application status type', 422); 
         }
