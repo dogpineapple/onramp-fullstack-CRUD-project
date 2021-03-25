@@ -93,6 +93,7 @@ export function getUserInfoFromAPI() {
       credentials: "include"
     });
     const userRes = await res.json();
+    console.log(userRes);
     dispatch(gotUserInfo(userRes.user));
   }
 }
@@ -106,7 +107,7 @@ export function updateCurrentPost(post: Post) {
 
 /**
  * GET request search backend for both posts and users matching the
- * search `term` passed and dispatches action to update redux store. 
+ * search `term` passed and dispatches action to update redux store.
  */
 export function getSearchResultsFromAPI(term: string) {
   return async function (dispatch: Dispatch<Action>) {
@@ -128,7 +129,7 @@ function gotSearchResults(posts: Array<Post>, users: Array<User>) {
 }
 
 /**
- * POST request to add a favorite post to a user to backend 
+ * POST request to add a favorite post to a user to backend
  * and dispatches action to update redux store.
  */
 export function addFavoriteToAPI(post: Post) {
@@ -156,7 +157,7 @@ function addFavorite(post: Post) {
 }
 
 /**
- * DELETE request to remove a favorite post from a user to backend 
+ * DELETE request to remove a favorite post from a user to backend
  * and dispatches action to update redux store.
  */
 export function deleteFavoriteFromAPI(postId: number) {
@@ -189,7 +190,7 @@ function deleteServerErr() {
 }
 
 /**
- * GET request to retrieve all favorite posts of a user from backend 
+ * GET request to retrieve all favorite posts of a user from backend
  * and dispatches action to update redux store.
  */
 export function getUserFavoritesFromAPI(userId: number) {
@@ -218,6 +219,29 @@ export function logoutUser() {
 /**Returns an action object for type LOAD_USER*/
 export function gotUserInfo(user: User) {
   return { type: t.LOAD_USER, payload: { user } };
+}
+
+/**
+ * PUT request to update membership status in database upon submission of premium application
+ * and dispatches action to update redux store.
+ */
+export function updateMembershipStatus(status: string) {
+  return async function (dispatch: Dispatch<Action>) {
+    const res = await fetch(`${BASE_URL}/users/status-update`, {
+      method: "PATCH",
+      credentials: "include",
+      body: JSON.stringify({ appStatus: status }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const userRes = await res.json();
+    dispatch(updateUserStatus(userRes))
+  }
+}
+
+function updateUserStatus(user: User) {
+  return { type: t.UPDATE_USER_STATUS, payload: { user }}
 }
 
 export function getMembershipStatus(userId: number) {
