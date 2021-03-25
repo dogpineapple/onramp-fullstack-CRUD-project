@@ -276,7 +276,7 @@ export function cancelPremiumUserMembership(subscriptionId: string) {
       }
     });
     const resData = await res.json();
-    resData.current_period_end
+    // resData.current_period_end
     const updatedMembershipData = {
       membership_end_date: new Date(),
       membership_status: "inactive",
