@@ -5,19 +5,19 @@ import User from "../models/user";
 
 export const userAuthRouter = express.Router();
 
-/** POST /user-auth/register - creates a new user. 
+/** POST /user-auth/register - creates a new user.
  * Returns user object & a jwt cookie */
 userAuthRouter.post("/register", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { email, password, display_name } = req.body;
-   
+
     if (email && password && display_name) {
       const notUnique = await User.checkForUniqueDisplayName(display_name);
       if(notUnique) throw new ExpressError("That Display Name is already taken. Please choose another one", 403);
 
       const authResult = await UserAuth.register(email, password);
       const userInfo = await User.createUser(authResult.user.id, display_name);
-      console.log(userInfo)
+      console.log('User Info: ', userInfo)
       const respObject = {
         user: {
           ...authResult.user,
@@ -35,7 +35,7 @@ userAuthRouter.post("/register", async function (req: Request, res: Response, ne
   }
 });
 
-/** POST /user-auth/login - authenticate credentials and login a user. 
+/** POST /user-auth/login - authenticate credentials and login a user.
  * Returns user object & a jwt cookie*/
 userAuthRouter.post("/login", async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -44,7 +44,7 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
     const user = await User.getUser(authResult.user.id);
 
     res.cookie("token", authResult.token);
-    
+
     return res.json({ user: { ...user, email } });
   } catch (err) {
     return next(err);

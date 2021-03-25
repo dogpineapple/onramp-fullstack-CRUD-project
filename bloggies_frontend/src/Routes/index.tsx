@@ -11,10 +11,10 @@ import UserProfile from "../RoutedPages/UserProfile";
 import UserSettingsPage from "../RoutedPages/UserSettingsPage";
 import PaymentCancelPage from "../RoutedPages/PaymentCancelPage";
 import PaymentSuccessPage from "../RoutedPages/PaymentSuccessPage";
-import PaymentPage from "../RoutedPages/PaymentPage";
 import "./Routes.css";
 import UserSubscriptionPayment from "../RoutedPages/UserSubscriptionPayment";
 import UserApplicationPage from "../RoutedPages/UserApplicationPage";
+import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalApplicationPage";
 
 function Routes() {
   return (
@@ -51,7 +51,7 @@ function Routes() {
       </Route>
       <Route exact path="/payment/checkout">
         <div className="Routes-thin-container">
-          <PaymentPage />
+          <UserSubscriptionPayment />
         </div>
       </Route>
       <Route exact path="/register/membership-form">
@@ -59,7 +59,12 @@ function Routes() {
           <UserApplicationPage />
         </div>
       </Route>
-      <Route exact path="/users/register/membership-status">
+      <Route exact path="/register/membership-additional-form">
+        <div>
+          <UserAddtionalApplicationPage />
+        </div>
+      </Route>
+      <Route exact path="/register/membership-status">
         <RegisterStatusPage />
       </Route>
       <Route exact path="/users/register">

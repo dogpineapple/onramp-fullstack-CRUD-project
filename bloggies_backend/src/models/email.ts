@@ -64,7 +64,7 @@ export default class Email {
 
         try {
             const emailRes = await sgMail.send(msg);
-            console.log(emailRes);
+            console.log('email Res: ', emailRes);
             console.log('Email sent')
         } catch(err) {
             throw new ExpressError(`Err: ${err}`, 400);

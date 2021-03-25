@@ -12,6 +12,7 @@ import { getCookie } from './helpers';
 import { ThemeProvider } from 'styled-components';
 import { defaultAppTheme, GlobalStyles, premiumAppTheme } from './theme';
 
+
 function App() {
   const currentUser = useSelector((st: CustomReduxState) => st.user);
   const serverErr = useSelector((st: CustomReduxState) => st.serverErr);
