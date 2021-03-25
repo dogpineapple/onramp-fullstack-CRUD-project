@@ -83,7 +83,7 @@ export default class User {
       }
 
       //remove final comma
-      query = query.slice(0, query.length - 1);
+      query = query.slice(0, query.length - 2);
 
       await db.query(
         `UPDATE users
