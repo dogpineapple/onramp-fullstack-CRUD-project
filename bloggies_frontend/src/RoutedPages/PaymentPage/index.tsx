@@ -82,16 +82,20 @@ const PaymentPage = ()  => {
   }
 
 
+  const StyledCard = styled.form `
+    
+  `
+
 
   return (
     <>
-    <Form onSubmit={handleSubmit}>
+    <Form className="PaymentForm" onSubmit={handleSubmit}>
     
     <button type="submit">
       Pay $30
     </button>
 
-    <CardElement
+    <CardElement 
       options={{
       style: {
         base: {
