@@ -12,6 +12,8 @@ export const stripe = new Stripe(MY_STRIPE_API_KEY as string, {
   apiVersion: "2020-08-27",
 });
 
+console.log(MY_STRIPE_API_KEY)
+
 /** GET handles events that occur over a stripe session via webhook */
 stripeRouter.post("/webhook", async function (req: Request, res: Response, next: NextFunction) {
   let event = req.body;

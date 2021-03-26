@@ -86,7 +86,8 @@ function RegisterStatusPage() {
   // payment button directs user to stripe success form
   let paymentButton = (
     <PaymentButton
-      onClick={() => history.push("/payment/form")}
+      onSubmit={() => history.push("/register/customer")}
+      // onClick={() => history.push("/payment/form")}
     >{`I'm Ready, Sign Me Up!`}</PaymentButton>
   );
 

@@ -10,10 +10,8 @@ const UserSubscriptionPayment = () => {
 
 
     return (
-        <Elements stripe={stripe}>
-            <div>
-                <PaymentPage/>
-            </div>
+        <Elements stripe={stripe} >
+            <PaymentPage/>
         </Elements>
         )
     }
