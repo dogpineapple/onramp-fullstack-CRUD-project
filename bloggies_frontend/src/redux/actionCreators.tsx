@@ -226,6 +226,7 @@ export function gotUserInfo(user: User) {
  * and dispatches action to update redux store.
  */
 export function updateMembershipStatus(status: string) {
+  console.log('updateMembershipStatusRan!')
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/users/status-update`, {
       method: "PATCH",
@@ -280,6 +281,7 @@ export function cancelPremiumUserMembership(subscriptionId: string) {
     const updatedMembershipData = {
       membership_end_date: new Date(),
       membership_status: "inactive",
+      cancel_at: null
     };
     dispatch(updateUserStatus(updatedMembershipData));
   };

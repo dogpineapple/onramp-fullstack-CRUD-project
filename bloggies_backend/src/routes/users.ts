@@ -49,11 +49,10 @@ usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Re
   //add some validation here?
   try {
     if (appStatus === ACTIVE) {
-      console.log(ACTIVE === "active")
       const currUser = await User.getUser(user_id);
       sub = await stripe.subscriptions.retrieve(currUser.subscription_id);
-      console.log(user_id, appStatus, sub.current_period_start, sub.current_period_end)
-      updatedUser = await User.updateMembership(user_id, appStatus, sub.current_period_start, sub.current_period_end);
+      let cancelAt = sub.current_period_start + 604800
+      updatedUser = await User.updateMembership(user_id, appStatus, sub.current_period_start, sub.current_period_end, cancelAt);
     } else {
       updatedUser = await User.updateMembership(user_id, appStatus);
     }

@@ -23,6 +23,7 @@ function CancelModal() {
     dispatch(cancelPremiumUserMembership(subscriptionId));
     history.push("/register/membership-status");
   };
+  
   return (
     <Fragment>
       <ButtonWrapper>

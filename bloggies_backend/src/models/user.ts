@@ -10,7 +10,7 @@ export default class User {
         `INSERT INTO users (user_id, display_name)
         VALUES ($1, $2)
         RETURNING display_name, membership_status, membership_start_date, membership_end_date,
-        last_submission_date`,
+        last_submission_date, cancel_at`,
         [userId, displayName]
       );
       return res.rows[0];
@@ -23,7 +23,7 @@ export default class User {
   static async getUser(userId: number) {
     const res = await db.query(
       `SELECT user_id AS id, display_name, membership_status, membership_start_date,
-      membership_end_date, last_submission_date, subscription_id, customer_id
+      membership_end_date, last_submission_date, subscription_id, customer_id, cancel_at
         FROM users
         WHERE user_id = $1`,
       [userId]
@@ -74,11 +74,11 @@ export default class User {
   ) {
     const res = await db.query(
       `UPDATE users
-        SET membership_status = $1, membership_start_date = to_timestamp($2), membership_end_date = to_timestamp($3)
-        WHERE user_id = $4
+        SET membership_status = $1, membership_start_date = to_timestamp($2), membership_end_date = to_timestamp($3), cancel_at = to_timestamp($4)
+        WHERE user_id = $5
 
         RETURNING user_id, membership_status, membership_start_date, membership_end_date, cancel_at`,
-      [appStatus, startDate || null, endDate || null, userId]
+      [appStatus, startDate || null, endDate || null, cancelAt || null, userId]
     );
     return res.rows[0];
   }
@@ -113,7 +113,7 @@ export default class User {
   static async cancelSubscription(subscriptionId: string, end_date: number) {
     await db.query(
       `UPDATE users
-      SET membership_status = $2, membership_end_date = $3
+      SET membership_status = $2, membership_end_date = $3, cancel_at = null
       WHERE subscription_id = $1`,
       [subscriptionId, INACTIVE, end_date]
     );

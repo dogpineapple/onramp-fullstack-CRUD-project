@@ -56,7 +56,7 @@ function UserSettingsPage() {
         <Headers>Date to contribute content by:</Headers>
       </ContentContainers>
       <VariableContainers>
-        <Headers>placeholder</Headers>
+        <Headers>{moment(userInfo.cancel_at).format("MMMM Do, YYYY")}</Headers>
       </VariableContainers>
       <ContentContainers>
         <Headers>Cancel Premium Subscription?</Headers>
