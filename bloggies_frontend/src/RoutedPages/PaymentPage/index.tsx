@@ -5,14 +5,20 @@ import { CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import {CreateTokenCardData} from '@stripe/stripe-js';
 import { Form} from "react-bootstrap";
 import { BASE_URL } from "../../config";
-
+import {useDispatch, useSelector} from 'react-redux'
+import { CustomReduxState } from "../../custom";
+import {gotServerErr } from '../../redux/actionCreators'
+import {gotSubscription} from '../../redux/stripeAction'
+import {useHistory} from 'react-router-dom'
 
 ///Styled Components 
-
 
 const PaymentPage = ()  => {
   const stripe = useStripe();
   const elements = useElements();
+  const dispatch = useDispatch()
+  const userCustomerId = useSelector((st:CustomReduxState) => st.user.customer_id )
+  const history = useHistory()
 
   const [error, setError] = useState(null);
   const [cardComplete, setCardComplete] = useState(false);
@@ -24,7 +30,6 @@ const PaymentPage = ()  => {
   });
 
 
-  
   const handleSubmit = async (event:any) => {
     event.preventDefault();
     
@@ -33,46 +38,44 @@ const PaymentPage = ()  => {
       // form submission until Stripe.js has loaded.
       return;
     }
-  
 
-  const cardElement = elements.getElement(CardElement);
+    const cardElement = elements.getElement(CardElement);
 
-
-  const createPaymentMethod = await stripe.createPaymentMethod({
-    type: 'card',
-    card: cardElement!
-  });
-
-
+    if(cardElement) {
+      const paymentMethodRes = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement
+      });
+      if(paymentMethodRes.paymentMethod) {
+        const res = await fetch(`${BASE_URL}/checkout/create-subscription`,{
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }, 
+          body: JSON.stringify({
+            paymentMethodId: paymentMethodRes.paymentMethod.id, 
+            customerId: userCustomerId  
+          })
+        })
+        const resData = await res.json()
+        if(res.status == 201) {
+          dispatch(gotSubscription(resData))
+          history.push('/payment/success')
+        } else {
+          dispatch(gotServerErr(resData.error.message))
+        }
+        console.log(paymentMethodRes.paymentMethod);
+      }
+    }
+  }
 
   if (error) {
     console.log('[error]', error);
   } else {
     console.log('[PaymentMethod]', paymentMethod);
-      }
-    };
+  }
 
-
-    // const createSubscription = async () => {
-    //   try {
-    //     const response = await fetch(`${BASE_URL}/create-subscription`,{
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         customerId: customerId, 
-    //         paymentMethodId: paymentMethodId, 
-    //         priceId: priceId
-    //       })
-    //     })
-    //   } catch (error) {
-    //       if(error) {
-    //         throw error 
-    //         console.log(error.message)
-    //       }
-    //     }
-    // } 
 
 
   return (
