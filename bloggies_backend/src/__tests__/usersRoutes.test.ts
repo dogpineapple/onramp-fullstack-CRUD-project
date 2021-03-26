@@ -83,7 +83,9 @@ describe("Test User routes", function () {
       membership_status: NONE,
       membership_start_date: null,
       membership_end_date: null,
-      last_submission_date: null
+      last_submission_date: null,
+      customer_id: null,
+      subscription_id: null
     });
   });
 

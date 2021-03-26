@@ -1,5 +1,5 @@
 import ExpressError from "../expressError";
-import {PRODUCT_ID} from '../config';
+import { PRICE_ID } from '../config';
 import { stripe } from '../routes/stripe';
 
 
@@ -35,8 +35,12 @@ export default class Checkout {
   }
 
   static async stripeSubscriptionCancel(subscriptionId: string) {
+    try { 
     const deletedSubscription = await stripe.subscriptions.del(subscriptionId);
     return deletedSubscription;
+    } catch (err) {
+      throw new ExpressError(`No such subscription: ${subscriptionId}`, 400);
+    }
   }
 
   static async stripeCreateCustomer(userId: number, email: string, paymentMethodId?: string) {
@@ -52,14 +56,18 @@ export default class Checkout {
   }
 
   static async stripeCreateSubscription(customerId: string) {
-    const subscription = await stripe.subscriptions.create({
-      customer: customerId,
-      items: [{
-        plan: PRODUCT_ID,
-      }],
-      expand: ["latest_invoice.payment_intent"]
-    });
-    return subscription;
+    try {
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{
+          plan: PRICE_ID,
+        }],
+        expand: ["latest_invoice.payment_intent"]
+      });
+      return subscription;
+    } catch (err) {
+      throw new ExpressError(`Customer ${customerId} does not exist`, 400);
+    }
   }
 
 }
