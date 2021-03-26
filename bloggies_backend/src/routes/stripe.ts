@@ -29,9 +29,17 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         // invoice object
         data = event.data.object;
         console.log(`invoice PAID for: ${data.customer}`);
-        sub = await stripe.subscriptions.retrieve(data.subscription);
-        await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
+        // sub = await stripe.subscriptions.retrieve(data.subscription);
+        console.log("the subscription id is ...", data.subscription)
+        // await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
         break;
+      case 'invoice.payment_succeeded':
+        // invoice object
+        data = event.data.object;
+        console.log(`SUCCEEEEEEEEDED for: ${data.customer}`);
+        sub = await stripe.subscriptions.retrieve(data.subscription);
+        console.log(`invoice payment succeeded, ${sub.id}, ${sub.current_period_start}`);
+        await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
       case 'invoice.payment_failed':
         // invoice object
         data = event.data.object;
