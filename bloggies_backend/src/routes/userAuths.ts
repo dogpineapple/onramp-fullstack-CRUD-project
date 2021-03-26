@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import ExpressError from "../expressError";
 import UserAuth from "../models/userAuth";
 import User from "../models/user";
+import Checkout from "../models/stripe";
 
 export const userAuthRouter = express.Router();
 
@@ -45,7 +46,18 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
 
     res.cookie("token", authResult.token);
 
-    return res.json({ user: { ...user, email } });
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const overdueLastSubmission: boolean = user.last_submission_date !== null && user.last_submission_date < sevenDaysAgo;
+    const overdueNeverSubmitted: boolean = !user.last_submission_date && user.membership_start_date < sevenDaysAgo;
+    
+    if(overdueLastSubmission || overdueNeverSubmitted) {
+      await Checkout.stripeSubscriptionCancel(user.subscription_id);
+      await User.cancelSubscription(user.id, new Date());
+    }
+
+    const updatedUser = await User.getUser(user.id);
+    return res.json({ user: { ...updatedUser, email } });
   } catch (err) {
     return next(err);
   }

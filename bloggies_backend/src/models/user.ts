@@ -109,12 +109,16 @@ export default class User {
 
   /** Sets membership_status to INACTIVE. Sets membership_end_date 
    * to CURRENT_TIMESTAMP. via subscription id */
-  static async cancelSubscription(subscriptionId: Date, end_date: Date) {
-    await db.query(
-      `UPDATE users 
-      SET membership_status = $2, membership_end_date = to_timestamp($3), cancel_at = to_timestamp($3)
-      WHERE subscription_id = $1`,
-      [subscriptionId, INACTIVE, end_date]);
+  static async cancelSubscription(subscriptionId: string, end_date: Date) {
+    try {
+      await db.query(
+        `UPDATE users 
+        SET membership_status = $2, membership_end_date = to_timestamp($3), cancel_at = to_timestamp($3)
+        WHERE subscription_id = $1`,
+        [subscriptionId, INACTIVE, end_date]);
+    } catch(err) {
+      throw new ExpressError(err, 500)
+    }
   }
 
   /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
@@ -154,21 +158,6 @@ export default class User {
       WHERE u.membership_status = $1
       AND u.membership_end_date <= $2`,
       ['active', dueDate]
-    )
-    return res.rows;
-}
-  static async checkLastSubmissionDateLapse() {
-    const lastDate = new Date();
-    const date = lastDate.getDate() - 4;
-    lastDate.setDate(date);
-    const res = await db.query(
-      `SELECT ua.email, u.last_submission_date
-      FROM users as u
-      JOIN user_auth as ua
-      ON u.user_id = ua.id
-      WHERE u.membership_status = $1
-      AND u.last_submission_date <= $2`,
-      ['active', lastDate]
     )
     return res.rows;
   }

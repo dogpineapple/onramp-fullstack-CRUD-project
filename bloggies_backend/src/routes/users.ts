@@ -3,9 +3,9 @@ import { ensureLoggedIn } from "../middleware/auth";
 import User from "../models/user";
 import ExpressError from "../expressError";
 import Email from "../models/email";
-import { stripe } from "./stripe";
-import { ACTIVE } from "../membershipStatuses";
-import Stripe from "stripe";
+// import { stripe } from "./stripe";
+// import { ACTIVE } from "../membershipStatuses";
+// import Stripe from "stripe";
 
 export const usersRouter = express.Router();
 
@@ -43,19 +43,19 @@ usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Re
   const { appStatus } = req.body;
   const { user_id, email } = req.user;
 
-  let sub: Stripe.Subscription;
+  //let sub: Stripe.Subscription;
   let updatedUser;
 
   //add some validation here?
 
   try {
-    if (appStatus === ACTIVE) {
-      const currUser = await User.getUser(user_id);
-      sub = await stripe.subscriptions.retrieve(currUser.subscription_id);
-      updatedUser = await User.updateMembership(user_id, appStatus, sub.current_period_start, sub.current_period_end);
-    } else {
+    //if (appStatus === ACTIVE) {
+    //   const currUser = await User.getUser(user_id);
+    //   sub = await stripe.subscriptions.retrieve(currUser.subscription_id);
+    //   updatedUser = await User.updateMembership(user_id, appStatus, sub.current_period_start, sub.current_period_end);
+    // } else {
       updatedUser = await User.updateMembership(user_id, appStatus);
-    }
+    //}
     await Email.sendConfirmation(email, appStatus);
     return res.json(updatedUser);
   } catch (err) {
@@ -82,21 +82,6 @@ usersRouter.get("/all-memberships", async (req: Request, res: Response, next: Ne
     const expiring = await User.checkExpiringMemberships();
     expiring.forEach(async (user) => {
       const resp = await Email.sendEndDateWarning(user);
-      console.log(resp);
-    })
-    res.send(expiring);
-  } catch(err) {
-    return next(err);
-  }
-});
-
-//route for testing last submission date check with Postman and sending email to results
-//set admin permissions?
-usersRouter.get("/all-last-submission-dates", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const expiring = await User.checkLastSubmissionDateLapse();
-    expiring.forEach(async (user) => {
-      const resp = await Email.sendNoContentWarning(user);
       console.log(resp);
     })
     res.send(expiring);
