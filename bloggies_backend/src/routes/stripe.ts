@@ -39,10 +39,10 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         sub = await stripe.subscriptions.retrieve(data.subscription);
         await User.cancelSubscription(data.subscription, sub.current_period_end);
         break;
-        case 'customer.subscription.deleted':
-          // subscription object
-          data = event.data.object;
-          await User.cancelSubscription(data.id, data.current_period_end);
+      case 'customer.subscription.deleted':
+        // subscription object
+        data = event.data.object;
+        await User.cancelSubscription(data.id, data.current_period_end);
         break;
       case 'payment_intent.succeeded':
         console.log(`PaymentIntent success for ${event.data.object.amount}`);
@@ -99,15 +99,20 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
         customer: customerId
       });
     } catch (err) {
-      const expressErr = new ExpressError(err.message, err.statusCode);
-      return next(expressErr);
+      return next(new ExpressError(err.message, err.statusCode));
     }
-    // update the customer with the payment method
-    await stripe.customers.update(customerId, {
-      invoice_settings: {
-        default_payment_method: paymentMethodId
-      }
-    });
+
+    try {
+      // update the customer with the payment method
+      await stripe.customers.update(customerId, {
+        invoice_settings: {
+          default_payment_method: paymentMethodId
+        }
+      });
+    } catch (err) {
+      return next(new ExpressError(err.message, err.statusCode));
+    }
+
     try {
       const subscription = await Checkout.stripeCreateSubscription(customerId);
       await User.updateUser(user_id, { subscription_id: subscription.id });
@@ -154,8 +159,7 @@ stripeRouter.post("/retry-invoice", async function (req: Request, res: Response,
 
     res.json(invoice);
   } catch (err) {
-    const expressErr = new ExpressError(err, 402);
     // card_decline error
-    return next(expressErr);
+    return next(new ExpressError(err, 402));
   }
 });
