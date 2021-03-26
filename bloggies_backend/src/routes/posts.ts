@@ -4,6 +4,7 @@ import Post from "../models/post";
 import express from "express";
 import ExpressError from "../expressError";
 import User from "../models/user";
+import { ACTIVE } from "../membershipStatuses";
 
 export const postsRouter = express.Router();
 
@@ -12,9 +13,15 @@ export const postsRouter = express.Router();
 postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { user_id } = req.user;
-    const { title, description, body, is_premium } = req.body;
-    const post = await Post.createPost(title, description, body, user_id, is_premium);
-    return res.status(201).send({ post });
+    const user = await User.getUser(user_id);
+    
+    if (user.membership_status === ACTIVE) {
+      const { title, description, body, is_premium } = req.body;
+      const post = await Post.createPost(title, description, body, user_id, is_premium);
+      return res.status(201).json({ post });
+    }
+
+    return next(new ExpressError("A membership is required to publish a post.", 403));
   } catch (err) {
     return next(err);
   }
@@ -42,7 +49,7 @@ postsRouter.get("/search", async function (req: Request, res: Response, next: Ne
     if (term) {
       const posts = await Post.searchPosts(term.toString());
       return res.json({ posts });
-    } 
+    }
     throw new ExpressError("Invalid search term", 400);
   } catch (err) {
     return next(err);
@@ -58,7 +65,7 @@ postsRouter.get("/:id", async function (req: Request, res: Response, next: NextF
     const status = await User.checkMembershipStatus(userId);
     const membershipStatus = status ? status.membership_status : null;
     const post = await Post.getPost(postId, membershipStatus);
-    if(post) return res.json({ post });
+    if (post) return res.json({ post });
     return res.send('The post you are looking for does not exist.')
   } catch (err) {
     return next(err);
@@ -91,7 +98,7 @@ postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Res
       return res.json(lastUpdatedDate);
     }
 
-    throw new ExpressError("Update failed: token does not belong to the post author." , 401);
+    throw new ExpressError("Update failed: token does not belong to the post author.", 401);
   } catch (err) {
     return next(err)
   }
