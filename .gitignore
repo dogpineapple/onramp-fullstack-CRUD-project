@@ -1,4 +1,8 @@
 bloggies_backend/src/.env
 node_modules
+<<<<<<< HEAD
 .history/
 .env
+=======
+bloggies_backend/coverage/
+>>>>>>> 907c1f4c9180659347ecf75aee2816ccd8107771
