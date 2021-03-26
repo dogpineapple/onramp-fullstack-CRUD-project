@@ -79,7 +79,6 @@ export default class User {
       `UPDATE users
         SET membership_status = $1, membership_start_date = $2, membership_end_date = $3
         WHERE user_id = $4
-
         RETURNING user_id, membership_status, membership_start_date, membership_end_date`,
         [appStatus, startDate || null, endDate || null, userId]);
     return res.rows[0];
@@ -110,15 +109,12 @@ export default class User {
   /** Sets membership_status to INACTIVE. Sets membership_end_date 
    * to CURRENT_TIMESTAMP. via subscription id */
   static async cancelSubscription(subscriptionId: string, end_date: Date) {
-    try {
-      await db.query(
-        `UPDATE users 
-        SET membership_status = $2, membership_end_date = to_timestamp($3), cancel_at = to_timestamp($3)
-        WHERE subscription_id = $1`,
-        [subscriptionId, INACTIVE, end_date]);
-    } catch(err) {
-      throw new ExpressError(err, 500)
-    }
+    await db.query(
+      `UPDATE users 
+      SET membership_status = $2, membership_end_date = $3
+      WHERE subscription_id = $1
+      RETURNING user_id AS id, membership_status, membership_end_date`,
+      [subscriptionId, INACTIVE, end_date]);
   }
 
   /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
