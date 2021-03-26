@@ -98,8 +98,8 @@ export default class Email {
         } catch(err) {
             throw new ExpressError(`Err: ${err}`, 400);
         }
-
     }
+    
    /** Sends a warning email to users who have not posted this week */
     static async sendNoContentWarning(user: UserLastSubmission): Promise<void> {
         const dueDate = null; //get cancel_at date

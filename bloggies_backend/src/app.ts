@@ -2,7 +2,6 @@ import { Express, Request, Response, NextFunction } from "express";
 import ExpressError from "./expressError";
 import express from "express";
 import cors from "cors";
-import cron from "node-cron";
 import CookieParser from 'cookie-parser';
 import { usersRouter} from "./routes/users";
 import { authenticateJWT } from "./middleware/auth";
@@ -43,11 +42,6 @@ app.use("/comments", commentsRouter);
 app.use("/checkout", stripeRouter);
 
 app.use("/email", sendgridRouter);
-
-//check the database every day at noon for expiring memberships and send email reminders
-cron.schedule('0 0 12 * * ', () => {
-  console.log('It\s noon and emails are sending!')
-})
 
 // Global Error Handler
 app.use(function(err: ExpressError, req: Request, res: Response, next: NextFunction) {

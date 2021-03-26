@@ -6,6 +6,7 @@ import { ensureLoggedIn } from "../middleware/auth";
 import { MY_STRIPE_API_KEY } from '../config';
 import ExpressError from '../expressError';
 import Email from '../models/email';
+import { ACTIVE } from '../membershipStatuses';
 export const stripeRouter = express.Router();
 
 /* create new Stripe instance to facilitate interactions with Stripe API*/
@@ -17,32 +18,39 @@ export const stripe = new Stripe(MY_STRIPE_API_KEY as string, {
 stripeRouter.post("/webhook", async function (req: Request, res: Response, next: NextFunction) {
   let event = req.body;
   let data: any;
-  let sub: Stripe.Subscription;
 
   switch (event.type) {
     case 'invoice.upcoming':
       data = event.data.object;
       const user = await User.getUserBySubscriptionId(data.id);
-      console.log(user);
       await Email.sendEndDateWarning(user);
       console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
     case 'invoice.paid':
       data = event.data.object;
       console.log(`invoice PAID for: ${data.customer}`);
-      sub = await stripe.subscriptions.retrieve(data.subscription);
-      await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
+      let formattedStartDate = new Date(data.period_start *1000);
+      let formattedEndDate = new Date(data.period_end*1000);
+      try{
+        await User.startSubscription(data.id, formattedStartDate, formattedEndDate);
+        const userInfo = await User.getUserBySubscriptionId(data.id);
+        await Email.sendConfirmation(userInfo.email, ACTIVE);
+        console.log('done with user update')
+      } catch(err) {
+        return next(err)
+      }
+      
       break;
     case 'invoice.payment_failed':
       data = event.data.object;
       console.log(`invoice failed for: ${data.customer}`);
-      sub = await stripe.subscriptions.retrieve(data.subscription);
-      await User.cancelSubscription(data.subscription, sub.current_period_end);
+      let formattedDate = new Date(data.current_period_end*1000);
+      await User.cancelSubscription(data.subscription, formattedDate);
       break;
     case 'customer.subscription.deleted':
       console.log("subscription deleted");
       data = event.data.object;
-      console.log(data)
-      await User.cancelSubscription(data.id, data.current_period_end);
+      let formattedDate2 = new Date(data.ended_at);
+      await User.cancelSubscription(data.id, formattedDate2);
       const userInfo = await User.getUserBySubscriptionId(data.id);
       await Email.sendExpiredNotification(userInfo.email);
       break;

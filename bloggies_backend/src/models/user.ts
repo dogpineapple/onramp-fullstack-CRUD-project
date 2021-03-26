@@ -109,22 +109,26 @@ export default class User {
 
   /** Sets membership_status to INACTIVE. Sets membership_end_date 
    * to CURRENT_TIMESTAMP. via subscription id */
-  static async cancelSubscription(subscriptionId: string, end_date: number) {
+  static async cancelSubscription(subscriptionId: Date, end_date: Date) {
     await db.query(
       `UPDATE users 
-      SET membership_status = $2, membership_end_date = $3
+      SET membership_status = $2, membership_end_date = to_timestamp($3), cancel_at = to_timestamp($3)
       WHERE subscription_id = $1`,
       [subscriptionId, INACTIVE, end_date]);
   }
 
   /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
    * Sets membership_end_date to one month from CURRENT_TIMESTAMP. via subscription id */
-   static async startSubscription(subscriptionId: string, startTime: number, endTime: number) {
+   static async startSubscription(subscriptionId: string, startTime: Date, endTime: Date) {
+   try {
     await db.query(
       `UPDATE users 
-      SET membership_status = $2, membership_start_date = $3, membership_end_date = $4
+      SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4)
       WHERE subscription_id = $1`,
       [subscriptionId, ACTIVE, startTime, endTime]);
+    } catch(err) {
+        throw new ExpressError('Can\'t update the db', 500);
+    }
   }
 
   //checks that the display_name given at registration doesn't already exist before adding it
