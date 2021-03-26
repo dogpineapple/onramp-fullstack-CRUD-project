@@ -42,8 +42,7 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
       console.log("subscription deleted");
       data = event.data.object;
       console.log(data)
-      sub = await stripe.subscriptions.retrieve(data.subscription);
-      await User.cancelSubscription(data.subscription, sub.current_period_end);
+      await User.cancelSubscription(data.id, data.current_period_end);
       const userInfo = await User.getUserBySubscriptionId(data.id);
       await Email.sendExpiredNotification(userInfo.email);
       break;
