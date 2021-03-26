@@ -86,7 +86,7 @@ describe("Test Stripe class methods", function () {
     }
   });
 
-  test("Handles invalid subscription id to cancel a subscription", async function () {
+  test("Handles invalid customer id when creating a subscription", async function () {
     try { 
      await Checkout.stripeCreateSubscription(invalidCustomerId);
     } catch (err) {
