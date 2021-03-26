@@ -69,7 +69,7 @@ describe("Test Stripe routes", function () {
   });
   
   beforeEach(async function () {
-    jest.setTimeout(60000);
+    jest.setTimeout(1000 * 60 * 10);
     await db.query("DELETE FROM user_auth");
     await db.query("DELETE FROM users");
   
