@@ -61,10 +61,15 @@ const PaymentPage = ()  => {
         const resData = await res.json()
         if(res.status == 201) {
           dispatch(gotSubscription(resData))
-          history.push('/payment/success')
+          if(resData.subscription.status == 'active'){
+            history.push('/payment/success')
+          }
+        } else if(res.status == 402) {
+            alert('card is invalid')
+          dispatch(gotServerErr(resData.error.message))
         } else {
           dispatch(gotServerErr(resData.error.message))
-        }
+        } 
         console.log(paymentMethodRes.paymentMethod);
       }
     }
