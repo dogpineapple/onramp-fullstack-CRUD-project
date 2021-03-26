@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import request from "supertest";
 import app from "../app";
-import { PRODUCT_ID } from "../config";
+import { PRICE_ID } from "../config";
 import db from "../db";
 import { ACCEPTED, ACTIVE } from "../membershipStatuses";
 import User from "../models/user";
@@ -63,7 +63,7 @@ describe("Test Stripe routes", function () {
     testSubscription = await stripe.subscriptions.create({
       customer: testCustomerWithSub.id,
       items: [{
-        plan: PRODUCT_ID
+        plan: PRICE_ID
       }]
     });
   });
@@ -209,7 +209,7 @@ describe("Test Stripe routes", function () {
     const sub = await stripe.subscriptions.create({
       customer: cus.id,
       items: [{
-        plan: PRODUCT_ID
+        plan: PRICE_ID
       }]
     });
 

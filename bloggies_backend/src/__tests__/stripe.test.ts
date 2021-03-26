@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { PRODUCT_ID } from "../config";
+import { PRICE_ID } from "../config";
 import Checkout from "../models/stripe";
 import { stripe } from "../routes/stripe";
 
@@ -41,7 +41,7 @@ describe("Test Stripe class methods", function () {
     testSubscription = await stripe.subscriptions.create({
       customer: testCustomer.id, 
       items: [{
-        plan: PRODUCT_ID
+        plan: PRICE_ID
       }]
     });
   });
