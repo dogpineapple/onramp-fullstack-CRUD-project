@@ -26,8 +26,7 @@ CREATE TABLE users (
   membership_end_date TIMESTAMP WITH TIME ZONE,
   last_submission_date TIMESTAMP WITH TIME ZONE,
   customer_id TEXT,
-  subscription_id TEXT,
-  cancel_at TIMESTAMP WITH TIME ZONE
+  subscription_id TEXT
 );
 
 CREATE TABLE posts (
@@ -74,8 +73,8 @@ VALUES
     (2, 'testuser', 'pending');
 
 
-INSERT INTO users(user_id, display_name, membership_status, membership_start_date, membership_end_date, cancel_at) 
-VALUES 
+INSERT INTO users(user_id, display_name, membership_status, membership_start_date, membership_end_date, cancel_at)
+VALUES
     (3, 'StrawberryBasilFan', 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + interval '30 days', CURRENT_TIMESTAMP + interval '7 days');
 
 INSERT INTO posts(title, description, body, author_id, is_premium)

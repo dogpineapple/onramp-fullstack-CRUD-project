@@ -5,7 +5,7 @@ import { Redirect, useHistory } from "react-router";
 import { PostFormData } from "../../custom";
 import BlogForm from "../../Forms/BlogForm";
 import { getCookie } from "../../helpers";
-import { addPostToAPI } from "../../redux/actionCreators";
+import { addPostToAPI, getUserInfoFromAPI } from "../../redux/actionCreators";
 import "./ComposePage.css";
 
 /**
@@ -22,7 +22,8 @@ function ComposePage() {
   }
 
   const postBlog = async (data: PostFormData) => {
-    dispatch(addPostToAPI(data));
+     dispatch(addPostToAPI(data));
+     dispatch(getUserInfoFromAPI());
     history.push("/");
   }
 

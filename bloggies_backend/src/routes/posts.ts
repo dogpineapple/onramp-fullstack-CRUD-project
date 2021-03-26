@@ -5,6 +5,7 @@ import express from "express";
 import ExpressError from "../expressError";
 import User from "../models/user";
 import { ACTIVE } from "../membershipStatuses";
+//import Checkout from "../models/stripe";
 
 export const postsRouter = express.Router();
 
@@ -17,6 +18,14 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
     if (user.membership_status === ACTIVE) {
       const { title, description, body, is_premium } = req.body;
       const post = await Post.createPost(title, description, body, user_id, is_premium);
+      const currentDate = Date.now() / 1000;
+      // const cancelAtThreshold = 604800000;
+      // const convertedCancelAtDate = user.cancel_at.getTime();
+      // if ((convertedCancelAtDate - currentDate) < cancelAtThreshold) {
+      //   let newCancelAtDate = convertedCancelAtDate + cancelAtThreshold / 1000;
+      //   let sub = await Checkout.stripeUpdateSubscription(user.subscription_id, newCancelAtDate);
+        await User.updateUser(user_id, {last_submission_date: currentDate})
+      // }
       return res.status(201).json({ post });
     }
     return next(new ExpressError("A membership is required to publish a post.", 403));
@@ -24,6 +33,17 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
     return next(err);
   }
 });
+
+// postsRouter.patch('/check', ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
+//   console.log('i was called!')
+//   try {
+//     let newCancelAt = (1617378558000 + (604800000 * 2)) / 1000;
+//     let sub = await Checkout.stripeUpdateSubscription('sub_JBf75MsUM1hffT', (newCancelAt));
+//     return res.json({sub});
+//   } catch (err){
+//     return next(err);
+//   }
+// })
 
 /** GET /posts - get all free posts for regular users and all posts for premium users
  * Returns posts */

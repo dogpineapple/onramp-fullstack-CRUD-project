@@ -52,9 +52,11 @@ export default class Checkout {
   }
 
   static async stripeCreateSubscription(customerId: string) {
+    // const cancelAtThreshold = 604800000;
+    // const cancelAt = Math.floor((new Date().getTime() + cancelAtThreshold) / 1000);
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
-      cancel_at: Date.now(),
+      // cancel_at: cancelAt,
       items: [{
         plan: PRODUCT_ID,
       }],
@@ -63,8 +65,13 @@ export default class Checkout {
     return subscription;
   }
 
-  static async stripeUpdateSubscription(customerId: string) {
-    
-  }
+  // static async stripeUpdateSubscription(subscriptionId: string, cancel_at: number) {
+  //   const subscription = await stripe.subscriptions.update(
+  //     subscriptionId,
+  //     {cancel_at: cancel_at}
+  //   )
+  //   console.log(subscription);
+  //   return subscription;
+  // }
 
 }
