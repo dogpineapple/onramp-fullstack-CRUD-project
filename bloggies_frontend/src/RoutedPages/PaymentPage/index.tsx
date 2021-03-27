@@ -79,17 +79,6 @@ const PaymentPage = ()  => {
     }
   }
 
-  if (error) {
-    console.log('[error]', error);
-  } else {
-    console.log('[PaymentMethod]', paymentMethod);
-  }
-
-
-  const StyledCard = styled.form `
-    
-  `
-
 
   return (
     <>
