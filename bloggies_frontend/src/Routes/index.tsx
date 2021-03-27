@@ -15,7 +15,6 @@ import "./Routes.css";
 import UserSubscriptionPayment from "../RoutedPages/UserSubscriptionPayment";
 import UserApplicationPage from "../RoutedPages/UserApplicationPage";
 import UserAddtionalApplicationPage from "../RoutedPages/UserAdditionalApplicationPage";
-import RegisterCustomer from "../RoutedPages/RegisterCustomer";
 
 function Routes() {
   return (
@@ -84,9 +83,6 @@ function Routes() {
       </Route>
       <Route exact path="/payment/form">
         <UserSubscriptionPayment/>
-      </Route>
-      <Route exact path="/register/customer">
-        <RegisterCustomer/>
       </Route>
       <Redirect to="/" />
     </Switch>
