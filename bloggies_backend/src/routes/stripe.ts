@@ -25,6 +25,7 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         // invoice object
         data = event.data.object;
         console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
+        break;
       case 'invoice.paid':
         // invoice object
         data = event.data.object;

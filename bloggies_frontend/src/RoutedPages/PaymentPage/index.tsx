@@ -7,7 +7,7 @@ import { Form} from "react-bootstrap";
 import { BASE_URL } from "../../config";
 import {useDispatch, useSelector} from 'react-redux'
 import { CustomReduxState } from "../../custom";
-import {gotServerErr } from '../../redux/actionCreators'
+import {deleteServerErr, gotServerErr } from '../../redux/actionCreators'
 import {gotSubscription} from '../../redux/stripeAction'
 import {useHistory} from 'react-router-dom'
 
@@ -45,7 +45,10 @@ const PaymentPage = ()  => {
       const paymentMethodRes = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement
-      });
+      }); 
+      if(paymentMethodRes.error) {
+        alert(`${paymentMethodRes.error.message}`)
+      }
       if(paymentMethodRes.paymentMethod) {
         const res = await fetch(`${BASE_URL}/checkout/create-subscription`,{
           method: 'POST',
@@ -60,12 +63,13 @@ const PaymentPage = ()  => {
         })
         const resData = await res.json()
         if(res.status == 201) {
+          dispatch(deleteServerErr())
           dispatch(gotSubscription(resData))
           if(resData.subscription.status == 'active'){
             history.push('/payment/success')
           }
         } else if(res.status == 402) {
-            alert('card is invalid')
+          alert('card is invalid')
           dispatch(gotServerErr(resData.error.message))
         } else {
           dispatch(gotServerErr(resData.error.message))
