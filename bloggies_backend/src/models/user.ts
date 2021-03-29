@@ -98,7 +98,7 @@ export default class User {
 
       //remove final comma
       query = query.slice(0, query.length - 2);
-      console.log('query, ', query);
+      console.log('query,',query);
       await db.query(
         `UPDATE users SET ${query} WHERE user_id = $1`,
         [id]
@@ -124,13 +124,14 @@ export default class User {
   static async startSubscription(
     subscriptionId: string,
     startTime: number,
-    endTime: number
+    endTime: number,
+    cancelAt: number
   ) {
     await db.query(
       `UPDATE users
-      SET membership_status = $2, membership_start_date = $3, membership_end_date = $4
+      SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4), cancel_at = to_timestamp($5)
       WHERE subscription_id = $1`,
-      [subscriptionId, ACTIVE, startTime, endTime]
+      [subscriptionId, ACTIVE, startTime, endTime, cancelAt]
     );
   }
 
