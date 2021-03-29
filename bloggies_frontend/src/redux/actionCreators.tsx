@@ -10,7 +10,6 @@ import * as t from "./actionTypes";
  */
 export function addPostToAPI(postData: PostFormData) {
   return async function (dispatch: Dispatch<Action>) {
-    console.log('post data: ', postData);
     const res = await fetch(`${BASE_URL}/posts`, {
       method: "POST",
       credentials: "include",
@@ -94,7 +93,6 @@ export function getUserInfoFromAPI() {
       credentials: "include",
     });
     const userRes = await res.json();
-    console.log(userRes);
     dispatch(gotUserInfo(userRes.user));
   };
 }

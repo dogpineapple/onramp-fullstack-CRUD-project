@@ -39,6 +39,7 @@ const SettingsHeader = styled.h1`
 
 function UserSettingsPage() {
   let userInfo = useSelector((st: CustomReduxState) => st.user);
+  console.log(userInfo)
   return (
     <UserSettingsPageContainer className="UserSettingsPage">
       <SettingsHeader>

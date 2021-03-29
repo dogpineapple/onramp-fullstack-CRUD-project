@@ -35,7 +35,6 @@ function BlogForm({addPost, post, closeModal }: IProp) {
       evt.stopPropagation();
     } else {
       // if form is valid, invoke addPost function.
-      console.log(formData)
       addPost(formData);
 
       if (closeModal) {

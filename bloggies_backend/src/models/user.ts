@@ -98,7 +98,6 @@ export default class User {
 
       //remove final comma
       query = query.slice(0, query.length - 2);
-      console.log(`UPDATE users SET ${query}`);
       await db.query(
         `UPDATE users SET ${query} WHERE user_id = $1`,
         [id]

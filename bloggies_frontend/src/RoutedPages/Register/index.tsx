@@ -34,7 +34,6 @@ function Register() {
         "Content-type": "application/json"
       }
     });
-    console.log('user data: ', data)
     const userRes = await res.json();
     // set the user's token into the localStorage.
     // Deprecated: No longer storing token in localStorage; Exists as cookie
