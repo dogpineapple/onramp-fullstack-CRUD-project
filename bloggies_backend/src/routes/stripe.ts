@@ -25,10 +25,15 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         // invoice object
         data = event.data.object;
         console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
+        break;
       case 'invoice.paid':
         // invoice object
         data = event.data.object;
         console.log(`invoice PAID for: ${data.customer}`);
+        break;
+      case 'invoice.payment_succeeded':
+        // invoice object
+        data = event.data.object;
         sub = await stripe.subscriptions.retrieve(data.subscription);
         await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
         break;
@@ -75,6 +80,9 @@ stripeRouter.post("/create-checkout-session", async function (req: Request, res:
 stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const { user_id, email } = req.user;
   const user = await User.getUser(user_id);
+  console.log(user_id) 
+  console.log(email) 
+  console.log(req.user)
 
   if (!user.customer_id) {
     const customer = await Checkout.stripeCreateCustomer(user_id, email);
