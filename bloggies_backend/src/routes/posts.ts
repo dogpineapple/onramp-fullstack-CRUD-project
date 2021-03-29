@@ -5,7 +5,7 @@ import express from "express";
 import ExpressError from "../expressError";
 import User from "../models/user";
 import { ACTIVE } from "../membershipStatuses";
-//import Checkout from "../models/stripe";
+import { timePeriod } from "../utils";
 
 export const postsRouter = express.Router();
 
@@ -18,8 +18,8 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
     if (user.membership_status === ACTIVE) {
       const { title, description, body, is_premium } = req.body;
       const post = await Post.createPost(title, description, body, user_id, is_premium);
-      const currentDate = Date.now() / 1000;
-      const updatedCancelAt = currentDate + 604800;
+      const currentDate = Math.ceil(Date.now() / 1000);
+      const updatedCancelAt = currentDate + timePeriod;
         await User.updateUser(user_id, {last_submission_date: currentDate, cancel_at: updatedCancelAt})
       return res.status(201).json({ post });
     }
@@ -29,16 +29,6 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
   }
 });
 
-// postsRouter.patch('/check', ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
-//   console.log('i was called!')
-//   try {
-//     let newCancelAt = (1617378558000 + (604800000 * 2)) / 1000;
-//     let sub = await Checkout.stripeUpdateSubscription('sub_JBf75MsUM1hffT', (newCancelAt));
-//     return res.json({sub});
-//   } catch (err){
-//     return next(err);
-//   }
-// })
 
 /** GET /posts - get all free posts for regular users and all posts for premium users
  * Returns posts */

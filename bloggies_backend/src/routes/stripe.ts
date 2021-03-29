@@ -5,7 +5,7 @@ import User from "../models/user";
 import { ensureLoggedIn } from "../middleware/auth";
 import { STRIPE_API_KEY } from "../config";
 import ExpressError from "../expressError";
-import { ableToStartSub } from "../utils";
+import { ableToStartSub, timePeriod } from "../utils";
 import { ACTIVE } from "../membershipStatuses";
 export const stripeRouter = express.Router();
 
@@ -37,7 +37,7 @@ stripeRouter.post(
           // invoice object
           data = event.data.object;
           sub = await stripe.subscriptions.retrieve(data.subscription);
-          let cancelAt = sub.current_period_start + 604800;
+          let cancelAt = sub.current_period_start + timePeriod;
           await User.startSubscription(
             sub.id,
             sub.current_period_start,
@@ -58,6 +58,7 @@ stripeRouter.post(
         case "customer.subscription.deleted":
           // subscription object
           data = event.data.object;
+          console.log(data);
           await User.cancelSubscription(data.id, data.current_period_end);
           break;
         case "payment_intent.succeeded":

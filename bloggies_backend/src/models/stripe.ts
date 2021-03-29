@@ -36,8 +36,8 @@ export default class Checkout {
 
   static async stripeSubscriptionCancel(subscriptionId: string) {
     try {
-      console.log(subscriptionId)
     const deletedSubscription = await stripe.subscriptions.del(subscriptionId);
+    console.log(deletedSubscription)
     return deletedSubscription;
     } catch (err) {
       throw new ExpressError(`No such subscription: ${subscriptionId}`, 400);

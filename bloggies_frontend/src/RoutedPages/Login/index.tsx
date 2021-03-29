@@ -40,8 +40,9 @@ function Login() {
       let cancelAt = new Date(loginRes.user.cancel_at);
       if (cancelAt <= new Date()) {
         dispatch(cancelPremiumUserMembership(loginRes.user.subscription_id))
+      } else {
+        dispatch(gotUserInfo(loginRes.user));
       }
-      dispatch(gotUserInfo(loginRes.user));
       dispatch(getUserFavoritesFromAPI(loginRes.user.id));
       history.push("/");
     } else {

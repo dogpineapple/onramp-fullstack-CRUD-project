@@ -10,6 +10,7 @@ import * as t from "./actionTypes";
  */
 export function addPostToAPI(postData: PostFormData) {
   return async function (dispatch: Dispatch<Action>) {
+    console.log('post data: ', postData);
     const res = await fetch(`${BASE_URL}/posts`, {
       method: "POST",
       credentials: "include",
@@ -226,7 +227,6 @@ export function gotUserInfo(user: User) {
  * and dispatches action to update redux store.
  */
 export function updateMembershipStatus(status: string) {
-  console.log('updateMembershipStatusRan!')
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/users/status-update`, {
       method: "PATCH",
@@ -278,11 +278,16 @@ export function cancelPremiumUserMembership(subscriptionId: string) {
     });
     const resData = await res.json();
     // resData.current_period_end
-    const updatedMembershipData = {
-      membership_end_date: new Date(),
-      membership_status: "inactive",
-      cancel_at: null
-    };
-    dispatch(updateUserStatus(updatedMembershipData));
+    if (res.status === 200) {
+      const updatedMembershipData = {
+        membership_end_date: new Date(),
+        membership_status: "inactive",
+        cancel_at: null
+      }
+      dispatch(updateUserStatus(updatedMembershipData));
+    } else {
+      const resData = await res.json();
+      dispatch(gotServerErr(resData.error.message));
+    }
   };
 }

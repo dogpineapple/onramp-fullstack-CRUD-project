@@ -90,15 +90,15 @@ export default class User {
 
       for (let key in updateData) {
         if (key === 'cancel_at' || key === 'membership_end_date' || key === 'last_submission_date' || key === 'membership_start_date') {
-          query = query + ` ${key} = 'to_timestamp(${updateData[key]})', `
+          query = query + `${key} = to_timestamp(${updateData[key]}), `
         } else {
-          query = query + ` ${key} = '${updateData[key]}', `;
+          query = query + `${key} = '${updateData[key]}', `;
         }
       }
 
       //remove final comma
       query = query.slice(0, query.length - 2);
-      console.log('query,',query);
+      console.log(`UPDATE users SET ${query}`);
       await db.query(
         `UPDATE users SET ${query} WHERE user_id = $1`,
         [id]
