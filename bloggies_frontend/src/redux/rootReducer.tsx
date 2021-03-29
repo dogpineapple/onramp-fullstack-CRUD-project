@@ -13,13 +13,16 @@ function rootReducer(state = INITIAL_STATE, action: Action) {
     case t.UPDATE_CUSTOMER_ID: 
       return {...state, user:{ ...state.user, customer_id: action.payload.customer.id}};
     case t.UPDATE_SUBSCRIPTION_ID: 
-      return {...state, user: { ...state.user, subscription_id: action.payload.subscription_id}}
+      console.log("UPDATE SUBSCRIPTION ID", action.payload);
+      return {...state, user: { ...state.user, subscription_id: action.payload.subscription_id}};
     case t.UPDATE_MEMBERSHIP_STATUS:
       return { ...state, user: { ...state.user, membership_status: action.payload.membership_status } };
     case t.LOAD_USER:
       return { ...state, user: action.payload.user };
     case t.LOAD_POSTS:
       return { ...state, posts: [...action.payload.posts] };
+    case t.CLEAR_POSTS:
+      return { ...state, posts: [] };
     case t.LOAD_FAVORITES:
       return { ...state, favorites: [...action.payload.favorites] };
     case t.LOAD_SEARCH_RESULTS:

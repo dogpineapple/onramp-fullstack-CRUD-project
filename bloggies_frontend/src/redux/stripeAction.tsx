@@ -33,6 +33,6 @@ export const createCustomer = () => {
   }
 
   export const gotSubscription = (subscription:any) => {
-    return { type: UPDATE_SUBSCRIPTION_ID, payload: subscription};
+    return { type: UPDATE_SUBSCRIPTION_ID, payload: { subscription_id: subscription.id }};
   }
 

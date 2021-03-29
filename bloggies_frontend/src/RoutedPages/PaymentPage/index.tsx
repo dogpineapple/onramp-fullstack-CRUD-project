@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import { CardElement, useStripe, useElements} from "@stripe/react-stripe-js"; 
 import {CreateTokenCardData} from '@stripe/stripe-js';
 import { Form} from "react-bootstrap";
-import { BASE_URL } from "../../config";
+import { ACTIVE, BASE_URL } from "../../config";
 import {useDispatch, useSelector} from 'react-redux'
 import { CustomReduxState } from "../../custom";
-import {deleteServerErr, gotServerErr } from '../../redux/actionCreators'
+import {deleteServerErr, gotServerErr, gotMembershipStatus } from '../../redux/actionCreators'
 import {gotSubscription} from '../../redux/stripeAction'
 import {useHistory} from 'react-router-dom'
 
@@ -63,9 +63,10 @@ const PaymentPage = ()  => {
         })
         const resData = await res.json()
         if(res.status == 201) {
-          dispatch(deleteServerErr())
-          dispatch(gotSubscription(resData))
+          dispatch(deleteServerErr());
+          dispatch(gotSubscription(resData.subscription));
           if(resData.subscription.status == 'active'){
+            dispatch(gotMembershipStatus(ACTIVE));
             history.push('/payment/success')
           }
         } else if(res.status == 402) {
@@ -74,7 +75,6 @@ const PaymentPage = ()  => {
         } else {
           dispatch(gotServerErr(resData.error.message))
         } 
-        console.log(paymentMethodRes.paymentMethod);
       }
     }
   }
