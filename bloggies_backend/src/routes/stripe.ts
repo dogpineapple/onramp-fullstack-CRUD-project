@@ -146,8 +146,7 @@ stripeRouter.post(
           customerId
         );
         await User.updateUser(user_id, {
-          subscription_id: subscription.id,
-          membership_status: "active",
+          subscription_id: subscription.id
         });
         return res.status(201).json({ subscription });
       } catch (err) {

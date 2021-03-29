@@ -20,13 +20,7 @@ postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Respons
       const post = await Post.createPost(title, description, body, user_id, is_premium);
       const currentDate = Date.now() / 1000;
       const updatedCancelAt = currentDate + 604800;
-      // const cancelAtThreshold = 604800000;
-      // const convertedCancelAtDate = user.cancel_at.getTime();
-      // if ((convertedCancelAtDate - currentDate) < cancelAtThreshold) {
-      //   let newCancelAtDate = convertedCancelAtDate + cancelAtThreshold / 1000;
-      //   let sub = await Checkout.stripeUpdateSubscription(user.subscription_id, newCancelAtDate);
         await User.updateUser(user_id, {last_submission_date: currentDate, cancel_at: updatedCancelAt})
-      // }
       return res.status(201).json({ post });
     }
     return next(new ExpressError("A membership is required to publish a post.", 403));
