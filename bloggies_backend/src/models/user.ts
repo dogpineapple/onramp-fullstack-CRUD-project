@@ -129,7 +129,7 @@ export default class User {
    try {
     await db.query(
       `UPDATE users 
-      SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4)
+      SET membership_status = $2, membership_start_date = $3, membership_end_date = $4
       WHERE subscription_id = $1`,
       [subscriptionId, ACTIVE, new Date(startTime * 1000), new Date(endTime * 1000)]);
     } catch(err) {
