@@ -9,9 +9,8 @@ import {gotServerErr, deleteServerErr } from './actionCreators'
  * action to update redux store.
  */
 
- 
 export const createCustomer = () => {
-    return async function (dispatch:Dispatch<Action>) {
+   return async function (dispatch:Dispatch<Action>) {
       const res = await fetch(`${BASE_URL}/checkout/create-customer`, {
         method: 'POST',
         credentials: 'include',
@@ -19,23 +18,21 @@ export const createCustomer = () => {
           'Content-Type': 'application/json',
         } 
       })
-      const resData = await res.json() 
+      const resData = await res.json(); 
       if(res.status == 201) {
-        dispatch(deleteServerErr())
-        dispatch(gotCustomer(resData))
+        dispatch(deleteServerErr());
+        dispatch(gotCustomer(resData));
       } else {
-        dispatch(gotServerErr(resData.error.message))
+        dispatch(gotServerErr(resData.error.message));
       }
     }
   }
  
   const gotCustomer = (customer:any) => {
-    return {type: UPDATE_CUSTOMER_ID, payload: customer} 
-      
+    return {type: UPDATE_CUSTOMER_ID, payload: customer}; 
   }
 
-
   export const gotSubscription = (subscription:any) => {
-    return { type: UPDATE_SUBSCRIPTION_ID, payload: subscription }
+    return { type: UPDATE_SUBSCRIPTION_ID, payload: subscription};
   }
 
