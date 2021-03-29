@@ -6,7 +6,7 @@ import { ensureLoggedIn } from "../middleware/auth";
 import { STRIPE_API_KEY } from '../config';
 import ExpressError from '../expressError';
 import Email from '../models/email';
-import { ableToStartSub, lastSubmissionCheck } from '../utils';
+import { ableToStartSub } from '../utils';
 import { ACTIVE } from '../membershipStatuses';
 export const stripeRouter = express.Router();
 
@@ -25,14 +25,17 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
     case 'invoice.upcoming':
       //invoice object
       data = event.data.object;
-      const user = await User.getUserBySubscriptionId(data.id);
+      sub = await stripe.subscriptions.retrieve(data.subscription);
+      const user = await User.getUserBySubscriptionId(sub.id);
 
-      const isOverdue = lastSubmissionCheck(user);
+      //check today against cancel_at date to see if user is overdue for a post
+      const now = new Date();
+      const isOverdue = now >= user.cancel_at;
 
       if(isOverdue) {
         try{
           await Checkout.stripeSubscriptionCancel(user.user_id);
-          await User.cancelSubscription(user.user_id, new Date());
+          await User.cancelSubscription(user.user_id, now);
         } catch(err) {
           return next(err);
         }

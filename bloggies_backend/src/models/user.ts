@@ -23,7 +23,7 @@ export default class User {
   static async getUser(userId: number) {
     const res = await db.query(
       `SELECT user_id AS id, display_name, membership_status, membership_start_date, 
-      membership_end_date, last_submission_date, subscription_id, customer_id
+      membership_end_date, last_submission_date, subscription_id, customer_id, cancel_at
         FROM users
         WHERE user_id = $1`,
       [userId]);
@@ -34,7 +34,7 @@ export default class User {
   static async getUserBySubscriptionId(subscriptionId: string) {
     const res = await db.query(
       `SELECT ua.email, u.user_id, u.membership_status, u.membership_start_date, 
-      u.membership_end_date, u.last_submission_date, u.subscription_id, u.customer_id
+      u.membership_end_date, u.last_submission_date, u.subscription_id, u.customer_id, u.cancel_at
       FROM users as u
       JOIN user_auth as ua
       ON u.user_id = ua.id
@@ -114,10 +114,10 @@ export default class User {
     try {
       await db.query(
         `UPDATE users 
-        SET membership_status = $2, membership_end_date = $3, subscription_id = $4
+        SET membership_status = $2, membership_end_date = $3
         WHERE subscription_id = $1
         RETURNING user_id AS id, membership_status, membership_end_date`,
-        [subscriptionId, INACTIVE, end_date, null]);
+        [subscriptionId, INACTIVE, end_date]);
     } catch(err) {
       throw new ExpressError(err, 500);
     }

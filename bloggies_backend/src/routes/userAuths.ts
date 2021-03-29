@@ -3,7 +3,6 @@ import ExpressError from "../expressError";
 import UserAuth from "../models/userAuth";
 import User from "../models/user";
 import Checkout from "../models/stripe";
-import { lastSubmissionCheck } from "../utils";
 
 export const userAuthRouter = express.Router();
 
@@ -47,7 +46,8 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
 
     res.cookie("token", authResult.token);
 
-    const isOverdue = lastSubmissionCheck(user);
+    const now = new Date();
+    const isOverdue = now >= user.cancel_at;
 
     if(isOverdue) {
       try{
