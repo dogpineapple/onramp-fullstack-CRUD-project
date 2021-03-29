@@ -38,11 +38,10 @@ function Login() {
     // localStorage.setItem("token", loginRes.token);
     if (res.status === 200) {
       let cancelAt = new Date(loginRes.user.cancel_at);
-      if (cancelAt <= new Date()) {
+      if (cancelAt && cancelAt <= new Date()) {
         dispatch(cancelPremiumUserMembership(loginRes.user.subscription_id))
-      } else {
-        dispatch(gotUserInfo(loginRes.user));
       }
+      dispatch(gotUserInfo(loginRes.user));
       dispatch(getUserFavoritesFromAPI(loginRes.user.id));
       history.push("/");
     } else {
