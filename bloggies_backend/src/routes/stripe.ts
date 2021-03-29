@@ -121,7 +121,6 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
 
   const userStatusRes = await User.checkMembershipStatus(user_id);
   if (ableToStartSub(userStatusRes.membership_status)) {
-    if(paymentMethodId){
     try {
       // save payment method info for a customer
       await stripe.paymentMethods.attach(paymentMethodId, {
@@ -141,7 +140,6 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
     } catch (err) {
       return next(new ExpressError(err.message, err.statusCode));
     }
-  }
 
     try {
       const subscription = await Checkout.stripeCreateSubscription(customerId);
