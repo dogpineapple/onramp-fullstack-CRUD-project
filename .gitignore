@@ -1,3 +1,5 @@
 bloggies_backend/src/.env
 node_modules
+.history/
+.env
 bloggies_backend/coverage/

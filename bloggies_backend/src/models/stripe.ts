@@ -71,13 +71,4 @@ export default class Checkout {
     }
   }
 
-  // static async stripeUpdateSubscription(subscriptionId: string, cancel_at: number) {
-  //   const subscription = await stripe.subscriptions.update(
-  //     subscriptionId,
-  //     {cancel_at: cancel_at}
-  //   )
-  //   console.log(subscription);
-  //   return subscription;
-  // }
-
 }

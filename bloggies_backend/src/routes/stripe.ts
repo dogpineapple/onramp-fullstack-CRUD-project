@@ -15,59 +15,48 @@ export const stripe = new Stripe(STRIPE_API_KEY as string, {
 });
 
 /** GET handles events that occur over a stripe session via webhook */
-stripeRouter.post(
-  "/webhook",
-  async function (req: Request, res: Response, next: NextFunction) {
-    let event = req.body;
-    let data: any;
-    let sub: Stripe.Subscription;
-    try {
-      switch (event.type) {
-        case "invoice.upcoming":
-          // invoice object
-          data = event.data.object;
-          console.log(
-            `invoice upcoming, subscription almost ending for  cust ${data.customer}`
-          );
-        case "invoice.paid":
-          // invoice object
-          data = event.data.object;
-          console.log(`invoice PAID for: ${data.customer}`);
-        case "invoice.payment_succeeded":
-          // invoice object
-          data = event.data.object;
-          sub = await stripe.subscriptions.retrieve(data.subscription);
-          let cancelAt = sub.current_period_start + timePeriod;
-          await User.startSubscription(
-            sub.id,
-            sub.current_period_start,
-            sub.current_period_end,
-            cancelAt
-          );
-          break;
-        case "invoice.payment_failed":
-          // invoice object
-          data = event.data.object;
-          console.log(`invoice failed for: ${data.customer}`);
-          sub = await stripe.subscriptions.retrieve(data.subscription);
-          await User.cancelSubscription(
-            data.subscription,
-            sub.current_period_end
-          );
-          break;
-        case "customer.subscription.deleted":
-          // subscription object
-          data = event.data.object;
-          console.log(data);
-          await User.cancelSubscription(data.id, data.current_period_end);
-          break;
-        case "payment_intent.succeeded":
-          console.log(`PaymentIntent success for ${event.data.object.amount}`);
-          break;
-        default:
-          console.log("web hook default, unhandled event", event.type);
-          break;
-      }
+stripeRouter.post("/webhook", async function (req: Request, res: Response, next: NextFunction) {
+  let event = req.body;
+  let data: any;
+  let sub: Stripe.Subscription;
+  try {
+    switch (event.type) {
+      case 'invoice.upcoming':
+        // invoice object
+        data = event.data.object;
+        console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
+        break;
+      case 'invoice.paid':
+        // invoice object
+        data = event.data.object;
+        console.log(`invoice PAID for: ${data.customer}`);
+        break;
+      case 'invoice.payment_succeeded':
+        // invoice object
+        data = event.data.object;
+        sub = await stripe.subscriptions.retrieve(data.subscription);
+        let cancelAt = sub.current_period_start + timePeriod;
+        await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end, cancelAt);
+        break;
+      case 'invoice.payment_failed':
+        // invoice object
+        data = event.data.object;
+        console.log(`invoice failed for: ${data.customer}`);
+        sub = await stripe.subscriptions.retrieve(data.subscription);
+        await User.cancelSubscription(data.subscription, sub.current_period_end);
+        break;
+      case 'customer.subscription.deleted':
+        // subscription object
+        data = event.data.object;
+        await User.cancelSubscription(data.id, data.current_period_end);
+        break;
+      case 'payment_intent.succeeded':
+        console.log(`PaymentIntent success for ${event.data.object.amount}`);
+        break;
+      default:
+        console.log("web hook default, unhandled event", event.type);
+        break;
+    }
 
       return res.json({ received: true });
     } catch (err) {

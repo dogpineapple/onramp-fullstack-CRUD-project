@@ -182,11 +182,11 @@ function deleteFavorite(postId: number) {
   return { type: t.DELETE_FAVORITE, payload: { postId } };
 }
 
-function gotServerErr(err: string) {
+export function gotServerErr(err: string) {
   return { type: t.DISPLAY_SERVER_ERR, payload: { err } };
 }
 
-function deleteServerErr() {
+export function deleteServerErr() {
   return { type: t.REMOVE_SERVER_ERR };
 }
 
