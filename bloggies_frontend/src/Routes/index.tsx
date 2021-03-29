@@ -85,9 +85,6 @@ function Routes() {
       <Route exact path="/payment/form">
         <UserSubscriptionPayment/>
       </Route>
-      <Route exact path="/register/customer">
-        <RegisterCustomer/>
-      </Route>
       <Redirect to="/" />
     </Switch>
   )

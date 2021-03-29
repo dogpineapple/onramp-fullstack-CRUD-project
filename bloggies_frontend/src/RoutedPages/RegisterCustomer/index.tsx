@@ -22,15 +22,13 @@ const RegisterCustomer = ()  => {
       console.log('customer');
     }
 
-
   return (
-       
     <div>
         <form onSubmit={handleSubmit}>
         {/* {email} onChange={(e) => setEmail(e.target.value)} */}
             <button type="submit">Register</button>
         </form>
-  </div>
+    </div>
   )
 }
 

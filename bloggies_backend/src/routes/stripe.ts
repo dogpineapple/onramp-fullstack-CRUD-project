@@ -80,9 +80,6 @@ stripeRouter.post("/create-checkout-session", async function (req: Request, res:
 stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const { user_id, email } = req.user;
   const user = await User.getUser(user_id);
-  console.log(user_id) 
-  console.log(email) 
-  console.log(req.user)
 
   if (!user.customer_id) {
     const customer = await Checkout.stripeCreateCustomer(user_id, email);
