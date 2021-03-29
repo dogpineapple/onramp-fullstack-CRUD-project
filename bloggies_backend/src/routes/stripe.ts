@@ -123,6 +123,7 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
   const { user_id } = req.user;
 
   const userStatusRes = await User.checkMembershipStatus(user_id);
+
   if (ableToStartSub(userStatusRes.membership_status)) {
     try {
       // save payment method info for a customer

@@ -3,9 +3,9 @@ import { ensureLoggedIn } from "../middleware/auth";
 import User from "../models/user";
 import ExpressError from "../expressError";
 import Email from "../models/email";
-// import { stripe } from "./stripe";
-// import { ACTIVE } from "../membershipStatuses";
-// import Stripe from "stripe";
+import { stripe } from "./stripe";
+import { ACTIVE } from "../membershipStatuses";
+import Stripe from "stripe";
 
 export const usersRouter = express.Router();
 
@@ -43,10 +43,17 @@ usersRouter.patch("/status-update", ensureLoggedIn, async (req: Request, res: Re
   const { appStatus } = req.body;
   const { user_id, email } = req.user;
 
+  let sub: Stripe.Subscription;
   let updatedUser;
 
   try {
-    updatedUser = await User.updateMembership(user_id, appStatus);
+    if (appStatus === ACTIVE) {
+      const currUser = await User.getUser(user_id);
+      sub = await stripe.subscriptions.retrieve(currUser.subscription_id);
+      updatedUser = await User.updateMembership(user_id, appStatus, sub.current_period_start, sub.current_period_end);
+    } else {
+      updatedUser = await User.updateMembership(user_id, appStatus);
+    }
     await Email.sendConfirmation(email, appStatus);
     return res.json(updatedUser);
   } catch (err) {

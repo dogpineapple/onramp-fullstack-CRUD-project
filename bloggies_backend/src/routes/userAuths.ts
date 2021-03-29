@@ -47,7 +47,7 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
     res.cookie("token", authResult.token);
 
     const now = new Date();
-    const isOverdue = now >= user.cancel_at;
+    const isOverdue = user.cancel_at ? now >= user.cancel_at : false;
 
     if(isOverdue) {
       try{
