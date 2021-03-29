@@ -129,13 +129,13 @@ export default class User {
 
   /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
    * Sets membership_end_date to one month from CURRENT_TIMESTAMP. via subscription id */
-   static async startSubscription(subscriptionId: string, startTime: Date, endTime: Date) {
+   static async startSubscription(subscriptionId: string, startTime: number, endTime: number) {
    try {
     await db.query(
       `UPDATE users 
       SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4)
       WHERE subscription_id = $1`,
-      [subscriptionId, ACTIVE, startTime, endTime]);
+      [subscriptionId, ACTIVE, new Date(startTime * 1000), new Date(endTime * 1000)]);
     } catch(err) {
         throw new ExpressError('Can\'t update the db', 500);
     }

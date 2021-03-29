@@ -19,9 +19,11 @@ export const stripe = new Stripe(STRIPE_API_KEY as string, {
 stripeRouter.post("/webhook", async function (req: Request, res: Response, next: NextFunction) {
   let event = req.body;
   let data: any;
+  let sub: Stripe.Subscription;
 
   switch (event.type) {
     case 'invoice.upcoming':
+      //invoice object
       data = event.data.object;
       const user = await User.getUserBySubscriptionId(data.id);
 
@@ -40,13 +42,17 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         console.log(`invoice upcoming, subscription almost ending for cust ${data.customer}`);
       }
     case 'invoice.paid':
+      //invoice object
       data = event.data.object;
       console.log(`invoice PAID for: ${data.customer}`);
-      let formattedStartDate = new Date(data.period_start *1000);
-      let formattedEndDate = new Date(data.period_end*1000);
+      break;
+    case 'invoice.payment_succeeded':
+      // invoice object
+      data = event.data.object;
       try{
-        await User.startSubscription(data.id, formattedStartDate, formattedEndDate);
-        const userInfo = await User.getUserBySubscriptionId(data.id);
+        sub = await stripe.subscriptions.retrieve(data.subscription);
+        await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
+        const userInfo = await User.getUserBySubscriptionId(sub.id);
         await Email.sendConfirmation(userInfo.email, ACTIVE);
         console.log('done with user update')
       } catch(err) {
@@ -54,6 +60,7 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
       }
       break;
     case 'invoice.payment_failed':
+      //invoice object
       data = event.data.object;
       console.log(`invoice failed for: ${data.customer}`);
       let formattedDate = new Date(data.current_period_end*1000);
@@ -93,6 +100,9 @@ stripeRouter.post("/create-checkout-session", async function (req: Request, res:
 stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   const { user_id, email } = req.user;
   const user = await User.getUser(user_id);
+  console.log(user_id) 
+  console.log(email) 
+  console.log(req.user)
 
   if (!user.customer_id) {
     const customer = await Checkout.stripeCreateCustomer(user_id, email);
