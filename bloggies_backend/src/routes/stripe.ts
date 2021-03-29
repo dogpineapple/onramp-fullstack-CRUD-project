@@ -1,12 +1,12 @@
-import Checkout from '../models/stripe';
+import Checkout from "../models/stripe";
 import express, { Request, Response, NextFunction } from "express";
-import Stripe from 'stripe';
-import User from '../models/user';
+import Stripe from "stripe";
+import User from "../models/user";
 import { ensureLoggedIn } from "../middleware/auth";
-import { STRIPE_API_KEY } from '../config';
-import ExpressError from '../expressError';
-import { ableToStartSub } from '../utils';
-import { ACTIVE } from '../membershipStatuses';
+import { STRIPE_API_KEY } from "../config";
+import ExpressError from "../expressError";
+import { ableToStartSub, timePeriod } from "../utils";
+import { ACTIVE } from "../membershipStatuses";
 export const stripeRouter = express.Router();
 
 /* create new Stripe instance to facilitate interactions with Stripe API*/
@@ -35,7 +35,8 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         // invoice object
         data = event.data.object;
         sub = await stripe.subscriptions.retrieve(data.subscription);
-        await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end);
+        let cancelAt = sub.current_period_start + timePeriod;
+        await User.startSubscription(sub.id, sub.current_period_start, sub.current_period_end, cancelAt);
         break;
       case 'invoice.payment_failed':
         // invoice object
@@ -57,117 +58,146 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         break;
     }
 
-    return res.json({ received: true });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** POST /create-checkout-session - creates a new checkout session.
- * Returns session id, currently not checking if user logged in */
-stripeRouter.post("/create-checkout-session", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const { priceId } = req.body;
-    const session = await Checkout.stripeCheckout(priceId);
-    res.status(201).send({ sessionId: session.id })
-  } catch (err) {
-    return next(err);
-  }
-});
-
-
-/** POST create a customer for a user */
-stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
-  const { user_id, email } = req.user;
-  const user = await User.getUser(user_id);
-  console.log(user_id) 
-  console.log(email) 
-  console.log(req.user)
-
-  if (!user.customer_id) {
-    const customer = await Checkout.stripeCreateCustomer(user_id, email);
-
-    await User.updateUser(user_id, { customer_id: customer.id });
-    return res.status(201).json({ customer });
-  }
-
-  return next(new ExpressError("Customer id already exists for this user.", 400));
-});
-
-/** POST create a subscription for a customer and save payment method  */
-stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
-  const { paymentMethodId, customerId } = req.body;
-  const { user_id } = req.user;
-
-  const userStatusRes = await User.checkMembershipStatus(user_id);
-  if (ableToStartSub(userStatusRes.membership_status)) {
-    try {
-      // save payment method info for a customer
-      await stripe.paymentMethods.attach(paymentMethodId, {
-        customer: customerId
-      });
-    } catch (err) {
-      return next(new ExpressError(err.message, err.statusCode));
-    }
-
-    try {
-      // update the customer with the payment method
-      await stripe.customers.update(customerId, {
-        invoice_settings: {
-          default_payment_method: paymentMethodId
-        }
-      });
-    } catch (err) {
-      return next(new ExpressError(err.message, err.statusCode));
-    }
-
-    try {
-      const subscription = await Checkout.stripeCreateSubscription(customerId);
-      await User.updateUser(user_id, { subscription_id: subscription.id });
-      return res.status(201).json({ subscription });
+      return res.json({ received: true });
     } catch (err) {
       return next(err);
     }
   }
-  if (userStatusRes.membership_status === ACTIVE) {
-    return next(new ExpressError("Cannot have multiple subscriptions active at once.", 400));
-  } else {
-    return next(new ExpressError("Not eligible for premium subscription.", 400));
+);
+
+/** POST /create-checkout-session - creates a new checkout session.
+ * Returns session id, currently not checking if user logged in */
+stripeRouter.post(
+  "/create-checkout-session",
+  async function (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { priceId } = req.body;
+      const session = await Checkout.stripeCheckout(priceId);
+      res.status(201).send({ sessionId: session.id });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
+
+/** POST create a customer for a user */
+stripeRouter.post(
+  "/create-customer",
+  ensureLoggedIn,
+  async function (req: Request, res: Response, next: NextFunction) {
+    const { user_id, email } = req.user;
+    const user = await User.getUser(user_id);
+
+    if (!user.customer_id) {
+      const customer = await Checkout.stripeCreateCustomer(user_id, email);
+
+      await User.updateUser(user_id, { customer_id: customer.id });
+      return res.status(201).json({ customer });
+    }
+
+    return next(
+      new ExpressError("Customer id already exists for this user.", 400)
+    );
+  }
+);
+
+/** POST create a subscription for a customer and save payment method  */
+stripeRouter.post(
+  "/create-subscription",
+  ensureLoggedIn,
+  async function (req: Request, res: Response, next: NextFunction) {
+    const { paymentMethodId, customerId } = req.body;
+    const { user_id } = req.user;
+
+    const userStatusRes = await User.checkMembershipStatus(user_id);
+    if (ableToStartSub(userStatusRes.membership_status)) {
+      try {
+        // save payment method info for a customer
+        await stripe.paymentMethods.attach(paymentMethodId, {
+          customer: customerId,
+        });
+      } catch (err) {
+        return next(new ExpressError(err.message, err.statusCode));
+      }
+
+      try {
+        // update the customer with the payment method
+        await stripe.customers.update(customerId, {
+          invoice_settings: {
+            default_payment_method: paymentMethodId,
+          },
+        });
+      } catch (err) {
+        return next(new ExpressError(err.message, err.statusCode));
+      }
+
+      try {
+        const subscription = await Checkout.stripeCreateSubscription(
+          customerId
+        );
+        await User.updateUser(user_id, {
+          subscription_id: subscription.id
+        });
+        return res.status(201).json({ subscription });
+      } catch (err) {
+        return next(err);
+      }
+    }
+    if (userStatusRes.membership_status === ACTIVE) {
+      return next(
+        new ExpressError(
+          "Cannot have multiple subscriptions active at once.",
+          400
+        )
+      );
+    } else {
+      return next(
+        new ExpressError("Not eligible for premium subscription.", 400)
+      );
+    }
+  }
+);
 
 /** DELETE cancels user's Stripe subscription */
-stripeRouter.delete("/cancel-subscription", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const cancelledSubscription = await Checkout.stripeSubscriptionCancel(req.body.subscription_id);
-    res.send({ cancelled_subscription: cancelledSubscription });
-  } catch (err) {
-    return next(err);
+stripeRouter.delete(
+  "/cancel-subscription",
+  async function (req: Request, res: Response, next: NextFunction) {
+    try {
+      const cancelledSubscription = await Checkout.stripeSubscriptionCancel(
+        req.body.subscription_id
+      );
+      res.send({ cancelled_subscription: cancelledSubscription });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 /** POST update the customer with new payment method and assign it as the new default payment for subscription invoices */
-stripeRouter.post("/retry-invoice", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const { customer_id, paymentMethodId, invoiceId } = req.body;
+stripeRouter.post(
+  "/retry-invoice",
+  async function (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { customer_id, paymentMethodId, invoiceId } = req.body;
 
-    await stripe.paymentMethods.attach(paymentMethodId, {
-      customer: customer_id
-    });
-    // update the customer with the payment method
-    await stripe.customers.update(customer_id, {
-      invoice_settings: {
-        default_payment_method: paymentMethodId
-      }
-    });
+      await stripe.paymentMethods.attach(paymentMethodId, {
+        customer: customer_id,
+      });
+      // update the customer with the payment method
+      await stripe.customers.update(customer_id, {
+        invoice_settings: {
+          default_payment_method: paymentMethodId,
+        },
+      });
 
-    const invoice = await stripe.invoices.retrieve(invoiceId, {
-      expand: ['payment_intent']
-    });
+      const invoice = await stripe.invoices.retrieve(invoiceId, {
+        expand: ["payment_intent"],
+      });
 
-    res.json(invoice);
-  } catch (err) {
-    // card_decline error
-    return next(new ExpressError(err, 402));
+      res.json(invoice);
+    } catch (err) {
+      // card_decline error
+      return next(new ExpressError(err, 402));
+    }
   }
-});
+);

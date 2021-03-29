@@ -21,8 +21,8 @@ export default class UserAuth {
 			return { user: user, token };
 		} catch (err) {
 			// I changed "Email already exists" message to err.message because to get a more accurate error message getting different error as a result
-			throw new ExpressError(err.message, 400); 
-			
+			throw new ExpressError(err.message, 400);
+
 		}
 	}
 
@@ -37,7 +37,8 @@ export default class UserAuth {
 			const isValid = await bcrypt.compare(password, user.hashed_pwd);
 			if (isValid) {
 				// Generate a jwt token with payload of `email` and `user_id`.
-				let token = jwt.sign({ email: email, user_id: user.id }, SECRET_KEY as string);
+				let token = jwt.sign({ email: email, user_id: user.id }, SECRET_KEY as string, {expiresIn: "1d"});
+				console.log(token)
 				return { user: { id: user.id, email: email }, token };
 			}
 			// Throw error if password is not valid.

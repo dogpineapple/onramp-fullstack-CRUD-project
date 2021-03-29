@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Post } from "../../custom";
+import { useSelector } from "react-redux";
+import { CustomReduxState, Post } from "../../custom";
+
 
 interface IProp {
   addPost: Function,
@@ -13,7 +15,10 @@ interface IProp {
  * (IF EDITING: post and closeModal parameters required)
  */
 function BlogForm({addPost, post, closeModal }: IProp) {
-  const INITIAL_FORM_VALUES = { title: post?.title || "", description: post?.description || "", body: post?.body || "" }
+  const membershipStatus = useSelector(
+    (st: CustomReduxState) => st.user.membership_status
+  );
+  const INITIAL_FORM_VALUES = { title: post?.title || "", description: post?.description || "", body: post?.body || "", is_premium: membershipStatus === 'active'}
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FORM_VALUES);
 

@@ -35,7 +35,7 @@ export default class Checkout {
   }
 
   static async stripeSubscriptionCancel(subscriptionId: string) {
-    try { 
+    try {
     const deletedSubscription = await stripe.subscriptions.del(subscriptionId);
     return deletedSubscription;
     } catch (err) {
