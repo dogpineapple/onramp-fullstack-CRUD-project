@@ -62,14 +62,14 @@ const PaymentPage = ()  => {
           })
         })
         const resData = await res.json()
-        if(res.status == 201) {
+        if(res.status === 201) {
           dispatch(deleteServerErr());
           dispatch(gotSubscription(resData.subscription));
-          if(resData.subscription.status == 'active'){
+          if(resData.subscription.status === 'active'){
             dispatch(gotMembershipStatus(ACTIVE));
             history.push('/payment/success')
           }
-        } else if(res.status == 402) {
+        } else if(res.status === 402) {
           alert('card is invalid')
           dispatch(gotServerErr(resData.error.message))
         } else {
@@ -106,7 +106,7 @@ const PaymentPage = ()  => {
   />
   </Form>
   </>
-  )
+  );
 }
 
 export default PaymentPage;
