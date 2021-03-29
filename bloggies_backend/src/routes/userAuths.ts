@@ -44,18 +44,20 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
     const { email, password } = req.body;
     const authResult = await UserAuth.authenticate(email, password);
     const user = await User.getUser(authResult.user.id);
-    console.log(user);
+
     res.cookie("token", authResult.token);
 
     const isOverdue = lastSubmissionCheck(user);
 
     if(isOverdue) {
-      await Checkout.stripeSubscriptionCancel(user.subscription_id);
-      await User.cancelSubscription(user.id, new Date());
+      try{
+        await Checkout.stripeSubscriptionCancel(user.subscription_id);
+        await User.cancelSubscription(user.id, new Date());
+      } catch(err) {
+        return next(err);
+      }
     }
-
     const updatedUser = await User.getUser(user.id);
-    console.log(updatedUser)
     return res.json({ user: { ...updatedUser, email } });
   } catch (err) {
     return next(err);

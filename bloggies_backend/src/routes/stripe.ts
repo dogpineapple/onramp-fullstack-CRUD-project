@@ -6,7 +6,7 @@ import { ensureLoggedIn } from "../middleware/auth";
 import { STRIPE_API_KEY } from '../config';
 import ExpressError from '../expressError';
 import Email from '../models/email';
-import { ableToStartSub } from '../utils';
+import { ableToStartSub, lastSubmissionCheck } from '../utils';
 import { ACTIVE } from '../membershipStatuses';
 export const stripeRouter = express.Router();
 
@@ -24,8 +24,21 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
     case 'invoice.upcoming':
       data = event.data.object;
       const user = await User.getUserBySubscriptionId(data.id);
-      await Email.sendEndDateWarning(user);
-      console.log(`invoice upcoming, subscription almost ending for  cust ${data.customer}`);
+
+      const isOverdue = lastSubmissionCheck(user);
+
+      if(isOverdue) {
+        try{
+          await Checkout.stripeSubscriptionCancel(user.user_id);
+          await User.cancelSubscription(user.user_id, new Date());
+        } catch(err) {
+          return next(err);
+        }
+      } else {
+        const userWarningInfo = {email: user.email, membership_end_date: user.membership_end_date}
+        await Email.sendEndDateWarning(userWarningInfo);
+        console.log(`invoice upcoming, subscription almost ending for cust ${data.customer}`);
+      }
     case 'invoice.paid':
       data = event.data.object;
       console.log(`invoice PAID for: ${data.customer}`);
@@ -98,6 +111,7 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
 
   const userStatusRes = await User.checkMembershipStatus(user_id);
   if (ableToStartSub(userStatusRes.membership_status)) {
+    if(paymentMethodId){
     try {
       // save payment method info for a customer
       await stripe.paymentMethods.attach(paymentMethodId, {
@@ -117,6 +131,7 @@ stripeRouter.post("/create-subscription", ensureLoggedIn, async function (req: R
     } catch (err) {
       return next(new ExpressError(err.message, err.statusCode));
     }
+  }
 
     try {
       const subscription = await Checkout.stripeCreateSubscription(customerId);

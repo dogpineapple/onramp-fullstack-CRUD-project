@@ -26,8 +26,7 @@ CREATE TABLE users (
   membership_end_date TIMESTAMP WITH TIME ZONE,
   last_submission_date TIMESTAMP WITH TIME ZONE,
   customer_id TEXT,
-  subscription_id TEXT,
-  cancel_at TIMESTAMP WITH TIME ZONE
+  subscription_id TEXT
 );
 
 CREATE TABLE posts (

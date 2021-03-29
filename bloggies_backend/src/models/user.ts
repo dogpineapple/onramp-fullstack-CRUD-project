@@ -30,9 +30,11 @@ export default class User {
     return res.rows[0];
   }
 
+  /** Get specific user's email address, user_id, and membership_end_date by their subscription ID */
   static async getUserBySubscriptionId(subscriptionId: string) {
     const res = await db.query(
-      `SELECT ua.email, u.membership_end_date
+      `SELECT ua.email, u.user_id, u.membership_status, u.membership_start_date, 
+      u.membership_end_date, u.last_submission_date, u.subscription_id, u.customer_id
       FROM users as u
       JOIN user_auth as ua
       ON u.user_id = ua.id
@@ -107,15 +109,15 @@ export default class User {
   }
 
   /** Sets membership_status to INACTIVE. Sets membership_end_date 
-   * to CURRENT_TIMESTAMP. via subscription id */
+   * to CURRENT_TIMESTAMP, removes subscription_id. via subscription id */
   static async cancelSubscription(subscriptionId: string, end_date: Date) {
     try {
       const res = await db.query(
         `UPDATE users 
-        SET membership_status = $2, membership_end_date = $3
+        SET membership_status = $2, membership_end_date = $3, subscription_id = $4
         WHERE subscription_id = $1
         RETURNING user_id AS id, membership_status, membership_end_date`,
-        [subscriptionId, INACTIVE, end_date]);
+        [subscriptionId, INACTIVE, end_date, null]);
 
       const { id } = res.rows[0];
 
