@@ -104,7 +104,7 @@ function RegisterStatusPage() {
       "Congratulations! You have been approved to become a premium member of the Learning Circle! Click below to register for your subscription, we are excited to welcome you into the community!";
   } else if (checkStatus === "inactive") {
     text =
-      "We see you have already filled out this application in the past and been approved We would love to have you back as a Premium Member of the Learning Circle, click below to re-activate your membership!";
+      "We are sorry to see you go! Since you have filled out this application prior, no need to refill it out should you again choose to be a premium user! We would love to have you back as a part of the Learning Circle, click below to re-activate your membership!";
   }
 
   return (
@@ -114,7 +114,7 @@ function RegisterStatusPage() {
       </RegisterStatusItem>
       <RegisterStatusItem>
           {/* check to see status of member to see what button to render */}
-        {checkStatus === 'rejected' || checkStatus === 'pending' || checkStatus === 'none' || checkStatus === 'inactive'? homeButton : paymentButton}
+        {checkStatus === 'rejected' || checkStatus === 'pending' || checkStatus === 'none' ? homeButton : paymentButton}
       </RegisterStatusItem>
     </RegisterStatusContainer>
   );

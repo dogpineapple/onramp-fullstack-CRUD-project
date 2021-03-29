@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { BASE_URL } from "../../config";
 import LoginForm from "../../Forms/LoginForm";
-import { getUserFavoritesFromAPI, gotUserInfo } from "../../redux/actionCreators";
+import { cancelPremiumUserMembership, getUserFavoritesFromAPI, gotUserInfo } from "../../redux/actionCreators";
 import "./Login.css";
 
 interface LoginFormData {
@@ -33,10 +33,14 @@ function Login() {
       }
     });
     const loginRes = await res.json();
+
     // set the user's token into the localStorage. (Deprecated: No longer store token in localStorage)
     // localStorage.setItem("token", loginRes.token);
-
     if (res.status === 200) {
+      let cancelAt = new Date(loginRes.user.cancel_at);
+      if (cancelAt && cancelAt <= new Date()) {
+        dispatch(cancelPremiumUserMembership(loginRes.user.subscription_id))
+      }
       dispatch(gotUserInfo(loginRes.user));
       dispatch(getUserFavoritesFromAPI(loginRes.user.id));
       history.push("/");

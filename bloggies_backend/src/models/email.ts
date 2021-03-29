@@ -40,7 +40,7 @@ export default class Email {
                 subject = 'We need more information';
                 text = 'Before we can confirm your membership, we need more information from you. Please follow the link to answer questions.';
                 buttonText = 'Click here to answer more questions';
-                buttonUrl = FRONTEND_URL + 'register/membership-form';
+                buttonUrl = FRONTEND_URL + 'register/membership-additional-form';
                 break;
             case REJECTED:
                 subject = 'Regrets from Learning Circle';
@@ -55,7 +55,7 @@ export default class Email {
             case INACTIVE:
                 return;
             default:
-                throw new ExpressError('Invalid application status type', 422); 
+                throw new ExpressError('Invalid application status type', 422);
         }
 
         const msg: MailDataRequired =  {

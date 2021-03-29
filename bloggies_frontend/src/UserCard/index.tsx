@@ -27,7 +27,7 @@ function UserCard({ user }: IProp) {
         </Card.Text>
         {user.membership_start_date !== null ? (
           <Card.Subtitle>
-            Premium Member Since {moment(user.membership_start_date).fromNow()}
+            Premium member since {moment(user.membership_start_date).format('MMMM YYYY')}
           </Card.Subtitle>
         ) : null}
       </Card.Body>

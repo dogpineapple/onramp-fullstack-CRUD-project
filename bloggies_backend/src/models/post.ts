@@ -1,5 +1,6 @@
 import db from "../db";
 import ExpressError from "../expressError";
+import { ACTIVE } from "../membershipStatuses";
 
 export default class Post {
 
@@ -8,7 +9,7 @@ export default class Post {
     try {
       const res = await db.query(
         `INSERT INTO posts ( title, description, body, author_id, is_premium )
-          VALUES ($1, $2, $3, $4, $5) 
+          VALUES ($1, $2, $3, $4, $5)
           RETURNING id, title, description, body, author_id, is_premium, created_at, last_updated_at`,
         [title, description, body, userId, isPremium]);
       return res.rows[0];
@@ -20,11 +21,11 @@ export default class Post {
   /** Get all existing posts for active users and only non-premium posts for all other users */
   static async getAllPosts(status: string) {
     try {
-      if(status === 'active') {
+      if(status === ACTIVE) {
         const res = await db.query(
           `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
           FROM posts AS p
-          JOIN users AS u 
+          JOIN users AS u
           ON p.author_id = u.user_id
           LEFT OUTER JOIN bookmarks AS b
           ON p.id = b.post_id
@@ -32,13 +33,13 @@ export default class Post {
         return res.rows;
       }
       const res = await db.query(
-        `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count 
+        `SELECT p.id, title, description, body, p.is_premium, u.display_name AS author_name, author_id, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
           FROM posts AS p
-          JOIN users AS u 
+          JOIN users AS u
           ON p.author_id = u.user_id
           LEFT OUTER JOIN bookmarks AS b
           ON p.id = b.post_id
-          WHERE is_premium = $1 
+          WHERE is_premium = $1
           GROUP BY b.post_id, p.id, u.display_name`,
           [false]);
         return res.rows;
@@ -53,7 +54,7 @@ export default class Post {
       const res = await db.query(
         `SELECT p.id, p.title, p.description, p.body, p.is_premium, u.display_name AS author_name, p.author_id, p.created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
         FROM posts AS p
-        JOIN users AS u 
+        JOIN users AS u
           ON p.author_id = u.user_id
         LEFT OUTER JOIN bookmarks AS b
           ON p.id = b.post_id
@@ -94,7 +95,7 @@ export default class Post {
   /** Check if post belongs to the current user */
   static async checkIsAuthor(postId: number, currentUserId: number) {
     //automatically allow users to see their own posts, even if they are not currently active
-    const post = await this.getPost(postId, 'active');
+    const post = await this.getPost(postId, ACTIVE);
     return post.author_id === currentUserId;
   }
 
@@ -109,7 +110,7 @@ export default class Post {
 
       const res = await db.query(
         `UPDATE posts
-        SET ${query} last_updated_at = CURRENT_TIMESTAMP 
+        SET ${query} last_updated_at = CURRENT_TIMESTAMP
         WHERE id = $1
         RETURNING last_updated_at`,
         [id]);
@@ -134,12 +135,12 @@ export default class Post {
     const res = await db.query(
       `SELECT p.id, p.title, p.description, p.body, u.display_name AS author_name, author_id, p.is_premium, created_at, p.last_updated_at, COUNT(b.post_id) AS bookmark_count
       FROM posts AS p
-      JOIN users AS u 
+      JOIN users AS u
       ON p.author_id = u.user_id
       LEFT OUTER JOIN bookmarks AS b
       ON p.id = b.post_id
       GROUP BY b.post_id, p.id, u.display_name
-      HAVING LOWER(p.title) LIKE LOWER('%' || $1 || '%') 
+      HAVING LOWER(p.title) LIKE LOWER('%' || $1 || '%')
         OR LOWER(p.description) LIKE LOWER('%' || $1 || '%')
         OR LOWER(u.display_name) LIKE LOWER('%' || $1 || '%')`,
       [term]);
