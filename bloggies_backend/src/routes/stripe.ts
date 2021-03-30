@@ -77,6 +77,12 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         const userInfo = await User.getUserBySubscriptionId(data.id);
         await Email.sendExpiredNotification(userInfo.email);
         break;
+      case 'customer.subscription.created':
+        data = event.data.object;
+        if (data.status === "active") {
+          let cancelAt = data.current_period_start + timePeriod;
+          await User.startSubscription(data.id, data.current_period_start, data.current_period_end, cancelAt);
+        }
       case 'payment_intent.succeeded':
         console.log(`PaymentIntent success for ${event.data.object.amount}`);
         break;

@@ -215,6 +215,10 @@ export function logoutUser() {
   return { type: t.LOGOUT };
 }
 
+export function clearPosts() {
+  return { type: t.CLEAR_POSTS };
+}
+
 /**Returns an action object for type LOAD_USER*/
 export function gotUserInfo(user: User) {
   return { type: t.LOAD_USER, payload: { user } };
@@ -254,7 +258,7 @@ export function getMembershipStatus(userId: number) {
   };
 }
 
-function gotMembershipStatus(membStatus: string) {
+export function gotMembershipStatus(membStatus: string) {
   return {
     type: t.UPDATE_MEMBERSHIP_STATUS,
     payload: { membership_status: membStatus },
@@ -269,7 +273,7 @@ export function cancelPremiumUserMembership(subscriptionId: string) {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/checkout/cancel-subscription`, {
       method: 'DELETE',
-      body: JSON.stringify({subscription_id: subscriptionId}),
+      body: JSON.stringify({ subscription_id: subscriptionId }),
       headers: {
         "Content-type": "application/json"
       }
