@@ -47,7 +47,7 @@ const PaymentPage = ()  => {
         card: cardElement
       }); 
       if(paymentMethodRes.error) {
-        alert(`${paymentMethodRes.error.message}`)
+        alert(`${paymentMethodRes.error.message}`);
       }
       if(paymentMethodRes.paymentMethod) {
         const res = await fetch(`${BASE_URL}/checkout/create-subscription`,{
@@ -58,7 +58,7 @@ const PaymentPage = ()  => {
           }, 
           body: JSON.stringify({
             paymentMethodId: paymentMethodRes.paymentMethod.id, 
-            customerId: userCustomerId  
+            customerId: userCustomerId,
           })
         })
         const resData = await res.json()
@@ -67,13 +67,13 @@ const PaymentPage = ()  => {
           dispatch(gotSubscription(resData.subscription));
           if(resData.subscription.status === 'active'){
             dispatch(gotMembershipStatus(ACTIVE));
-            history.push('/payment/success')
+            history.push('/payment/success');
           }
         } else if(res.status === 402) {
           alert('card is invalid')
-          dispatch(gotServerErr(resData.error.message))
+          dispatch(gotServerErr(resData.error.message));
         } else {
-          dispatch(gotServerErr(resData.error.message))
+          dispatch(gotServerErr(resData.error.message));
         } 
       }
     }
