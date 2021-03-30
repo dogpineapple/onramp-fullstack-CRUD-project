@@ -15,10 +15,6 @@ exports[`UserCard should match snapshot 1`] = `
         Test Username
       </NavLink>
     </CardText>
-    <CardSubtitle>
-      Joined 
-      a year ago
-    </CardSubtitle>
   </CardBody>
 </Card>
 `;
