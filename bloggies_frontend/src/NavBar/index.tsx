@@ -7,7 +7,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { ACTIVE } from "../config";
 import { CustomReduxState } from "../custom";
 import { changeToURLFriendly } from "../helpers";
-import { logoutUser } from "../redux/actionCreators";
+import { clearPosts, logoutUser } from "../redux/actionCreators";
 import SearchBar from "../SearchBar";
 import "./NavBar.css";
 
@@ -31,7 +31,8 @@ function NavBar() {
     localStorage.clear();
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     dispatch(logoutUser());
-    history.push("/");
+    dispatch(clearPosts());
+    history.push("/users/login");
   };
 
 

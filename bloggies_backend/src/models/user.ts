@@ -3,7 +3,6 @@ import ExpressError from "../expressError";
 import { ACTIVE, INACTIVE } from "../membershipStatuses";
 
 export default class User {
-
   /** Create a new user */
   static async createUser(userId: number, displayName: string) {
     try {
@@ -11,22 +10,24 @@ export default class User {
         `INSERT INTO users (user_id, display_name)
         VALUES ($1, $2)
         RETURNING display_name, membership_status, membership_start_date, membership_end_date,
-        last_submission_date`,
-        [userId, displayName]);
+        last_submission_date, cancel_at`,
+        [userId, displayName]
+      );
       return res.rows[0];
     } catch (err) {
-      throw new ExpressError('Display name is already taken.', 400)
+      throw new ExpressError("Display name is already taken.", 400);
     }
   }
 
   /** Get specific user from database */
   static async getUser(userId: number) {
     const res = await db.query(
-      `SELECT user_id AS id, display_name, membership_status, membership_start_date, 
-      membership_end_date, last_submission_date, subscription_id, customer_id
+      `SELECT user_id AS id, display_name, membership_status, membership_start_date,
+      membership_end_date, last_submission_date, subscription_id, customer_id, cancel_at
         FROM users
         WHERE user_id = $1`,
-      [userId]);
+      [userId]
+    );
     return res.rows[0];
   }
 
@@ -36,7 +37,8 @@ export default class User {
       `SELECT last_submission_date
         FROM users
         WHERE user_id = $1`,
-      [userId]);
+      [userId]
+    );
     return res.rows[0].last_submission_date;
   }
 
@@ -45,7 +47,8 @@ export default class User {
       `SELECT user_id AS id, display_name, last_submission_date
         FROM users
         WHERE LOWER(display_name) LIKE LOWER('%' || $1 || '%')`,
-      [term]);
+      [term]
+    );
     return res.rows;
   }
 
@@ -62,13 +65,21 @@ export default class User {
 
   /** Update the membership status after the application is complete and front end sends the status.
    * If status has been changed to "active", update membership start date and end date */
-  static async updateMembership(userId: number, appStatus: string, startDate?: number, endDate?: number) {
+  static async updateMembership(
+    userId: number,
+    appStatus: string,
+    startDate?: number,
+    endDate?: number,
+    cancelAt?: number | null
+  ) {
     const res = await db.query(
       `UPDATE users
-        SET membership_status = $1, membership_start_date = $2, membership_end_date = $3
-        WHERE user_id = $4
-        RETURNING user_id, membership_status, membership_start_date, membership_end_date`,
-        [appStatus, startDate || null, endDate || null, userId]);
+        SET membership_status = $1, membership_start_date = to_timestamp($2), membership_end_date = to_timestamp($3), cancel_at = to_timestamp($4)
+        WHERE user_id = $5
+
+        RETURNING user_id, membership_status, membership_start_date, membership_end_date, cancel_at`,
+      [appStatus, startDate || null, endDate || null, cancelAt || null, userId]
+    );
     return res.rows[0];
   }
 
@@ -78,51 +89,59 @@ export default class User {
       let query = "";
 
       for (let key in updateData) {
-        query = query + ` ${key} = '${updateData[key]}', `;
+        if (key === 'cancel_at' || key === 'membership_end_date' || key === 'last_submission_date' || key === 'membership_start_date') {
+          query = query + `${key} = to_timestamp(${updateData[key]}), `
+        } else {
+          query = query + `${key} = '${updateData[key]}', `;
+        }
       }
 
       //remove final comma
       query = query.slice(0, query.length - 2);
-
       await db.query(
-        `UPDATE users
-        SET ${query}  
-        WHERE user_id = $1`,
-        [id]);
+        `UPDATE users SET ${query} WHERE user_id = $1`,
+        [id]
+      );
     } catch (err) {
       throw new ExpressError(`Err: ${err}`, 400);
     }
   }
 
-  /** Sets membership_status to INACTIVE. Sets membership_end_date 
+  /** Sets membership_status to INACTIVE. Sets membership_end_date
    * to CURRENT_TIMESTAMP. via subscription id */
   static async cancelSubscription(subscriptionId: string, end_date: number) {
     await db.query(
-      `UPDATE users 
-      SET membership_status = $2, membership_end_date = $3
-      WHERE subscription_id = $1
-      RETURNING user_id AS id, membership_status, membership_end_date`,
-      [subscriptionId, INACTIVE, end_date]);
+      `UPDATE users
+      SET membership_status = $2, membership_end_date = to_timestamp($3), cancel_at = null
+      WHERE subscription_id = $1`,
+      [subscriptionId, INACTIVE, end_date]
+    );
   }
 
-  /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP. 
+  /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP.
    * Sets membership_end_date to one month from CURRENT_TIMESTAMP. via subscription id */
-   static async startSubscription(subscriptionId: string, startTime: number, endTime: number) {
+  static async startSubscription(
+    subscriptionId: string,
+    startTime: number,
+    endTime: number,
+    cancelAt: number
+  ) {
     await db.query(
-      `UPDATE users 
-      SET membership_status = $2, membership_start_date = $3, membership_end_date = $4
+      `UPDATE users
+      SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4), cancel_at = to_timestamp($5)
       WHERE subscription_id = $1`,
-      [subscriptionId, ACTIVE, new Date(startTime * 1000), new Date(endTime * 1000)]);
+      [subscriptionId, ACTIVE, startTime, endTime, cancelAt]
+    );
   }
 
   //checks that the display_name given at registration doesn't already exist before adding it
   static async checkForUniqueDisplayName(display_name: string) {
-      const res = await db.query(
-        `SELECT display_name
+    const res = await db.query(
+      `SELECT display_name
         FROM users
         WHERE display_name = $1`,
-        [display_name]
-      );
+      [display_name]
+    );
     return res.rows[0];
   }
 }

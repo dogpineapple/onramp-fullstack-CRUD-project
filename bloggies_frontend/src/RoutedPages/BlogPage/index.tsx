@@ -25,11 +25,8 @@ function BlogPage() {
     }
 
     // Fetch for posts if no posts are saved. (BE handles types of post to display)
-    if (postsList.length === 0) {
-      dispatch(getPostsFromAPI());
-    } else {
-      setPosts(postsList);
-    }
+    dispatch(getPostsFromAPI());
+    setPosts(postsList);
   }, []);
 
   // invoked in `SortSelection` component when a user chooses a sort type in the dropdown.

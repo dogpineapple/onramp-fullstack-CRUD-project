@@ -19,7 +19,7 @@ export const createCustomer = () => {
         } 
       })
       const resData = await res.json(); 
-      if(res.status == 201) {
+      if(res.status === 201) {
         dispatch(deleteServerErr());
         dispatch(gotCustomer(resData));
       } else {
@@ -33,6 +33,6 @@ export const createCustomer = () => {
   }
 
   export const gotSubscription = (subscription:any) => {
-    return { type: UPDATE_SUBSCRIPTION_ID, payload: subscription};
+    return { type: UPDATE_SUBSCRIPTION_ID, payload: { subscription_id: subscription.id }};
   }
 

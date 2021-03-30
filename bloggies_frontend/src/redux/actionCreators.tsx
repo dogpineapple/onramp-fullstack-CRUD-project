@@ -15,8 +15,8 @@ export function addPostToAPI(postData: PostFormData) {
       credentials: "include",
       body: JSON.stringify({ ...postData }),
       headers: {
-        "Content-type": "application/json"
-      }
+        "Content-type": "application/json",
+      },
     });
     const resData = await res.json();
     if (res.status === 201) {
@@ -25,7 +25,7 @@ export function addPostToAPI(postData: PostFormData) {
     } else {
       dispatch(gotServerErr(resData.error.message));
     }
-  }
+  };
 }
 
 function addPost(post: Post) {
@@ -42,17 +42,17 @@ export function deletePostFromAPI(postId: number) {
       method: "DELETE",
       credentials: "include",
       headers: {
-        "Content-type": "application/json"
-      }
+        "Content-type": "application/json",
+      },
     });
     const resData = await res.json();
     if (res.status === 200) {
       dispatch(deleteServerErr());
-      dispatch(deletePost(postId))
+      dispatch(deletePost(postId));
     } else {
       dispatch(gotServerErr(resData.error.message));
     }
-  }
+  };
 }
 
 function deletePost(postId: number) {
@@ -69,8 +69,8 @@ export function getPostsFromAPI() {
       method: "GET",
       credentials: "include",
       headers: {
-        "Content-type": "application/json"
-      }
+        "Content-type": "application/json",
+      },
     });
     const postsRes = await res.json();
     if (res.status === 200) {
@@ -79,7 +79,7 @@ export function getPostsFromAPI() {
     } else {
       dispatch(gotServerErr(postsRes.error.message));
     }
-  }
+  };
 }
 
 /**
@@ -90,12 +90,11 @@ export function getUserInfoFromAPI() {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/user`, {
       method: "GET",
-      credentials: "include"
+      credentials: "include",
     });
     const userRes = await res.json();
-    console.log(userRes);
     dispatch(gotUserInfo(userRes.user));
-  }
+  };
 }
 
 /**
@@ -121,7 +120,7 @@ export function getSearchResultsFromAPI(term: string) {
       dispatch(deleteServerErr());
       dispatch(gotSearchResults(postsData.posts, usersData.users));
     }
-  }
+  };
 }
 
 function gotSearchResults(posts: Array<Post>, users: Array<User>) {
@@ -139,8 +138,8 @@ export function addFavoriteToAPI(post: Post) {
       credentials: "include",
       body: JSON.stringify({ postId: post.id }),
       headers: {
-        "Content-type": "application/json"
-      }
+        "Content-type": "application/json",
+      },
     });
     if (res.status === 201) {
       dispatch(deleteServerErr());
@@ -149,7 +148,7 @@ export function addFavoriteToAPI(post: Post) {
       const resData = await res.json();
       dispatch(gotServerErr(resData.error.message));
     }
-  }
+  };
 }
 
 function addFavorite(post: Post) {
@@ -167,14 +166,14 @@ export function deleteFavoriteFromAPI(postId: number) {
       credentials: "include",
       body: JSON.stringify({ postId }),
       headers: {
-        "Content-type": "application/json"
-      }
+        "Content-type": "application/json",
+      },
     });
     if (res.status === 200) {
       dispatch(deleteServerErr());
       dispatch(deleteFavorite(postId));
     }
-  }
+  };
 }
 
 function deleteFavorite(postId: number) {
@@ -196,11 +195,11 @@ export function deleteServerErr() {
 export function getUserFavoritesFromAPI(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/bookmarks/${userId}`, {
-      method: "GET"
+      method: "GET",
     });
     const favoritesRes = await res.json();
     dispatch(gotFavorites(favoritesRes.posts));
-  }
+  };
 }
 
 function gotFavorites(favorites: Array<any>) {
@@ -214,6 +213,10 @@ function gotPosts(posts: Array<any>) {
 /**Returns an action object for type LOGOUT*/
 export function logoutUser() {
   return { type: t.LOGOUT };
+}
+
+export function clearPosts() {
+  return { type: t.CLEAR_POSTS };
 }
 
 /**Returns an action object for type LOAD_USER*/
@@ -232,29 +235,61 @@ export function updateMembershipStatus(status: string) {
       credentials: "include",
       body: JSON.stringify({ appStatus: status }),
       headers: {
-        "Content-type": "application/json"
-      }
+        "Content-type": "application/json",
+      },
     });
     const userRes = await res.json();
-    dispatch(updateUserStatus(userRes))
-  }
+    dispatch(updateUserStatus(userRes));
+  };
 }
 
-function updateUserStatus(user: User) {
-  return { type: t.UPDATE_USER_STATUS, payload: { user }}
+function updateUserStatus(user: any) {
+  return { type: t.UPDATE_USER_STATUS, payload: { user } };
 }
 
 export function getMembershipStatus(userId: number) {
   return async function (dispatch: Dispatch<Action>) {
     const res = await fetch(`${BASE_URL}/users/membership-status`, {
       method: "GET",
-      credentials: "include"
+      credentials: "include",
     });
     const resData = await res.json();
     dispatch(gotMembershipStatus(resData.membership_status));
-  }
+  };
 }
 
-function gotMembershipStatus(membStatus: string) {
-  return { type: t.UPDATE_MEMBERSHIP_STATUS, payload: { membership_status: membStatus } }
+export function gotMembershipStatus(membStatus: string) {
+  return {
+    type: t.UPDATE_MEMBERSHIP_STATUS,
+    payload: { membership_status: membStatus },
+  };
+}
+
+/**
+ * DELETE request to cancel premium subscription via Stripe upon submission
+ * and dispatches action to update redux store.
+ */
+export function cancelPremiumUserMembership(subscriptionId: string) {
+  return async function (dispatch: Dispatch<Action>) {
+    const res = await fetch(`${BASE_URL}/checkout/cancel-subscription`, {
+      method: 'DELETE',
+      body: JSON.stringify({ subscription_id: subscriptionId }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    const resData = await res.json();
+    // resData.current_period_end
+    if (res.status === 200) {
+      const updatedMembershipData = {
+        membership_end_date: new Date(),
+        membership_status: "inactive",
+        cancel_at: null
+      }
+      dispatch(updateUserStatus(updatedMembershipData));
+    } else {
+      const resData = await res.json();
+      dispatch(gotServerErr(resData.error.message));
+    }
+  };
 }

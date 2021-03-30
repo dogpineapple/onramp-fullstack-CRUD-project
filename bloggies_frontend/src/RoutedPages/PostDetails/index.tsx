@@ -49,7 +49,9 @@ function PostDetails() {
     // retrieve the post from the API.
     async function getPost() {
       try {
-        const postRes = await fetch(`${BASE_URL}/posts/${postId}`);
+        const postRes = await fetch(`${BASE_URL}/posts/${postId}`, {
+          credentials: "include"
+        });
         const postData = await postRes.json();
         setPost(postData.post);
         setIsAuthor(postData.post.author_id === currUser.id);

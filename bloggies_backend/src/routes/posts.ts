@@ -5,29 +5,32 @@ import express from "express";
 import ExpressError from "../expressError";
 import User from "../models/user";
 import { ACTIVE } from "../membershipStatuses";
+import { timePeriod } from "../utils";
 
 export const postsRouter = express.Router();
 
-/** POST /posts - creates a new post. 
+/** POST /posts - creates a new post.
  * Returns post object */
 postsRouter.post("/", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { user_id } = req.user;
     const user = await User.getUser(user_id);
-    
     if (user.membership_status === ACTIVE) {
       const { title, description, body, is_premium } = req.body;
       const post = await Post.createPost(title, description, body, user_id, is_premium);
+      const currentDate = Math.ceil(Date.now() / 1000);
+      const updatedCancelAt = currentDate + timePeriod;
+        await User.updateUser(user_id, {last_submission_date: currentDate, cancel_at: updatedCancelAt})
       return res.status(201).json({ post });
     }
-
     return next(new ExpressError("A membership is required to publish a post.", 403));
   } catch (err) {
     return next(err);
   }
 });
 
-/** GET /posts - get all free posts for regular users and all posts for premium users 
+
+/** GET /posts - get all free posts for regular users and all posts for premium users
  * Returns posts */
 postsRouter.get("/", async function (req: Request, res: Response, next: NextFunction) {
   const userId = req.user ? req.user.user_id : null;
@@ -41,7 +44,7 @@ postsRouter.get("/", async function (req: Request, res: Response, next: NextFunc
   }
 });
 
-/** SEARCH /posts/search?term=[term] - get all posts. 
+/** SEARCH /posts/search?term=[term] - get all posts.
  * Returns posts */
 postsRouter.get("/search", async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -56,7 +59,7 @@ postsRouter.get("/search", async function (req: Request, res: Response, next: Ne
   }
 });
 
-/** GET /posts/:postId - get a specific post by post id. 
+/** GET /posts/:postId - get a specific post by post id.
  * Returns post */
 postsRouter.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
   const postId = parseInt(req.params.id);
@@ -72,7 +75,7 @@ postsRouter.get("/:id", async function (req: Request, res: Response, next: NextF
   }
 });
 
-/** GET /posts/user/:userId - get a user's posts by user id. 
+/** GET /posts/user/:userId - get a user's posts by user id.
  * Returns posts */
 postsRouter.get("/user/:id", async function (req: Request, res: Response, next: NextFunction) {
   try {
@@ -84,7 +87,7 @@ postsRouter.get("/user/:id", async function (req: Request, res: Response, next: 
   }
 });
 
-/** PATCH /posts/:id - updates a specific post by post id. 
+/** PATCH /posts/:id - updates a specific post by post id.
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns a 204 code */
 postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
@@ -104,7 +107,7 @@ postsRouter.patch("/:id", ensureLoggedIn, async function (req: Request, res: Res
   }
 });
 
-/** DELETE /posts/:id - updates a specific post by post id. 
+/** DELETE /posts/:id - updates a specific post by post id.
  * MUST LOGGED IN AS THE AUTHOR OF POST.
  * Returns message */
 postsRouter.delete("/:id", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
