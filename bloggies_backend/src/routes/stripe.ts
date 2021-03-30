@@ -112,17 +112,6 @@ stripeRouter.post(
   }
 );
 
-/** POST create a customer for a user */
-stripeRouter.post("/create-customer", ensureLoggedIn, async function (req: Request, res: Response, next: NextFunction) {
-  const { user_id, email } = req.user;
-  const user = await User.getUser(user_id);
-
-  if (!user.customer_id) {
-    const customer = await Checkout.stripeCreateCustomer(user_id, email);
-
-    await User.updateUser(user_id, { customer_id: customer.id });
-    return res.status(201).json({ customer });
-  }
 stripeRouter.post(
   "/create-customer",
   ensureLoggedIn,
