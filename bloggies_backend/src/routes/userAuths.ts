@@ -48,12 +48,10 @@ userAuthRouter.post("/login", async function (req: Request, res: Response, next:
 
     const now = new Date();
     const isOverdue = user.cancel_at ? now >= user.cancel_at : false;
-    const unixNow = Math.floor(now.getTime() / 1000); 
 
     if(isOverdue) {
       try{
         await Checkout.stripeSubscriptionCancel(user.subscription_id);
-        await User.cancelSubscription(user.id, unixNow);
       } catch(err) {
         return next(err);
       }

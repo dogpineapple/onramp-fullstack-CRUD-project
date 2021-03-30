@@ -32,12 +32,10 @@ stripeRouter.post("/webhook", async function (req: Request, res: Response, next:
         //check today against cancel_at date to see if user is overdue for a post
         const now = new Date();
         const isOverdue = now >= user.cancel_at;
-        const unixNow = Math.floor(now.getTime() / 1000);
 
         if(isOverdue) {
           try{
             await Checkout.stripeSubscriptionCancel(user.user_id);
-            await User.cancelSubscription(user.user_id, unixNow);
           } catch(err) {
             return next(err);
           }
