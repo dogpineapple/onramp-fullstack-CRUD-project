@@ -19,7 +19,7 @@ export const createCustomer = () => {
         } 
       })
       const resData = await res.json(); 
-      if(res.status == 201) {
+      if(res.status === 201) {
         dispatch(deleteServerErr());
         dispatch(gotCustomer(resData));
       } else {
