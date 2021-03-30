@@ -71,4 +71,20 @@ usersRouter.get("/membership-status", ensureLoggedIn, async (req: Request, res: 
   } catch (err) {
     return next(err);
   }
-})
+});
+
+
+//route for testing membership expiration check with Postman and sending email to results
+//this is not currently needed
+usersRouter.get("/all-memberships", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const expiring = await User.checkExpiringMemberships();
+    expiring.forEach(async (user) => {
+      const resp = await Email.sendEndDateWarning(user);
+      console.log(resp);
+    })
+    res.send(expiring);
+  } catch(err) {
+    return next(err);
+  }
+});

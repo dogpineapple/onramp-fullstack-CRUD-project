@@ -13,3 +13,13 @@ sendgridRouter.post("/send-confirmation", async function (req: Request, res: Res
     return next(err);
   }
 });
+/** POST sends expiration email - intended for testing */
+sendgridRouter.post("/send-expired", async function (req: Request, res: Response, next: NextFunction) {
+  const { email } = req.body;
+  try {
+    await Email.sendExpiredNotification(email);
+    res.status(200).json(`Expiration email sent to ${email}`)
+  } catch(err) {
+    return next(err);
+  }
+});

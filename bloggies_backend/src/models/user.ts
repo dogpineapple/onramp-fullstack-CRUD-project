@@ -31,6 +31,20 @@ export default class User {
     return res.rows[0];
   }
 
+  /** Get specific user's email address, user_id, and membership_end_date by their subscription ID */
+  static async getUserBySubscriptionId(subscriptionId: string) {
+    const res = await db.query(
+      `SELECT ua.email, u.user_id, u.membership_status, u.membership_start_date, 
+      u.membership_end_date, u.last_submission_date, u.subscription_id, u.customer_id, u.cancel_at
+      FROM users as u
+      JOIN user_auth as ua
+      ON u.user_id = ua.id
+      WHERE u.subscription_id = $1`,
+      [subscriptionId]
+    )
+    return res.rows[0];
+  }
+
   /** Get the last_submission_date for specific user from database */
   static async getLastSubmissionDate(userId: number) {
     const res = await db.query(
@@ -110,12 +124,16 @@ export default class User {
   /** Sets membership_status to INACTIVE. Sets membership_end_date
    * to CURRENT_TIMESTAMP. via subscription id */
   static async cancelSubscription(subscriptionId: string, end_date: number) {
-    await db.query(
-      `UPDATE users
-      SET membership_status = $2, membership_end_date = to_timestamp($3), cancel_at = null
-      WHERE subscription_id = $1`,
-      [subscriptionId, INACTIVE, end_date]
-    );
+    try{
+      await db.query(
+        `UPDATE users
+        SET membership_status = $2, membership_end_date = $3, cancel_at = null
+        WHERE subscription_id = $1`,
+        [subscriptionId, INACTIVE, end_date]
+      );
+    } catch(err) {
+      throw new ExpressError(err, 400);
+    }
   }
 
   /** Sets membership_status to ACTIVE. Sets membership_start_date to CURRENT_TIMESTAMP.
@@ -126,12 +144,16 @@ export default class User {
     endTime: number,
     cancelAt: number
   ) {
-    await db.query(
-      `UPDATE users
-      SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4), cancel_at = to_timestamp($5)
-      WHERE subscription_id = $1`,
-      [subscriptionId, ACTIVE, startTime, endTime, cancelAt]
-    );
+    try{
+      await db.query(
+        `UPDATE users
+        SET membership_status = $2, membership_start_date = to_timestamp($3), membership_end_date = to_timestamp($4), cancel_at = to_timestamp($5)
+        WHERE subscription_id = $1`,
+        [subscriptionId, ACTIVE, startTime, endTime, cancelAt]
+      );
+    } catch(err) {
+      throw new ExpressError(err, 400);
+    }
   }
 
   //checks that the display_name given at registration doesn't already exist before adding it
@@ -143,5 +165,22 @@ export default class User {
       [display_name]
     );
     return res.rows[0];
+  }
+
+  //left in in case checking all expiring memberships is needed
+  static async checkExpiringMemberships() {
+    const dueDate = new Date();
+    const date = dueDate.getDate() + 3;
+    dueDate.setDate(date);
+    const res = await db.query(
+      `SELECT ua.email, u.membership_end_date
+      FROM users as u
+      JOIN user_auth as ua
+      ON u.user_id = ua.id
+      WHERE u.membership_status = $1
+      AND u.membership_end_date <= $2`,
+      ['active', dueDate]
+    )
+    return res.rows;
   }
 }

@@ -22,7 +22,6 @@
     "express": "^4.17.1",
     "find-config": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
-    "node-cron": "^3.0.0",
     "pg": "^8.5.1",
     "stripe": "^8.138.0",
     "supertest": "^6.1.3"
